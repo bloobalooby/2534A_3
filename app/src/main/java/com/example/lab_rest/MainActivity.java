@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (!spm.isLoggedIn()) { // no session record
             //stop this MainActivity
             finish();
-            //forward to Login Page
+            //forward to Login Page next
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
