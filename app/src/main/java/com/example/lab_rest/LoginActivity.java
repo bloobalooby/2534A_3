@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
      * @return
      */
 
-    // if the user forgot ngfjh
+    // if the user forgot any of username/password
     private boolean validateLogin(String username, String password) {
         if (username == null || username.trim().isEmpty()) {
             displayToast("Username is required");
