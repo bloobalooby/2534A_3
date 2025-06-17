@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // get references
+        // get references 2503
         tvHello = findViewById(R.id.tvHello);
 
         // greet the user
