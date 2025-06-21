@@ -5,7 +5,7 @@ import java.net.URL;
 public class ApiUtils {
 
     //REST API server URL
-    public static final String BASE_URL= "https://codelah.my/2023663506/api/";
+    public static final String BASE_URL= "https://codelah.my/2534A_3/api/";
 
     // return UserService instance
     public static UserService getUserService() {
