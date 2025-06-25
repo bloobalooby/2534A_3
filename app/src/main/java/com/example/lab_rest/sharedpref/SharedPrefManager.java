@@ -1,9 +1,7 @@
 package com.example.lab_rest.sharedpref;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.example.lab_rest.LoginActivity;
 import com.example.lab_rest.model.User;
 
 

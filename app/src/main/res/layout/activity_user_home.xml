@@ -1,10 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/userHomeRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lab_rest.UserHomeActivity"
-    android:id="@+id/userHome">
+    android:background="#F1F8E9"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome, User"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Stats -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvTotalRecycled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="♻️ Total Recycled: 0 kg"
+                android:textSize="18sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvTotalEarned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💰 Total Earned: RM 0.00"
+                android:textSize="18sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvCompletedRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✅ Completed Requests: 0"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!-- Badges -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/badgeBronze"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_bronze_badge"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/badgeSilver"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_silver_badge"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/badgeGold"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_gold_badge"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <Button
+            android:id="@+id/btnSubmitRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Request"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnViewRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View My Requests"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnViewAnnouncement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Announcements"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF" />
+
+        <!-- Logout -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</ScrollView>

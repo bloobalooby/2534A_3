@@ -16,10 +16,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".sharedpref.AdminHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".sharedpref.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sharedpref.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".sharedpref.UserHomeActivity" />
     </application>
 
 </manifest>

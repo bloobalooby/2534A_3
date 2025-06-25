@@ -1,4 +1,4 @@
-package com.example.lab_rest;
+package com.example.lab_rest.sharedpref;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.lab_rest.R;
 import com.example.lab_rest.model.FailLogin;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
-import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         //forward user to MainActivity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), UserHomeActivity.class));
                     }
                     else {
                         // server return success but no user info replied

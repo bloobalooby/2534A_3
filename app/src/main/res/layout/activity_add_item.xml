@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lab_rest.AddItemActivity"
+    tools:context="com.example.lab_rest.sharedpref.AddItemActivity"
     android:id="@+id/addItem">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
