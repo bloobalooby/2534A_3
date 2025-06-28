@@ -101,9 +101,20 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
                         spm.storeUser(user);
 
+                        // redirect based on role
+                        Intent intent;
+                        String role = user.getRole();
+
+                        if("admin".equalsIgnoreCase(role) || "superadmin".equalsIgnoreCase(role)) {
+                            intent = new Intent(getApplicationContext(), AdminHomeActivity.class);
+                        }
+                        else{
+                            intent = new Intent(getApplicationContext(), UserHomeActivity.class);
+                        }
+
                         //forward user to MainActivity
                         finish();
-                        startActivity(new Intent(getApplicationContext(), UserHomeActivity.class));
+                        startActivity(intent);
                     }
                     else {
                         // server return success but no user info replied

@@ -1,9 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/adminHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lab_rest.sharedpref.AdminHomeActivity"
-    android:id="@+id/adminHome">
+    android:background="#F1F8E9"
+    android:padding="16dp">
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome, Admin"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvPendingReq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pending Requests: "
+                android:textSize="18sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvCompletedReq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Completed Requests: "
+                android:textSize="18sp"
+                android:layout_marginBottom="4dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnViewRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View All Requests"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF"
+            />
+
+        <Button
+            android:id="@+id/btnNewItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add New Recyclable Item"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF"
+            />
+
+        <Button
+            android:id="@+id/btnUpdateItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update/Delete Recyclable Item"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#2E7D32"
+            android:textColor="#FFFFFF"
+            />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
+            />
+
+    </LinearLayout>
+</ScrollView>
