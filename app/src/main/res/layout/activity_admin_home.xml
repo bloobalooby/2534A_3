@@ -48,30 +48,22 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnViewRequests"
+            android:id="@+id/btnRequests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View All Requests"
+            android:text="All Requests"
+            android:onClick="allRequestsClicked"
             android:layout_marginTop="16dp"
             android:backgroundTint="#2E7D32"
             android:textColor="#FFFFFF"
             />
 
         <Button
-            android:id="@+id/btnNewItem"
+            android:id="@+id/btnItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add New Recyclable Item"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#2E7D32"
-            android:textColor="#FFFFFF"
-            />
-
-        <Button
-            android:id="@+id/btnUpdateItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Update/Delete Recyclable Item"
+            android:text="Recyclable Items"
+            android:onClick="itemListClicked"
             android:layout_marginTop="8dp"
             android:backgroundTint="#2E7D32"
             android:textColor="#FFFFFF"
@@ -82,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout"
+            android:layout_marginTop="16dp"
             android:backgroundTint="#D32F2F"
             android:textColor="#FFFFFF"
             />

@@ -21,6 +21,9 @@
         <activity android:name=".sharedpref.ConfirmRequestActivity" />
         <activity android:name=".sharedpref.SubmitRequestActivity" />
         <activity
+            android:name=".sharedpref.ItemListActivity"
+            android:exported="false" />
+        <activity
             android:name=".sharedpref.AdminHomeActivity"
             android:exported="false" />
         <activity

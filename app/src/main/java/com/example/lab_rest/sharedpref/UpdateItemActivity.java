@@ -34,6 +34,17 @@ public class UpdateItemActivity extends AppCompatActivity {
         txtItemName = findViewById(R.id.txtItemName);
         txtPrice = findViewById(R.id.txtPrice);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            String id = intent.getStringExtra("id");
+            String name = intent.getStringExtra("name");
+            String price = intent.getStringExtra("price");
+
+            if (id != null) txtItemId.setText(id);
+            if (name != null) txtItemName.setText(name);
+            if (price != null) txtPrice.setText(price);
+        }
+
     }
 
     public void clearSessionAndRedirect() {
