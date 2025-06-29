@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Lab_REST"
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
+
+        <activity android:name=".sharedpref.SubmitRequestActivity" />
+
         <activity
             android:name=".sharedpref.AdminHomeActivity"
             android:exported="false" />
