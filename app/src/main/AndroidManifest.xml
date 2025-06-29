@@ -27,6 +27,8 @@
             android:name=".sharedpref.AdminHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".sharedpref.RequestActivity" />
+        <activity
             android:name=".sharedpref.LoginActivity"
             android:exported="false" />
         <activity
