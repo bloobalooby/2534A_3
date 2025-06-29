@@ -4,14 +4,17 @@ public class Item {
     private int itemId;
     private String itemName;
     private double price;
+    //new
+    private int imageResId;
+    private int quantity = 0;
 
-    public Item() {
 
-    }
-    public Item(int itemId, String itemName, double price) {
+    public Item(int itemId, String itemName, double price, int imageResId) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.price = price;
+        this.imageResId = imageResId;
+        this.quantity = 0;
     }
 
     public int getItemId() {
@@ -26,24 +29,16 @@ public class Item {
         return price;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public int getImageResId() {
+        return imageResId;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                ", itemId= '" + itemId + '\'' +
-                ", itemName= '" + itemName + '\'' +
-                ", price= '" + price + '\'' +
-                '}';
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
+
