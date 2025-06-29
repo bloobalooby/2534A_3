@@ -45,7 +45,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, RequestActivity.class)));
 
         btnNewItem.setOnClickListener(v ->
-            startActivity(new Intent(this, AddItemActivity.class)));
+                startActivity(new Intent(this, AddItemActivity.class)));
 
         btnUpdateItem.setOnClickListener(view ->
                 startActivity(new Intent(this, UpdateItemActivity.class)));
