@@ -40,5 +40,16 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-}
 
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+}

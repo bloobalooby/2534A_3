@@ -37,6 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".sharedpref.UserHomeActivity" />
+        <activity android:name=".sharedpref.UpdateItemActivity"/>
     </application>
 
 </manifest>
