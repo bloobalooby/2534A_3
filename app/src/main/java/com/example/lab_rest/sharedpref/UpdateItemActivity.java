@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.lab_rest.R;
 
 public class UpdateItemActivity extends AppCompatActivity {
-    private EditText txtItemId;
+    private EditText txtItemId; // variable declaration
     private EditText txtItemName;
     private EditText txtPrice;
 
