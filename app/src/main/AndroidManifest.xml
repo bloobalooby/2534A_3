@@ -19,7 +19,8 @@
             android:name=".sharedpref.MyRequestActivity"
             android:exported="false" />
         <activity android:name=".sharedpref.ConfirmRequestActivity" />
-        <activity android:name=".sharedpref.SubmitRequestActivity" />
+        <activity android:name=".sharedpref.SubmitRequestActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".sharedpref.ItemListActivity"
             android:exported="false" />

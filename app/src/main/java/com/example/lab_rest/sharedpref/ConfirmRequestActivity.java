@@ -1,5 +1,6 @@
 package com.example.lab_rest.sharedpref;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,7 +96,10 @@ public class ConfirmRequestActivity extends AppCompatActivity {
                 });
             }
 
-            finish(); // Go back after submitting
+            Intent intent = new Intent(this, UserHomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 }

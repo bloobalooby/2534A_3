@@ -73,8 +73,10 @@ public class UserHomeActivity extends AppCompatActivity {
         if (totalWeight >= 20) badgeGold.setVisibility(View.VISIBLE);
 
         btnSubmitRequest.setOnClickListener(v -> {
-            startActivity(new Intent(this, SubmitRequestActivity.class));
+            Intent intent = new Intent(this, SubmitRequestActivity.class);
+            startActivity(intent);
         });
+
 
 
         btnViewRequests.setOnClickListener(v ->

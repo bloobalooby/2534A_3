@@ -28,7 +28,6 @@ public class SubmitRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_request);
 
-        // ✅ These must be inside onCreate
         rvItems = findViewById(R.id.rvItems);
         btnDone = findViewById(R.id.btnDone);
 
@@ -46,6 +45,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
         ItemAdapter adapter = new ItemAdapter(this, itemList);
         rvItems.setAdapter(adapter);
 
+        // ✅ Only go to summary/cart if Done is clicked
         btnDone.setOnClickListener(v -> {
             ArrayList<Item> selectedItems = new ArrayList<>();
             for (Item item : itemList) {
@@ -62,6 +62,7 @@ public class SubmitRequestActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ConfirmRequestActivity.class);
             intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
             startActivity(intent);
+            finish(); // ✅ prevents stacking
         });
     }
 }
