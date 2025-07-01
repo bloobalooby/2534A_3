@@ -25,6 +25,8 @@
             android:name=".sharedpref.AdminHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".sharedpref.UpdateItemActivity" />
+        <activity
             android:name=".sharedpref.LoginActivity"
             android:exported="false" />
         <activity
@@ -37,7 +39,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".sharedpref.UserHomeActivity" />
-        <activity android:name=".sharedpref.UpdateItemActivity"/>
     </application>
 
 </manifest>
