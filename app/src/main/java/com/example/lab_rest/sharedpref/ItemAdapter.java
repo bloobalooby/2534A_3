@@ -1,7 +1,6 @@
 package com.example.lab_rest.sharedpref;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +36,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Item item = itemList.get(position);
-
-        Intent intent = new Intent(context, ConfirmRequestActivity.class);
-        intent.putExtra("item_id", item.getItemId());
-        intent.putExtra("item_name", item.getItemName());
-        intent.putExtra("quantity", item.getQuantity());
-        context.startActivity(intent);
-
 
         holder.itemImage.setImageResource(item.getImageResId());
         holder.itemName.setText(item.getItemName());

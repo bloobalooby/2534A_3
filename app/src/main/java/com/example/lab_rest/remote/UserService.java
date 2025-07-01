@@ -28,17 +28,6 @@ public interface UserService {
     Call<List<Request>> getAllRequests();
 
 
-    @FormUrlEncoded
-    @POST("requests/submit")
-    Call<Void> submitRequest(
-            @Field("user_id") int userId,
-            @Field("item_id") int itemId,
-            @Field("address") String address,
-            @Field("notes") String notes
-    );
-
-
-
     @GET("requests/user/{user_id}")
     Call<List<Request>> getRequestsByUser(@Path("user_id") int userId);
 }

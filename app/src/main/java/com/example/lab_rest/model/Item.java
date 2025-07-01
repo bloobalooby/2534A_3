@@ -1,8 +1,15 @@
 package com.example.lab_rest.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Item {
+    @SerializedName("item_id")
     private int itemId;
+
+    @SerializedName("item_name")
     private String itemName;
+
+    @SerializedName("price_per_kg")
     private double price;
     //new
     private int imageResId;
@@ -40,5 +47,16 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-}
 
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+}

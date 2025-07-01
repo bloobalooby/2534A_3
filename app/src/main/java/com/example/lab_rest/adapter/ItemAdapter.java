@@ -32,12 +32,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     } // close ViewHolder class
 
     // adapter class definition
-    private Context mContext; // activity context
     private List<Item> itemListData; // list of item objects
+    private Context mContext; // activity context
 
     public ItemAdapter(Context context, List<Item> listData) {
-        mContext = context;
         itemListData = listData;
+        mContext = context;
     }
 
     private Context getmContext() {

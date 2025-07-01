@@ -1,0 +1,1106 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\" >\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@drawable/ic_launcher_foreground\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.Lab_REST\"\r\n        android:usesCleartextTraffic=\"true\"\r\n        tools:targetApi=\"31\" >\r\n\r\n        <activity android:name=\".sharedpref.SubmitRequestActivity\" />\r\n\r\n        <activity\r\n            android:name=\".sharedpref.ItemListActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".sharedpref.AdminHomeActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".sharedpref.LoginActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".sharedpref.MainActivity\"\r\n            android:exported=\"true\" >\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".sharedpref.UserHomeActivity\" />\r\n        <activity android:name=\".sharedpref.UpdateItemActivity\"/>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/AndroidManifest.xml	(date 1751295341908)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools" >
++    xmlns:tools="http://schemas.android.com/tools">
+ 
+     <uses-permission android:name="android.permission.INTERNET" />
+ 
+@@ -14,22 +14,26 @@
+         android:supportsRtl="true"
+         android:theme="@style/Theme.Lab_REST"
+         android:usesCleartextTraffic="true"
+-        tools:targetApi="31" >
+-
++        tools:targetApi="31">
++        <activity
++            android:name=".sharedpref.MyRequestActivity"
++            android:exported="false" />
++        <activity android:name=".sharedpref.ConfirmRequestActivity" />
+         <activity android:name=".sharedpref.SubmitRequestActivity" />
+-
+         <activity
+             android:name=".sharedpref.ItemListActivity"
+             android:exported="false" />
+         <activity
+             android:name=".sharedpref.AdminHomeActivity"
+             android:exported="false" />
++        <activity
++            android:name=".sharedpref.RequestActivity" />
+         <activity
+             android:name=".sharedpref.LoginActivity"
+             android:exported="false" />
+         <activity
+             android:name=".sharedpref.MainActivity"
+-            android:exported="true" >
++            android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+Index: app/src/main/res/layout/request_row.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/request_row.xml b/app/src/main/res/layout/request_row.xml
+new file mode 100644
+--- /dev/null	(date 1751295341964)
++++ b/app/src/main/res/layout/request_row.xml	(date 1751295341964)
+@@ -0,0 +1,42 @@
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:orientation="vertical"
++    android:background="@android:color/white"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:padding="12dp"
++    android:layout_marginBottom="8dp"
++    android:elevation="2dp">
++
++    <TextView android:id="@+id/tvItemName"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Item Name"
++        android:textStyle="bold"
++        android:textSize="16sp"/>
++
++    <TextView android:id="@+id/tvStatus"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Status"
++        android:textColor="#555"/>
++
++    <TextView android:id="@+id/tvDate"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Date" />
++
++    <TextView android:id="@+id/tvNotes"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Notes"/>
++
++    <Button
++        android:id="@+id/btnCancel"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Cancel Request"
++        android:backgroundTint="#D32F2F"
++        android:textColor="#FFFFFF"
++        android:layout_marginTop="8dp"
++        android:visibility="gone"/>
++</LinearLayout>
+Index: app/src/main/res/layout/item_summary_row.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_summary_row.xml b/app/src/main/res/layout/item_summary_row.xml
+new file mode 100644
+--- /dev/null	(date 1751295341962)
++++ b/app/src/main/res/layout/item_summary_row.xml	(date 1751295341962)
+@@ -0,0 +1,41 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:orientation="horizontal"
++    android:padding="8dp">
++
++    <ImageView
++        android:id="@+id/imgItem"
++        android:layout_width="40dp"
++        android:layout_height="40dp"
++        android:src="@drawable/ic_paper"
++        android:layout_marginEnd="8dp" />
++
++    <LinearLayout
++        android:orientation="vertical"
++        android:layout_width="0dp"
++        android:layout_weight="1"
++        android:layout_height="wrap_content">
++
++        <TextView
++            android:id="@+id/tvItemName"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Item Name"
++            android:textStyle="bold" />
++
++        <TextView
++            android:id="@+id/tvItemQuantity"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Qty: 2" />
++    </LinearLayout>
++
++    <TextView
++        android:id="@+id/tvItemTotal"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="RM 1.00" />
++</LinearLayout>
+Index: app/src/main/res/layout/activity_my_request_adapter.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_my_request_adapter.xml b/app/src/main/res/layout/activity_my_request_adapter.xml
+new file mode 100644
+--- /dev/null	(date 1751295341953)
++++ b/app/src/main/res/layout/activity_my_request_adapter.xml	(date 1751295341953)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/main"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".sharedpref.MyRequestAdapter">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_confirm_request.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_confirm_request.xml b/app/src/main/res/layout/activity_confirm_request.xml
+new file mode 100644
+--- /dev/null	(date 1751295341940)
++++ b/app/src/main/res/layout/activity_confirm_request.xml	(date 1751295341940)
+@@ -0,0 +1,74 @@
++<?xml version="1.0" encoding="utf-8"?>
++<ScrollView
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:padding="16dp"
++    android:background="#F5F5F5">
++
++    <LinearLayout
++        android:orientation="vertical"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content">
++
++        <!-- Cart Summary -->
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="🛒 Your Selected Items"
++            android:textSize="18sp"
++            android:textStyle="bold"
++            android:layout_marginBottom="8dp" />
++
++        <androidx.recyclerview.widget.RecyclerView
++            android:id="@+id/rvSelectedItems"
++            android:layout_width="match_parent"
++            android:layout_height="200dp"
++            android:background="@android:color/white"
++            android:padding="8dp"
++            android:layout_marginBottom="16dp"
++            tools:listitem="@layout/item_summary_row" />
++
++        <!-- Address -->
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="📍 Your Address"
++            android:textStyle="bold" />
++
++        <EditText
++            android:id="@+id/edtAddress"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Enter your address"
++            android:inputType="textPostalAddress"
++            android:layout_marginBottom="16dp" />
++
++        <!-- Notes -->
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="📝 Additional Notes"
++            android:textStyle="bold" />
++
++        <EditText
++            android:id="@+id/edtNotes"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Optional message (e.g. landmark)"
++            android:inputType="textMultiLine"
++            android:minLines="3"
++            android:layout_marginBottom="24dp" />
++
++        <!-- Submit Button -->
++        <Button
++            android:id="@+id/btnSubmitRequest"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Submit Request"
++            android:backgroundTint="#2E7D32"
++            android:textColor="@android:color/white" />
++
++    </LinearLayout>
++</ScrollView>
+Index: app/src/main/res/layout/activity_selected_item_adapter.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_selected_item_adapter.xml b/app/src/main/res/layout/activity_selected_item_adapter.xml
+new file mode 100644
+--- /dev/null	(date 1751295341953)
++++ b/app/src/main/res/layout/activity_selected_item_adapter.xml	(date 1751295341953)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/main"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".sharedpref.SelectedItemAdapter">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/item_request.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_request.xml b/app/src/main/res/layout/item_request.xml
+new file mode 100644
+--- /dev/null	(date 1751295341959)
++++ b/app/src/main/res/layout/item_request.xml	(date 1751295341959)
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <TextView android:id="@+id/txtStatus"
++        android:textStyle="bold" android:textColor="#333"
++        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
++
++    <TextView android:id="@+id/txtAddress"
++        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
++
++    <TextView android:id="@+id/txtWeight"
++        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
++
++    <TextView android:id="@+id/txtPrice"
++        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_my_request2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_my_request2.xml b/app/src/main/res/layout/activity_my_request2.xml
+new file mode 100644
+--- /dev/null	(date 1751295341946)
++++ b/app/src/main/res/layout/activity_my_request2.xml	(date 1751295341946)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/main"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".sharedpref.MyRequestActivity">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_submit_request.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><androidx.recyclerview.widget.RecyclerView android:id=\"@+id/rvItems\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:padding=\"8dp\"\r\n    android:layout_marginTop=\"10dp\"\r\n    tools:listitem=\"@layout/item_card\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\" />\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_submit_request.xml b/app/src/main/res/layout/activity_submit_request.xml
+--- a/app/src/main/res/layout/activity_submit_request.xml	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/res/layout/activity_submit_request.xml	(date 1751295341956)
+@@ -1,8 +1,31 @@
+-<androidx.recyclerview.widget.RecyclerView android:id="@+id/rvItems"
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:orientation="vertical"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:padding="8dp"
+-    android:layout_marginTop="10dp"
+-    tools:listitem="@layout/item_card"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    xmlns:android="http://schemas.android.com/apk/res/android" />
++    android:padding="16dp"
++    tools:context=".sharedpref.SubmitRequestActivity">
++
++    <!-- RecyclerView for item grid -->
++    <androidx.recyclerview.widget.RecyclerView
++        android:id="@+id/rvItems"
++        android:layout_width="match_parent"
++        android:layout_height="0dp"
++        android:layout_weight="1"
++        android:layout_marginTop="10dp"
++        tools:listitem="@layout/item_card" />
++
++    <!-- Done button -->
++    <Button
++        android:id="@+id/btnDone"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="Done"
++        android:layout_marginTop="16dp"
++        android:backgroundTint="#2E7D32"
++        android:textColor="#FFFFFF"/>
++</LinearLayout>
++
++
++
+Index: app/src/main/java/com/example/lab_rest/sharedpref/SubmitRequestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.sharedpref;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.GridLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.lab_rest.R;\r\nimport com.example.lab_rest.model.Item;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\npublic class SubmitRequestActivity extends AppCompatActivity {\r\n\r\n    RecyclerView rvItems;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_submit_request);\r\n\r\n        rvItems = findViewById(R.id.rvItems);\r\n        rvItems.setLayoutManager(new GridLayoutManager(this, 2)); // 2 columns\r\n\r\n        List<Item> itemList = Arrays.asList(\r\n                new Item(1, \"Plastic Bottles\", 0.50, R.drawable.ic_plastic),\r\n                new Item(2, \"Paper\", 0.30, R.drawable.ic_paper),\r\n                new Item(3, \"Cardboard\", 0.40, R.drawable.ic_cardboard),\r\n                new Item(4, \"Aluminum Cans\", 1.50, R.drawable.ic_aluminum),\r\n                new Item(5, \"Glass Containers\", 0.20, R.drawable.ic_glass),\r\n                new Item(6, \"Used Cooking Oil\", 1.00, R.drawable.ic_oil)\r\n        );\r\n\r\n        ItemAdapter adapter = new ItemAdapter(this, itemList);\r\n        rvItems.setAdapter(adapter);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/SubmitRequestActivity.java b/app/src/main/java/com/example/lab_rest/sharedpref/SubmitRequestActivity.java
+--- a/app/src/main/java/com/example/lab_rest/sharedpref/SubmitRequestActivity.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/SubmitRequestActivity.java	(date 1751295341939)
+@@ -1,6 +1,9 @@
+ package com.example.lab_rest.sharedpref;
+ 
++import android.content.Intent;
+ import android.os.Bundle;
++import android.widget.Button;
++import android.widget.Toast;
+ 
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.recyclerview.widget.GridLayoutManager;
+@@ -8,23 +11,30 @@
+ 
+ import com.example.lab_rest.R;
+ import com.example.lab_rest.model.Item;
++import com.google.gson.Gson;
+ 
++import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.List;
+ 
+ public class SubmitRequestActivity extends AppCompatActivity {
+ 
+     RecyclerView rvItems;
++    Button btnDone;
++    List<Item> itemList;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_submit_request);
+ 
++        // ✅ These must be inside onCreate
+         rvItems = findViewById(R.id.rvItems);
+-        rvItems.setLayoutManager(new GridLayoutManager(this, 2)); // 2 columns
++        btnDone = findViewById(R.id.btnDone);
+ 
+-        List<Item> itemList = Arrays.asList(
++        rvItems.setLayoutManager(new GridLayoutManager(this, 2));
++
++        itemList = Arrays.asList(
+                 new Item(1, "Plastic Bottles", 0.50, R.drawable.ic_plastic),
+                 new Item(2, "Paper", 0.30, R.drawable.ic_paper),
+                 new Item(3, "Cardboard", 0.40, R.drawable.ic_cardboard),
+@@ -35,5 +45,23 @@
+ 
+         ItemAdapter adapter = new ItemAdapter(this, itemList);
+         rvItems.setAdapter(adapter);
++
++        btnDone.setOnClickListener(v -> {
++            ArrayList<Item> selectedItems = new ArrayList<>();
++            for (Item item : itemList) {
++                if (item.getQuantity() > 0) {
++                    selectedItems.add(item);
++                }
++            }
++
++            if (selectedItems.isEmpty()) {
++                Toast.makeText(this, "Please select at least 1 item.", Toast.LENGTH_SHORT).show();
++                return;
++            }
++
++            Intent intent = new Intent(this, ConfirmRequestActivity.class);
++            intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
++            startActivity(intent);
++        });
+     }
+ }
+Index: app/src/main/res/layout/activity_my_request.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\"com.example.lab_rest.sharedpref.MyRequestActivity\"\r\n    android:id=\"@+id/myRequest\">\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_my_request.xml b/app/src/main/res/layout/activity_my_request.xml
+--- a/app/src/main/res/layout/activity_my_request.xml	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/res/layout/activity_my_request.xml	(date 1751295341946)
+@@ -1,10 +1,21 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:orientation="vertical"
++    android:background="#F5F5F5"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context="com.example.lab_rest.sharedpref.MyRequestActivity"
+-    android:id="@+id/myRequest">
++    android:padding="16dp">
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++    <TextView
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:text="📄 My Requests"
++        android:textSize="20sp"
++        android:textStyle="bold"
++        android:layout_marginBottom="12dp"/>
++
++    <androidx.recyclerview.widget.RecyclerView
++        android:id="@+id/rvRequests"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"/>
++</LinearLayout>
+Index: app/src/main/java/com/example/lab_rest/sharedpref/MyRequestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.sharedpref;\r\n\r\npublic class MyRequestActivity {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestActivity.java b/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestActivity.java
+--- a/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestActivity.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestActivity.java	(date 1751295341924)
+@@ -1,4 +1,70 @@
+ package com.example.lab_rest.sharedpref;
+ 
+-public class MyRequestActivity {
++import android.os.Bundle;
++import android.widget.Toast;
++
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.lab_rest.R;
++import com.example.lab_rest.model.Request;
++import com.example.lab_rest.model.User;
++import com.example.lab_rest.remote.ApiUtils;
++import com.example.lab_rest.remote.UserService;
++
++import java.util.List;
++
++import retrofit2.Call;
++import retrofit2.Callback;
++import retrofit2.Response;
++
++public class MyRequestActivity extends AppCompatActivity {
++
++    RecyclerView rvRequests;
++    UserService api;
++    User user;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_my_request);
++
++        rvRequests = findViewById(R.id.rvRequests);
++        rvRequests.setLayoutManager(new LinearLayoutManager(this));
++
++        SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
++        user = spm.getUser();
++
++        api = ApiUtils.getUserService();
++
++        loadRequests();
++    }
++
++    private void loadRequests() {
++        api.getRequestsByUser(user.getId()).enqueue(new Callback<List<Request>>() {
++            @Override
++            public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
++                if (response.isSuccessful() && response.body() != null) {
++                    MyRequestAdapter adapter = new MyRequestAdapter(MyRequestActivity.this, response.body(), request -> {
++                        cancelRequest(request.getRequest_id());
++                    });
++                    rvRequests.setAdapter(adapter);
++                } else {
++                    Toast.makeText(MyRequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
++                }
++            }
++
++            @Override
++            public void onFailure(Call<List<Request>> call, Throwable t) {
++                Toast.makeText(MyRequestActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
++            }
++        });
++    }
++
++    private void cancelRequest(int requestId) {
++        // you can modify this to send cancel request via API
++        Toast.makeText(this, "Cancel request ID: " + requestId, Toast.LENGTH_SHORT).show();
++        // TODO: call cancel API if available
++    }
+ }
+Index: app/src/main/java/com/example/lab_rest/sharedpref/ItemAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.sharedpref;\r\n\r\nimport android.content.Context;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.lab_rest.R;\r\nimport com.example.lab_rest.model.Item;\r\n\r\nimport java.util.List;\r\n\r\npublic class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {\r\n\r\n    private Context context;\r\n    private List<Item> itemList;\r\n\r\n    public ItemAdapter(Context context, List<Item> itemList) {\r\n        this.context = context;\r\n        this.itemList = itemList;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public ItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view = LayoutInflater.from(context).inflate(R.layout.item_card, parent, false);\r\n        return new ViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {\r\n        Item item = itemList.get(position);\r\n\r\n        holder.itemImage.setImageResource(item.getImageResId());\r\n        holder.itemName.setText(item.getItemName());\r\n        holder.itemPrice.setText(\"RM \" + item.getPrice());\r\n        holder.tvQuantity.setText(String.valueOf(item.getQuantity()));\r\n\r\n        holder.btnPlus.setOnClickListener(v -> {\r\n            int qty = item.getQuantity();\r\n            item.setQuantity(qty + 1);\r\n            holder.tvQuantity.setText(String.valueOf(item.getQuantity()));\r\n        });\r\n\r\n        holder.btnMinus.setOnClickListener(v -> {\r\n            int qty = item.getQuantity();\r\n            if (qty > 0) {\r\n                item.setQuantity(qty - 1);\r\n                holder.tvQuantity.setText(String.valueOf(item.getQuantity()));\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return itemList.size();\r\n    }\r\n\r\n    public static class ViewHolder extends RecyclerView.ViewHolder {\r\n        ImageView itemImage;\r\n        TextView itemName, itemPrice, tvQuantity;\r\n        Button btnPlus, btnMinus;\r\n\r\n        public ViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            itemImage = itemView.findViewById(R.id.itemImage);\r\n            itemName = itemView.findViewById(R.id.itemName);\r\n            itemPrice = itemView.findViewById(R.id.itemPrice);\r\n            tvQuantity = itemView.findViewById(R.id.tvQuantity);\r\n            btnPlus = itemView.findViewById(R.id.btnPlus);\r\n            btnMinus = itemView.findViewById(R.id.btnMinus);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/ItemAdapter.java b/app/src/main/java/com/example/lab_rest/sharedpref/ItemAdapter.java
+--- a/app/src/main/java/com/example/lab_rest/sharedpref/ItemAdapter.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/ItemAdapter.java	(date 1751295341922)
+@@ -1,6 +1,7 @@
+ package com.example.lab_rest.sharedpref;
+ 
+ import android.content.Context;
++import android.content.Intent;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+@@ -37,6 +38,13 @@
+     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
+         Item item = itemList.get(position);
+ 
++        Intent intent = new Intent(context, ConfirmRequestActivity.class);
++        intent.putExtra("item_id", item.getItemId());
++        intent.putExtra("item_name", item.getItemName());
++        intent.putExtra("quantity", item.getQuantity());
++        context.startActivity(intent);
++
++
+         holder.itemImage.setImageResource(item.getImageResId());
+         holder.itemName.setText(item.getItemName());
+         holder.itemPrice.setText("RM " + item.getPrice());
+Index: .idea/deploymentTargetSelector.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetSelector.xml b/.idea/deploymentTargetSelector.xml
+new file mode 100644
+--- /dev/null	(date 1751295341904)
++++ b/.idea/deploymentTargetSelector.xml	(date 1751295341904)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="deploymentTargetSelector">
++    <selectionStates>
++      <SelectionState runConfigName="app">
++        <option name="selectionMode" value="DROPDOWN" />
++      </SelectionState>
++    </selectionStates>
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/example/lab_rest/sharedpref/UserHomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.sharedpref;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.example.lab_rest.R;\r\nimport com.example.lab_rest.model.Request;\r\nimport com.example.lab_rest.model.User;\r\nimport com.example.lab_rest.remote.ApiUtils;\r\nimport com.example.lab_rest.remote.UserService;\r\n\r\nimport java.util.List;\r\n\r\nimport retrofit2.Call;\r\nimport retrofit2.Callback;\r\nimport retrofit2.Response;\r\n\r\npublic class UserHomeActivity extends AppCompatActivity {\r\n\r\n    TextView tvWelcome, tvTotalRecycled, tvTotalEarned, tvCompletedRequests, tvAnnouncements;\r\n    ImageView badgeBronze, badgeSilver, badgeGold;\r\n    Button btnSubmitRequest, btnViewRequests, btnLogout;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_user_home);\r\n\r\n        // UI references\r\n        tvWelcome = findViewById(R.id.tvWelcome);\r\n        tvTotalRecycled = findViewById(R.id.tvTotalRecycled);\r\n        tvTotalEarned = findViewById(R.id.tvTotalEarned);\r\n        tvCompletedRequests = findViewById(R.id.tvCompletedRequests);\r\n        tvAnnouncements = findViewById(R.id.tvAnnouncements); // ✅ FIX: declare it\r\n        badgeBronze = findViewById(R.id.badgeBronze);\r\n        badgeSilver = findViewById(R.id.badgeSilver);\r\n        badgeGold = findViewById(R.id.badgeGold);\r\n        btnSubmitRequest = findViewById(R.id.btnSubmitRequest);\r\n        btnViewRequests = findViewById(R.id.btnViewRequests);\r\n        btnLogout = findViewById(R.id.btnLogout);\r\n\r\n        SharedPrefManager spm = new SharedPrefManager(getApplicationContext());\r\n        if (!spm.isLoggedIn()) {\r\n            startActivity(new Intent(this, LoginActivity.class));\r\n            finish();\r\n            return;\r\n        }\r\n\r\n        User user = spm.getUser();\r\n        tvWelcome.setText(\"Welcome, \" + user.getUsername());\r\n\r\n        // \uD83D\uDFE2 Call the announcements loader\r\n        loadUserAnnouncements(user.getId());\r\n\r\n        // Example stats\r\n        double totalWeight = 12.5;\r\n        double earned = totalWeight * 0.30;\r\n        int completed = 5;\r\n\r\n        tvTotalRecycled.setText(\"♻\uFE0F Total Recycled: \" + totalWeight + \" kg\");\r\n        tvTotalEarned.setText(\"\uD83D\uDCB0 Total Earned: RM \" + earned);\r\n        tvCompletedRequests.setText(\"✅ Completed Requests: \" + completed);\r\n\r\n        if (totalWeight >= 5) badgeBronze.setVisibility(View.VISIBLE);\r\n        if (totalWeight >= 10) badgeSilver.setVisibility(View.VISIBLE);\r\n        if (totalWeight >= 20) badgeGold.setVisibility(View.VISIBLE);\r\n\r\n        btnSubmitRequest.setOnClickListener(v ->\r\n                startActivity(new Intent(this, SubmitRequestActivity.class)));\r\n\r\n        btnViewRequests.setOnClickListener(v ->\r\n                startActivity(new Intent(this, MyRequestActivity.class)));\r\n\r\n        btnLogout.setOnClickListener(v -> {\r\n            spm.logout();\r\n            Toast.makeText(getApplicationContext(), \"Logged out\", Toast.LENGTH_SHORT).show();\r\n            startActivity(new Intent(this, LoginActivity.class));\r\n            finish();\r\n        });\r\n    }\r\n\r\n    // ✅ Announcement logic based on request status\r\n    private void loadUserAnnouncements(int userId) {\r\n        UserService api = ApiUtils.getUserService();\r\n        api.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {\r\n            @Override\r\n            public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {\r\n                if (response.isSuccessful() && response.body() != null) {\r\n                    StringBuilder updates = new StringBuilder();\r\n                    for (Request r : response.body()) {\r\n                        switch (r.getStatus()) {\r\n                            case \"Pending\":\r\n                                updates.append(\"\uD83D\uDFE1 Your recycle request has been successfully sent!\\n\\n\");\r\n                                break;\r\n                            case \"Accepted\":\r\n                                updates.append(\"✅ Your request has been accepted. Thank you for recycling!\\n\\n\");\r\n                                break;\r\n                            case \"Weighing Scheduled\":\r\n                                String note = (r.getNotes() != null) ? r.getNotes() : \"between 8AM–5PM\";\r\n                                updates.append(\"\uD83D\uDCC5 Appointment scheduled: \").append(note).append(\"\\n\\n\");\r\n                                break;\r\n                            case \"Declined\":\r\n                                updates.append(\"❌ Your recycle request was declined.\\n\\n\");\r\n                                break;\r\n                            case \"Completed\":\r\n                                updates.append(\"\uD83C\uDF89 Your request has been completed. Thanks for your contribution!\\n\\n\");\r\n                                break;\r\n                            default:\r\n                                updates.append(\"\uD83D\uDD14 Status: \").append(r.getStatus()).append(\"\\n\\n\");\r\n                        }\r\n                    }\r\n                    tvAnnouncements.setText(updates.toString());\r\n                } else {\r\n                    tvAnnouncements.setText(\"No recent updates.\");\r\n                }\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(Call<List<Request>> call, Throwable t) {\r\n                tvAnnouncements.setText(\"Failed to load announcements.\");\r\n            }\r\n        });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/UserHomeActivity.java b/app/src/main/java/com/example/lab_rest/sharedpref/UserHomeActivity.java
+--- a/app/src/main/java/com/example/lab_rest/sharedpref/UserHomeActivity.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/UserHomeActivity.java	(date 1751295341940)
+@@ -72,8 +72,10 @@
+         if (totalWeight >= 10) badgeSilver.setVisibility(View.VISIBLE);
+         if (totalWeight >= 20) badgeGold.setVisibility(View.VISIBLE);
+ 
+-        btnSubmitRequest.setOnClickListener(v ->
+-                startActivity(new Intent(this, SubmitRequestActivity.class)));
++        btnSubmitRequest.setOnClickListener(v -> {
++            startActivity(new Intent(this, SubmitRequestActivity.class));
++        });
++
+ 
+         btnViewRequests.setOnClickListener(v ->
+                 startActivity(new Intent(this, MyRequestActivity.class)));
+Index: app/src/main/java/com/example/lab_rest/sharedpref/SelectedItemAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/SelectedItemAdapter.java b/app/src/main/java/com/example/lab_rest/sharedpref/SelectedItemAdapter.java
+new file mode 100644
+--- /dev/null	(date 1751295341935)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/SelectedItemAdapter.java	(date 1751295341935)
+@@ -0,0 +1,62 @@
++package com.example.lab_rest.sharedpref;
++
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.lab_rest.R;
++import com.example.lab_rest.model.Item;
++
++import java.util.List;
++
++public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapter.ViewHolder> {
++
++    private List<Item> itemList;
++
++    // ✅ Make sure itemList is not null
++    public SelectedItemAdapter(List<Item> itemList) {
++        this.itemList = (itemList != null) ? itemList : new java.util.ArrayList<>();
++    }
++
++    public static class ViewHolder extends RecyclerView.ViewHolder {
++        ImageView imgItem;
++        TextView tvItemName, tvItemQuantity, tvItemTotal;
++
++        public ViewHolder(@NonNull View itemView) {
++            super(itemView);
++            imgItem = itemView.findViewById(R.id.imgItem);
++            tvItemName = itemView.findViewById(R.id.tvItemName);
++            tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);
++            tvItemTotal = itemView.findViewById(R.id.tvItemTotal);
++        }
++    }
++
++    @NonNull
++    @Override
++    public SelectedItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View view = LayoutInflater.from(parent.getContext())
++                .inflate(R.layout.item_summary_row, parent, false);
++        return new ViewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull SelectedItemAdapter.ViewHolder holder, int position) {
++        Item item = itemList.get(position);
++        holder.imgItem.setImageResource(item.getImageResId());
++        holder.tvItemName.setText(item.getItemName());
++        holder.tvItemQuantity.setText("Qty: " + item.getQuantity());
++
++        double total = item.getPrice() * item.getQuantity();
++        holder.tvItemTotal.setText("RM " + String.format("%.2f", total));
++    }
++
++    @Override
++    public int getItemCount() {
++        return itemList.size(); // 🛠️ itemList is now guaranteed to be non-null
++    }
++}
+Index: app/src/main/java/com/example/lab_rest/remote/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.remote;\r\n\r\nimport com.example.lab_rest.model.User;\r\nimport com.example.lab_rest.model.Request;\r\n\r\nimport java.util.List;\r\n\r\nimport retrofit2.Call;\r\nimport retrofit2.http.Field;\r\nimport retrofit2.http.FormUrlEncoded;\r\nimport retrofit2.http.GET;\r\nimport retrofit2.http.POST;\r\nimport retrofit2.http.Path;\r\n\r\npublic interface UserService {\r\n\r\n    @FormUrlEncoded\r\n    @POST(\"users/login\")\r\n    Call<User> login(@Field(\"username\") String username,\r\n                     @Field(\"password\") String password);\r\n\r\n    @FormUrlEncoded\r\n    @POST(\"users/login\")\r\n    Call<User> loginEmail(@Field(\"email\") String email,\r\n                          @Field(\"password\") String password);\r\n\r\n    @GET(\"requests\")\r\n    Call<List<Request>> getAllRequests();\r\n\r\n\r\n    @GET(\"requests/user/{user_id}\")\r\n    Call<List<Request>> getRequestsByUser(@Path(\"user_id\") int userId);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/remote/UserService.java b/app/src/main/java/com/example/lab_rest/remote/UserService.java
+--- a/app/src/main/java/com/example/lab_rest/remote/UserService.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/remote/UserService.java	(date 1751295341908)
+@@ -28,6 +28,17 @@
+     Call<List<Request>> getAllRequests();
+ 
+ 
++    @FormUrlEncoded
++    @POST("requests/submit")
++    Call<Void> submitRequest(
++            @Field("user_id") int userId,
++            @Field("item_id") int itemId,
++            @Field("address") String address,
++            @Field("notes") String notes
++    );
++
++
++
+     @GET("requests/user/{user_id}")
+     Call<List<Request>> getRequestsByUser(@Path("user_id") int userId);
+ }
+Index: app/src/main/java/com/example/lab_rest/sharedpref/MyRequestAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestAdapter.java b/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestAdapter.java
+new file mode 100644
+--- /dev/null	(date 1751295341928)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/MyRequestAdapter.java	(date 1751295341928)
+@@ -0,0 +1,76 @@
++package com.example.lab_rest.sharedpref;
++
++import android.content.Context;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.Button;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.lab_rest.R;
++import com.example.lab_rest.model.Request;
++
++import java.util.List;
++
++public class MyRequestAdapter extends RecyclerView.Adapter<MyRequestAdapter.ViewHolder> {
++    private Context context;
++    private List<Request> requestList;
++
++    public interface CancelListener {
++        void onCancel(Request request);
++    }
++
++    private CancelListener listener;
++
++    public MyRequestAdapter(Context context, List<Request> requestList, CancelListener listener) {
++        this.context = context;
++        this.requestList = requestList;
++        this.listener = listener;
++    }
++
++    @NonNull
++    @Override
++    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View view = LayoutInflater.from(context).inflate(R.layout.request_row, parent, false);
++        return new ViewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
++        Request request = requestList.get(position);
++
++        holder.tvItemName.setText("Item ID: " + request.getItem_id());
++        holder.tvStatus.setText("Status: " + request.getStatus());
++        holder.tvDate.setText("Date: " + request.getRequest_date());
++        holder.tvNotes.setText("Notes: " + request.getNotes());
++
++        if ("Pending".equalsIgnoreCase(request.getStatus())) {
++            holder.btnCancel.setVisibility(View.VISIBLE);
++            holder.btnCancel.setOnClickListener(v -> listener.onCancel(request));
++        } else {
++            holder.btnCancel.setVisibility(View.GONE);
++        }
++    }
++
++    @Override
++    public int getItemCount() {
++        return requestList.size();
++    }
++
++    public static class ViewHolder extends RecyclerView.ViewHolder {
++        TextView tvItemName, tvStatus, tvDate, tvNotes;
++        Button btnCancel;
++
++        public ViewHolder(@NonNull View itemView) {
++            super(itemView);
++            tvItemName = itemView.findViewById(R.id.tvItemName);
++            tvStatus = itemView.findViewById(R.id.tvStatus);
++            tvDate = itemView.findViewById(R.id.tvDate);
++            tvNotes = itemView.findViewById(R.id.tvNotes);
++            btnCancel = itemView.findViewById(R.id.btnCancel);
++        }
++    }
++}
+Index: app/src/main/java/com/example/lab_rest/sharedpref/RequestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.sharedpref;\r\n\r\npublic class RequestActivity {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/RequestActivity.java b/app/src/main/java/com/example/lab_rest/sharedpref/RequestActivity.java
+--- a/app/src/main/java/com/example/lab_rest/sharedpref/RequestActivity.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/RequestActivity.java	(date 1751295341928)
+@@ -1,4 +1,58 @@
+ package com.example.lab_rest.sharedpref;
+ 
+-public class RequestActivity {
++import android.os.Bundle;
++import android.util.Log;
++import android.widget.Toast;
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.lab_rest.R;
++import com.example.lab_rest.adapter.RequestAdapter;
++import com.example.lab_rest.model.Request;
++import com.example.lab_rest.remote.ApiUtils;
++import com.example.lab_rest.remote.UserService;
++
++import java.util.List;
++import retrofit2.Call;
++import retrofit2.Callback;
++import retrofit2.Response;
++
++public class RequestActivity extends AppCompatActivity {
++
++    private RecyclerView recyclerView;
++    private RequestAdapter adapter;
++    private UserService userService;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_request);
++
++        recyclerView = findViewById(R.id.recyclerViewRequests);
++        recyclerView.setLayoutManager(new LinearLayoutManager(this));
++
++        userService = ApiUtils.getUserService();
++        loadRequests();
++    }
++
++    private void loadRequests() {
++        userService.getAllRequests().enqueue(new Callback<List<Request>>() {
++            @Override
++            public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
++                if (response.isSuccessful() && response.body() != null) {
++                    adapter = new RequestAdapter(response.body());
++                    recyclerView.setAdapter(adapter);
++                } else {
++                    Toast.makeText(RequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
++                }
++            }
++
++            @Override
++            public void onFailure(Call<List<Request>> call, Throwable t) {
++                Log.e("RequestActivity", "Error: " + t.getMessage());
++                Toast.makeText(RequestActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
++            }
++        });
++    }
+ }
+Index: app/src/main/java/com/example/lab_rest/adapter/RequestAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/adapter/RequestAdapter.java b/app/src/main/java/com/example/lab_rest/adapter/RequestAdapter.java
+new file mode 100644
+--- /dev/null	(date 1751295341908)
++++ b/app/src/main/java/com/example/lab_rest/adapter/RequestAdapter.java	(date 1751295341908)
+@@ -0,0 +1,57 @@
++package com.example.lab_rest.adapter;
++
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.lab_rest.R;
++import com.example.lab_rest.model.Request;
++
++import java.util.List;
++
++public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
++
++    private List<Request> requestList;
++
++    public RequestAdapter(List<Request> requestList) {
++        this.requestList = requestList;
++    }
++
++    @NonNull
++    @Override
++    public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        View view = LayoutInflater.from(parent.getContext())
++                .inflate(R.layout.item_request, parent, false);
++        return new RequestViewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
++        Request req = requestList.get(position);
++        holder.txtStatus.setText("Status: " + req.getStatus());
++        holder.txtAddress.setText("Address: " + req.getAddress());
++        holder.txtWeight.setText("Weight: " + req.getWeight() + " kg");
++        holder.txtPrice.setText("Total: RM" + req.getTotal_price());
++    }
++
++    @Override
++    public int getItemCount() {
++        return requestList.size();
++    }
++
++    public class RequestViewHolder extends RecyclerView.ViewHolder {
++        TextView txtStatus, txtAddress, txtWeight, txtPrice;
++
++        public RequestViewHolder(@NonNull View itemView) {
++            super(itemView);
++            txtStatus = itemView.findViewById(R.id.txtStatus);
++            txtAddress = itemView.findViewById(R.id.txtAddress);
++            txtWeight = itemView.findViewById(R.id.txtWeight);
++            txtPrice = itemView.findViewById(R.id.txtPrice);
++        }
++    }
++}
+Index: app/src/main/java/com/example/lab_rest/sharedpref/ConfirmRequestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/ConfirmRequestActivity.java b/app/src/main/java/com/example/lab_rest/sharedpref/ConfirmRequestActivity.java
+new file mode 100644
+--- /dev/null	(date 1751295341918)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/ConfirmRequestActivity.java	(date 1751295341918)
+@@ -0,0 +1,101 @@
++package com.example.lab_rest.sharedpref;
++
++import android.os.Bundle;
++import android.widget.Button;
++import android.widget.EditText;
++import android.widget.Toast;
++
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.lab_rest.R;
++import com.example.lab_rest.model.Item;
++import com.example.lab_rest.model.User;
++import com.example.lab_rest.remote.ApiUtils;
++import com.example.lab_rest.remote.UserService;
++import com.google.gson.Gson;
++import com.google.gson.reflect.TypeToken;
++
++import java.lang.reflect.Type;
++import java.util.List;
++
++import retrofit2.Call;
++import retrofit2.Callback;
++import retrofit2.Response;
++
++public class ConfirmRequestActivity extends AppCompatActivity {
++
++    private RecyclerView rvSelectedItems;
++    private EditText edtAddress, edtNotes;
++    private Button btnSubmitRequest;
++    private List<Item> selectedItems;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_confirm_request);
++
++        // UI references
++        rvSelectedItems = findViewById(R.id.rvSelectedItems);
++        edtAddress = findViewById(R.id.edtAddress);
++        edtNotes = findViewById(R.id.edtNotes);
++        btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
++
++        rvSelectedItems.setLayoutManager(new LinearLayoutManager(this));
++
++        // Get user session
++        SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
++        User user = spm.getUser();
++        int userId = user.getId();
++
++        // Receive selected items from intent
++        String json = getIntent().getStringExtra("selectedItems");
++        Type listType = new TypeToken<List<Item>>() {}.getType();
++        selectedItems = new Gson().fromJson(json, listType);
++
++        // Set up adapter
++        SelectedItemAdapter adapter = new SelectedItemAdapter(selectedItems);
++        rvSelectedItems.setAdapter(adapter);
++
++        // Handle submission
++        btnSubmitRequest.setOnClickListener(v -> {
++            String address = edtAddress.getText().toString().trim();
++            String notes = edtNotes.getText().toString().trim();
++
++            if (address.isEmpty()) {
++                Toast.makeText(this, "Please enter your address", Toast.LENGTH_SHORT).show();
++                return;
++            }
++
++            // Submit each selected item as individual request
++            UserService api = ApiUtils.getUserService();
++            for (Item item : selectedItems) {
++                Call<Void> call = api.submitRequest(
++                        userId,
++                        item.getItemId(),
++                        address,
++                        notes
++                );
++
++                call.enqueue(new Callback<Void>() {
++                    @Override
++                    public void onResponse(Call<Void> call, Response<Void> response) {
++                        if (response.isSuccessful()) {
++                            Toast.makeText(ConfirmRequestActivity.this, "Request submitted!", Toast.LENGTH_SHORT).show();
++                        } else {
++                            Toast.makeText(ConfirmRequestActivity.this, "Submit failed", Toast.LENGTH_SHORT).show();
++                        }
++                    }
++
++                    @Override
++                    public void onFailure(Call<Void> call, Throwable t) {
++                        Toast.makeText(ConfirmRequestActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
++                    }
++                });
++            }
++
++            finish(); // Go back after submitting
++        });
++    }
++}
+Index: app/src/main/java/com/example/lab_rest/sharedpref/AdminHomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.lab_rest.sharedpref;\r\n\r\nimport android.content.Intent;\r\nimport android.graphics.Insets;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.activity.EdgeToEdge;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.view.ViewCompat;\r\nimport androidx.core.view.WindowInsetsCompat;\r\n\r\nimport com.example.lab_rest.R;\r\nimport com.example.lab_rest.model.User;\r\n\r\npublic class AdminHomeActivity extends AppCompatActivity {\r\n\r\n    TextView tvWelcome;\r\n    Button btnRequests, btnItem, btnLogout;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_admin_home);\r\n\r\n        // UI references\r\n        tvWelcome = findViewById(R.id.tvWelcome);\r\n        btnRequests = findViewById(R.id.btnRequests);\r\n        btnItem = findViewById(R.id.btnItem);\r\n        btnLogout = findViewById(R.id.btnLogout);\r\n\r\n        // Load user info\r\n        SharedPrefManager spm = new SharedPrefManager(getApplicationContext());\r\n        if (!spm.isLoggedIn()) {\r\n            finish();\r\n            // forward to login page\r\n            Intent intent = new Intent(this, LoginActivity.class);\r\n            startActivity(intent);\r\n        } else {\r\n            User user = spm.getUser();\r\n            tvWelcome.setText(\"Hello \" + user.getUsername());\r\n        }\r\n    }\r\n\r\n    public void logoutClicked(View view) {\r\n        // clear the shared preferences\r\n        SharedPrefManager spm = new SharedPrefManager(getApplicationContext());\r\n        spm.logout();\r\n\r\n        // display message\r\n        Toast.makeText(getApplicationContext(),\r\n                \"You have successfully logged out.\",\r\n                Toast.LENGTH_LONG).show();\r\n\r\n        // terminate this MainActivity\r\n        finish();\r\n\r\n        // forward to Login Page\r\n        Intent intent = new Intent(this, LoginActivity.class);\r\n        startActivity(intent);\r\n\r\n    }\r\n\r\n    public void itemListClicked(View view) {\r\n        // forward user to ItemListActivity\r\n        Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);\r\n        startActivity(intent);\r\n    }\r\n\r\n    public void allRequestsClicked(View view) {\r\n        Intent intent = new Intent(getApplicationContext(), RequestActivity.class);\r\n        startActivity(intent);\r\n    }\r\n\r\n    }\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/lab_rest/sharedpref/AdminHomeActivity.java b/app/src/main/java/com/example/lab_rest/sharedpref/AdminHomeActivity.java
+--- a/app/src/main/java/com/example/lab_rest/sharedpref/AdminHomeActivity.java	(revision 5bb2656ca04564c8bfc759278c4197a58f8bd14d)
++++ b/app/src/main/java/com/example/lab_rest/sharedpref/AdminHomeActivity.java	(date 1751295341916)
+@@ -15,8 +15,10 @@
+ import androidx.core.view.WindowInsetsCompat;
+ 
+ import com.example.lab_rest.R;
++import com.example.lab_rest.sharedpref.RequestActivity;
+ import com.example.lab_rest.model.User;
+ 
++
+ public class AdminHomeActivity extends AppCompatActivity {
+ 
+     TextView tvWelcome;
