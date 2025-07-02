@@ -18,6 +18,7 @@
 
         <activity android:name=".sharedpref.SubmitRequestActivity" />
         <activity android:name=".sharedpref.ConfirmRequestActivity" />
+        <activity android:name=".sharedpref.MyRequestActivity" />
         <activity
             android:name=".sharedpref.ItemListActivity"
             android:exported="false" />
@@ -38,6 +39,8 @@
         </activity>
         <activity android:name=".sharedpref.UserHomeActivity" />
         <activity android:name=".sharedpref.UpdateItemActivity"/>
+
+
     </application>
 
 </manifest>
