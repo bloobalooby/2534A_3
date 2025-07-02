@@ -96,10 +96,12 @@ public class ConfirmRequestActivity extends AppCompatActivity {
                 });
             }
 
-            Intent intent = new Intent(this, UserHomeActivity.class);
+            Toast.makeText(this, "Request submitted!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, MyRequestActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            finish();
+            finishAffinity();
         });
     }
 }
