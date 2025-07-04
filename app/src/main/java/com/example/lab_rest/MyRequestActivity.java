@@ -11,7 +11,6 @@ import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
-import com.example.lab_rest.sharedpref.RequestAdapter;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
