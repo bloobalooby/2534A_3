@@ -1,4 +1,4 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.model.Item;
 import com.google.gson.Gson;
 

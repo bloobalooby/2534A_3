@@ -1,4 +1,4 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -11,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
+import com.example.lab_rest.sharedpref.SelectedItemAdapter;
+import com.example.lab_rest.sharedpref.SharedPrefManager;
+import com.example.lab_rest.sharedpref.UserHomeActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

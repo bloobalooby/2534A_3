@@ -1,4 +1,4 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
+import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
 

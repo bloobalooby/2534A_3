@@ -1,21 +1,16 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.content.Intent;
-import android.graphics.Insets;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.model.User;
+import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 public class AdminHomeActivity extends AppCompatActivity {
 

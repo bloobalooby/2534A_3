@@ -1,4 +1,4 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.model.Item;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.adapter.ItemAdapter;
 import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
+import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
 

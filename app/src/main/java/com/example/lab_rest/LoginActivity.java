@@ -1,4 +1,4 @@
-package com.example.lab_rest.sharedpref;
+package com.example.lab_rest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.model.FailLogin;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
+import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
