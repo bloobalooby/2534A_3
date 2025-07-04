@@ -11,13 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_rest.UserHomeActivity;
 import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
-import com.example.lab_rest.sharedpref.SelectedItemAdapter;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
-import com.example.lab_rest.sharedpref.UserHomeActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -55,7 +54,8 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         selectedItems = new Gson().fromJson(json, listType);
 
         // Set adapter
-        SelectedItemAdapter adapter = new SelectedItemAdapter(selectedItems);
+        SelectedItemAdapter adapter;
+        adapter = new SelectedItemAdapter(selectedItems);
         rvSelectedItems.setAdapter(adapter);
 
         // Get logged in user
