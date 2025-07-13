@@ -17,12 +17,18 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
+    public interface OnItemQuantityChangeListener {
+        void onQuantityChanged();
+    }
+
     private Context context;
     private List<Item> itemList;
+    private OnItemQuantityChangeListener listener;
 
-    public ItemAdapter(Context context, List<Item> itemList) {
+    public ItemAdapter(Context context, List<Item> itemList, OnItemQuantityChangeListener listener) {
         this.context = context;
         this.itemList = itemList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -45,6 +51,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             int qty = item.getQuantity();
             item.setQuantity(qty + 1);
             holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+            if (listener != null) listener.onQuantityChanged();
         });
 
         holder.btnMinus.setOnClickListener(v -> {
@@ -52,6 +59,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             if (qty > 0) {
                 item.setQuantity(qty - 1);
                 holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+                if (listener != null) listener.onQuantityChanged();
             }
         });
     }
@@ -77,3 +85,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
     }
 }
+

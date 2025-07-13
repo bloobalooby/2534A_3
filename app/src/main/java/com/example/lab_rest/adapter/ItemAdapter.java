@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab_rest.R;
 import com.example.lab_rest.model.Item;
-import com.example.lab_rest.sharedpref.UpdateItemActivity;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="#F5F5F5"
-    tools:context=".sharedpref.ConfirmRequestActivity">
+    tools:context=".ConfirmRequestActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -30,20 +30,52 @@
             android:layout_marginBottom="16dp"
             tools:listitem="@layout/item_summary_row" />
 
-        <!-- Address -->
+        <!-- Address Details Section -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📍 Your Address"
-            android:textStyle="bold" />
+            android:text="📍 Address Details"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
+        <!-- Full Address (Multiline) -->
         <EditText
             android:id="@+id/edtAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your address"
-            android:inputType="textPostalAddress"
-            android:layout_marginBottom="16dp" />
+            android:hint="Enter full address"
+            android:inputType="textMultiLine|textPostalAddress"
+            android:minLines="3"
+            android:gravity="top"
+            android:layout_marginBottom="8dp" />
+
+        <!-- City Dropdown -->
+        <Spinner
+            android:id="@+id/spinnerCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <!-- State (Fixed) -->
+        <EditText
+            android:id="@+id/edtState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:enabled="false"
+            android:focusable="false"
+            android:text="Melaka"
+            android:textColor="#000000" />
+
+        <!-- Postal Code (Numbers only) -->
+        <EditText
+            android:id="@+id/edtPostcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="Postal Code"
+            android:inputType="number"
+            android:maxLength="5" />
 
         <!-- Notes -->
         <TextView
@@ -71,3 +103,4 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 </ScrollView>
+
