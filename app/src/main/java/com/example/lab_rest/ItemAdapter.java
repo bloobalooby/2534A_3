@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,15 +43,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
         Item item = itemList.get(position);
 
+        double unitPrice = item.getPrice();
+        int quantity = item.getQuantity();
+        double total = unitPrice * quantity;
+
         holder.itemImage.setImageResource(item.getImageResId());
         holder.itemName.setText(item.getItemName());
-        holder.itemPrice.setText("RM " + item.getPrice());
+        holder.itemPrice.setText(String.format("RM %.2f", total));
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
 
         holder.btnPlus.setOnClickListener(v -> {
             int qty = item.getQuantity();
             item.setQuantity(qty + 1);
             holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+
+            double updatedTotal = item.getPrice() * item.getQuantity();
+            holder.itemPrice.setText(String.format("RM %.2f", updatedTotal));
+
             if (listener != null) listener.onQuantityChanged();
         });
 
@@ -59,20 +68,26 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             if (qty > 0) {
                 item.setQuantity(qty - 1);
                 holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+
+                double updatedTotal = item.getPrice() * item.getQuantity();
+                holder.itemPrice.setText(String.format("RM %.2f", updatedTotal));
+
                 if (listener != null) listener.onQuantityChanged();
             }
         });
     }
 
+    // ✅ This should be outside of onBindViewHolder
     @Override
     public int getItemCount() {
         return itemList.size();
     }
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView itemImage;
         TextView itemName, itemPrice, tvQuantity;
-        Button btnPlus, btnMinus;
+        ImageButton btnPlus, btnMinus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +97,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnMinus = itemView.findViewById(R.id.btnMinus);
+
         }
     }
 }

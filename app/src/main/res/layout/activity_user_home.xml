@@ -1,135 +1,288 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/userHomeRoot"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F1F8E9"
-    android:padding="16dp">
+    tools:context=".UserHomeActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/userToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="EcoPoints"
+        android:titleTextColor="@android:color/white"
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        android:contentInsetStart="0dp"
+        android:contentInsetEnd="0dp" />
 
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome, User"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#2E7D32"
-            android:layout_marginBottom="16dp" />
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <!-- Stats -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:elevation="4dp"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
+            android:gravity="center_horizontal">
 
+            <!-- Welcome Message -->
             <TextView
-                android:id="@+id/tvTotalRecycled"
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome Back, User!"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#2E7D32"
+                android:layout_marginBottom="16dp" />
+
+            <!-- 3-Column Stats -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="♻️ Total Recycled: 0 kg"
-                android:textSize="18sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="16dp"
+                android:background="#FFFFFF"
+                android:elevation="4dp"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvTotalEarned"
+                <!-- Total Requests -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="88dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTotalRequests"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#2E7D32"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Requests"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Recycled -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="88dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTotalRecycledBig"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0 kg"
+                        android:textColor="#2E7D32"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="♲️ Recycled"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Earned -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="88dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTotalEarnedBig"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RM 0.00"
+                        android:textColor="#2E7D32"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Earned"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Buttons -->
+            <Button
+                android:id="@+id/btnSubmitRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="💰 Total Earned: RM 0.00"
-                android:textSize="18sp"
-                android:layout_marginBottom="4dp" />
+                android:text="Submit Request"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#2E7D32"
+                android:textColor="#FFFFFF" />
 
-            <TextView
-                android:id="@+id/tvCompletedRequests"
+            <Button
+                android:id="@+id/btnViewRequests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="✅ Completed Requests: 0"
-                android:textSize="18sp" />
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#2E7D32"
+                android:text="View My Requests"
+                android:textColor="#FFFFFF" />
+
+            <!-- Achievements Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="4dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Achievements"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="You've unlocked:"
+                            android:textSize="16sp"
+                            android:layout_marginTop="4dp" />
+
+                        <TextView
+                        android:id="@+id/tvBadgeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No badge yet"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:textColor="#2E7D32"
+                        android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/badgeBronze"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_bronze_badge"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/badgeSilver"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_silver_badge"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/badgeGold"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_gold_badge"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Announcements -->
+            <TextView
+                android:id="@+id/tvAnnouncements"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#C8E6C9"
+                android:padding="16dp"
+                android:text="🚨 Announcements will appear here"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/mapClickableArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+
+                <!-- HQ Map Preview -->
+                <FrameLayout
+                    android:id="@+id/mapClickableArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="24dp">
+
+                    <ImageView
+                        android:id="@+id/imgHQMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/hq_map"
+                        android:contentDescription="HQ Map" />
+
+                    <TextView
+                        android:id="@+id/tvOverlayMap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📍 View HQ on Map"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:background="@android:color/transparent"
+                        android:layout_gravity="center"
+                        android:padding="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:elevation="4dp" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
-
-        <!-- Badges -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/badgeBronze"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_bronze_badge"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/badgeSilver"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_silver_badge"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/badgeGold"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_gold_badge"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <!-- Notification -->
-        <TextView
-            android:id="@+id/tvAnnouncements"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📢 Announcements will appear here"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:background="#C8E6C9"
-            android:padding="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Buttons -->
-        <Button
-            android:id="@+id/btnSubmitRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit Request"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#2E7D32"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/btnViewRequests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View My Requests"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#2E7D32"
-            android:textColor="#FFFFFF" />
+    </ScrollView>
+</LinearLayout>
 
 
-
-
-        <!-- Logout -->
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#D32F2F"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-</ScrollView>

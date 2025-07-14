@@ -1,70 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context="SubmitRequestActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
+    <!-- ✅ Toolbar placed outside scrollable area -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/myToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:title="Submit Request"
         android:titleTextColor="@android:color/white"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar" />
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        android:contentInsetStart="0dp"
+        android:contentInsetEnd="0dp" />
 
-    <!-- RecyclerView for item grid -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvItems"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        tools:listitem="@layout/item_card" />
-
-    <TextView
-        android:id="@+id/tvTotalPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Estimated Price: RM 0.00"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:textColor="#000000" />
-
-
+    <!-- ✅ Scrollable content with RecyclerView -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:weightSum="2"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Clear Selection"
-            android:backgroundTint="#B0BEC5"
-            android:textColor="#000000"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/item_card" />
 
-        <Button
-            android:id="@+id/btnDone"
-            android:layout_width="0dp"
+        <!-- Total price -->
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Done"
-            android:backgroundTint="#2E7D32"
-            android:textColor="#FFFFFF" />
+            android:text="Total Estimated Price: RM 0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:textColor="#000000" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:weightSum="2"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Clear Selection"
+                android:backgroundTint="#B0BEC5"
+                android:textColor="#000000"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnDone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Done"
+                android:backgroundTint="#2E7D32"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
     </LinearLayout>
-
 </LinearLayout>
+
 

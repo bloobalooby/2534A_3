@@ -37,7 +37,16 @@ public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapte
         double total = item.getQuantity() * item.getPrice();
         holder.tvItemTotal.setText(String.format("RM %.2f", total));
         holder.imgItem.setImageResource(item.getImageResId()); // Optional if you show image
-    }
+
+    // Remove logic
+        holder.tvRemove.setOnClickListener(v -> {
+        int pos = holder.getAdapterPosition();
+        if (pos != RecyclerView.NO_POSITION) {
+            selectedItems.remove(pos);
+            notifyItemRemoved(pos);
+        }
+    });
+}
 
     @Override
     public int getItemCount() {
@@ -47,6 +56,8 @@ public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvItemName, tvItemQuantity, tvItemTotal;
         ImageView imgItem;
+        TextView tvRemove = itemView.findViewById(R.id.tvRemove);
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +65,8 @@ public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapte
             tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);
             tvItemTotal = itemView.findViewById(R.id.tvItemTotal);
             imgItem = itemView.findViewById(R.id.imgItem);
+            tvRemove = itemView.findViewById(R.id.tvRemove);
+
         }
     }
 }

@@ -33,4 +33,16 @@
         android:text="Price per kg"
         android:textColor="#2E7D32"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:textColor="#D32F2F"
+        android:textStyle="bold"
+        android:paddingTop="4dp"
+        android:clickable="true"
+        android:focusable="true" />
+
 </LinearLayout>

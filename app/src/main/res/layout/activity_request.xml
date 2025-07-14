@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.lab_rest.sharedpref.RequestActivity"
+    tools:context="com.example.lab_rest.RequestActivity"
     android:id="@+id/request"
     android:padding="16dp">
 

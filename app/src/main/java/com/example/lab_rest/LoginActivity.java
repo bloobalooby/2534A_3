@@ -2,9 +2,12 @@ package com.example.lab_rest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edtUsername;
     private EditText edtPassword;
+    private ProgressBar progressBar;
+    private CheckBox checkboxShowPassword;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,22 @@ public class LoginActivity extends AppCompatActivity {
         // get references to form elements
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+
+        //show and hide password
+        checkboxShowPassword = findViewById(R.id.checkboxShowPassword);
+
+        checkboxShowPassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                edtPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            } else {
+                edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+            edtPassword.setSelection(edtPassword.getText().length()); // keep cursor at end
+        });
+
+        //progress bar after input username and password
+        progressBar = findViewById(R.id.progressBar);
+
     }
 
     /**
@@ -69,67 +92,53 @@ public class LoginActivity extends AppCompatActivity {
      * @param password password
      */
     private void doLogin(String username, String password) {
+        progressBar.setVisibility(View.VISIBLE);  // Show spinner
 
-        // get UserService instance
         UserService userService = ApiUtils.getUserService();
-
-        // prepare the REST API call using the service interface
-        Call<User> call = userService.login(username, password);
+        Call<User> call;
 
         if (username.contains("@")) {
             call = userService.loginEmail(username, password);
-        }
-        else {
+        } else {
             call = userService.login(username, password);
         }
 
-        // execute the REST API call
         call.enqueue(new Callback<User>() {
 
             @Override
             public void onResponse(Call call, Response response) {
+                progressBar.setVisibility(View.GONE); // ⬅️ Hide spinner after receiving response
 
-                if (response.isSuccessful()) {  // code 200
-                    // parse response to POJO
+                if (response.isSuccessful()) {
                     User user = (User) response.body();
                     if (user != null && user.getToken() != null) {
-                        // successful login. server replies a token value
                         displayToast("Login successful");
                         displayToast("Token: " + user.getToken());
 
-                        // store value in Shared Preferences
                         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
                         spm.storeUser(user);
 
-                        // redirect based on role
                         Intent intent;
                         String role = user.getRole();
 
-                        if("admin".equalsIgnoreCase(role) || "superadmin".equalsIgnoreCase(role)) {
+                        if ("admin".equalsIgnoreCase(role) || "superadmin".equalsIgnoreCase(role)) {
                             intent = new Intent(getApplicationContext(), AdminHomeActivity.class);
-                        }
-                        else{
+                        } else {
                             intent = new Intent(getApplicationContext(), UserHomeActivity.class);
                         }
 
-                        //forward user to MainActivity
                         finish();
                         startActivity(intent);
-                    }
-                    else {
-                        // server return success but no user info replied
+                    } else {
                         displayToast("Login error");
                     }
-                }
-                else {  // other than 200
-                    // try to parse the response to FailLogin POJO
-                    String errorResp = null;
+                } else {
                     try {
-                        errorResp = response.errorBody().string();
+                        String errorResp = response.errorBody().string();
                         FailLogin e = new Gson().fromJson(errorResp, FailLogin.class);
                         displayToast(e.getError().getMessage());
                     } catch (Exception e) {
-                        Log.e("MyApp:", e.toString()); // print error details to error log
+                        Log.e("MyApp:", e.toString());
                         displayToast("Error");
                     }
                 }
@@ -137,13 +146,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
+                progressBar.setVisibility(View.GONE); // ⬅️ Hide spinner on failure too
                 displayToast("Error connecting to server.");
                 displayToast(t.getMessage());
-                Log.e("MyApp:", t.toString()); // print error details to error log
+                Log.e("MyApp:", t.toString());
             }
         });
-
     }
+
 
     /**
      * Validate value of username and password entered. Client side validation.

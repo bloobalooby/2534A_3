@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lab_rest.sharedpref.LoginActivity"
+    tools:context="com.example.lab_rest.LoginActivity"
     android:id="@+id/login">
 
     <LinearLayout
@@ -33,6 +33,13 @@
             android:hint="Password"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:id="@+id/checkboxShowPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Password" />
+
+
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
@@ -53,6 +60,17 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     </LinearLayout>
+
+    <!-- ProgressBar Spinner -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:indeterminate="true" />
+
 
 
 </RelativeLayout>

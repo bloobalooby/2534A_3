@@ -2,12 +2,14 @@ package com.example.lab_rest;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.widget.ArrayAdapter;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,17 +35,11 @@ import retrofit2.Response;
 public class ConfirmRequestActivity extends AppCompatActivity {
 
     private RecyclerView rvSelectedItems;
-    private EditText edtAddress, edtPostalCode, edtNotes;
-    private Spinner spinnerCity;
+    private EditText edtNotes;
     private Button btnSubmitRequest;
     private List<Item> selectedItems;
     private UserService userService;
-
-    private final String[] cities = {
-            "Alor Gajah", "Ayer Keroh", "Ayer Molek", "Batu Berendam", "Bemban",
-            "Bukit Baru", "Bukit Rambai", "Jasin", "Klebang Besar", "Kuala Sungai Baru",
-            "Masjid Tanah", "Melaka", "Pulau Sebang", "Sungai Udang"
-    };
+    private TextView tvOverlayMap, tvTotalPrice, tvNotePreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +47,25 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirm_request);
 
         rvSelectedItems = findViewById(R.id.rvSelectedItems);
-        edtAddress = findViewById(R.id.edtAddress);
-        edtPostalCode = findViewById(R.id.edtPostcode);
         edtNotes = findViewById(R.id.edtNotes);
-        spinnerCity = findViewById(R.id.spinnerCity);
-        btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
+        btnSubmitRequest = findViewById(R.id.btnStickySubmit);
+        tvOverlayMap = findViewById(R.id.tvOverlayMap);
+        tvTotalPrice = findViewById(R.id.tvTotalPrice);
+        tvNotePreview = findViewById(R.id.tvNotePreview);
 
         rvSelectedItems.setLayoutManager(new LinearLayoutManager(this));
 
-        // Spinner setup
-        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, cities);
-        spinnerCity.setAdapter(cityAdapter);
+        // Toolbar
+        MaterialToolbar myToolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(myToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
-        // Get selected items
+
+
+        // 🧠 Get selected items from intent
         String json = getIntent().getStringExtra("selectedItems");
         Type listType = new TypeToken<List<Item>>() {}.getType();
         selectedItems = new Gson().fromJson(json, listType);
@@ -70,7 +73,43 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         SelectedItemAdapter adapter = new SelectedItemAdapter(selectedItems);
         rvSelectedItems.setAdapter(adapter);
 
-        // User session
+        // 💰 Calculate total price
+        double total = 0;
+        for (Item item : selectedItems) {
+            total += item.getPrice(); // Make sure your Item model has getPrice()
+        }
+        tvTotalPrice.setText("Total: RM" + String.format("%.2f", total));
+
+        // 🧾 Live update note preview
+        edtNotes.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String note = s.toString().trim();
+                if (!note.isEmpty()) {
+                    tvNotePreview.setText("Note: " + note);
+                    tvNotePreview.setVisibility(TextView.VISIBLE);
+                } else {
+                    tvNotePreview.setVisibility(TextView.GONE);
+                }
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
+
+        // 🌍 Open HQ map
+        tvOverlayMap.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.google.com/maps/search/?api=1&query=Recycle+HQ,+Melaka"));
+            intent.setPackage("com.google.android.apps.maps");
+
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "Google Maps not installed.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // ✅ Submit request
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         User user = spm.getUser();
         int userId = user.getId();
@@ -78,32 +117,17 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         userService = ApiUtils.getUserService();
 
         btnSubmitRequest.setOnClickListener(v -> {
-            String address = edtAddress.getText().toString().trim();
-            String city = spinnerCity.getSelectedItem().toString();
-            String state = "Melaka";
-            String postalCode = edtPostalCode.getText().toString().trim();
             String notes = edtNotes.getText().toString().trim();
-
-            if (TextUtils.isEmpty(address)) {
-                edtAddress.setError("Address required");
-                return;
-            }
-            if (TextUtils.isEmpty(postalCode)) {
-                edtPostalCode.setError("Postal code required");
-                return;
-            }
-            if (!TextUtils.isDigitsOnly(postalCode)) {
-                edtPostalCode.setError("Only numbers allowed");
-                return;
-            }
-
-            String fullAddress = address + ", " + postalCode + " " + city + ", " + state;
+            String fullAddress = "Walk-in to HQ";
 
             for (Item item : selectedItems) {
                 Call<Void> call = userService.submitRequest(userId, item.getItemId(), fullAddress, notes);
                 call.enqueue(new Callback<Void>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {}
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        // Optional: check response.isSuccessful()
+                    }
+
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         Toast.makeText(ConfirmRequestActivity.this, "Failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -124,5 +148,12 @@ public class ConfirmRequestActivity extends AppCompatActivity {
                     .show();
         });
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // Back button pressed
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
-

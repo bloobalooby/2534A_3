@@ -1,106 +1,149 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="#F5F5F5"
     tools:context=".ConfirmRequestActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/myToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Confirm Request"
+        android:titleTextColor="@android:color/white" />
 
-        <!-- Cart Summary -->
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/stickySection"
+        android:padding="16dp">
+
+        <!-- ✅ Only one direct child -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Cart Summary -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🛒 Your Selected Items"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelectedItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:background="@android:color/white"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp"
+                tools:listitem="@layout/item_summary_row" />
+
+            <!-- Optional notes -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📝 Additional Notes (Optional)"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Example: Preferred time"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Notice -->
+            <TextView
+                android:id="@+id/tvNotice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📍 Please deliver your recyclables to our HQ. Pickup is not available."
+                android:textColor="#D84315"
+                android:background="#FFF3E0"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- HQ Map Preview -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="24dp">
+
+                <ImageView
+                    android:id="@+id/imgHQMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hq_map" />
+
+                <TextView
+                    android:id="@+id/tvOverlayMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📍 View HQ on Map"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:elevation="4dp" />
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ✅ Sticky Summary Section -->
+    <LinearLayout
+        android:id="@+id/stickySection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="12dp"
+        android:elevation="8dp">
+
         <TextView
+            android:id="@+id/tvTotalPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🛒 Your Selected Items"
-            android:textSize="18sp"
+            android:text="Total: RM0.00"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSelectedItems"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@android:color/white"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp"
-            tools:listitem="@layout/item_summary_row" />
-
-        <!-- Address Details Section -->
         <TextView
+            android:id="@+id/tvNotePreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📍 Address Details"
-            android:textStyle="bold"
+            android:text="Note: (none)"
+            android:textSize="14sp"
+            android:textColor="#616161"
             android:layout_marginBottom="8dp" />
 
-        <!-- Full Address (Multiline) -->
-        <EditText
-            android:id="@+id/edtAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter full address"
-            android:inputType="textMultiLine|textPostalAddress"
-            android:minLines="3"
-            android:gravity="top"
-            android:layout_marginBottom="8dp" />
-
-        <!-- City Dropdown -->
-        <Spinner
-            android:id="@+id/spinnerCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <!-- State (Fixed) -->
-        <EditText
-            android:id="@+id/edtState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:enabled="false"
-            android:focusable="false"
-            android:text="Melaka"
-            android:textColor="#000000" />
-
-        <!-- Postal Code (Numbers only) -->
-        <EditText
-            android:id="@+id/edtPostcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:hint="Postal Code"
-            android:inputType="number"
-            android:maxLength="5" />
-
-        <!-- Notes -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📝 Additional Notes"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edtNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Optional message (e.g. landmark)"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Submit Button -->
         <Button
-            android:id="@+id/btnSubmitRequest"
+            android:id="@+id/btnStickySubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit Request"
             android:backgroundTint="#2E7D32"
             android:textColor="@android:color/white" />
     </LinearLayout>
-</ScrollView>
-
+</RelativeLayout>

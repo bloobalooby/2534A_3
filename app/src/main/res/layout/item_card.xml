@@ -1,26 +1,25 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:background="@drawable/item_background"
     android:gravity="center"
-    android:background="@drawable/item_background">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/ic_plastic"
-        android:contentDescription="item image" />
+        android:contentDescription="item image"
+        android:src="@drawable/ic_plastic" />
 
     <TextView
         android:id="@+id/itemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Item Name"
-        android:textStyle="bold"
-        android:layout_marginTop="4dp" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/itemPrice"
@@ -33,28 +32,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/btnMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-" />
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_round_button"
+            android:contentDescription="Decrease"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_remove" />
 
         <TextView
             android:id="@+id/tvQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="#EEEEEE"
+            android:gravity="center"
             android:text="0"
-            android:padding="8dp"
-            android:textSize="16sp" />
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_round_button"
+            android:contentDescription="Increase"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add" />
     </LinearLayout>
+
 
 </LinearLayout>
