@@ -47,7 +47,7 @@ public interface UserService {
     );
 
     @FormUrlEncoded
-    @POST("requests")
+    @POST("submit_request")
     Call<Void> submitRequest(
             @Field("user_id") int userId,
             @Field("item_id") int itemId,
@@ -56,6 +56,8 @@ public interface UserService {
             @Field("total_price") double totalPrice,
             @Field("notes") String notes
     );
+
+
 
 
     // 📄 Get all requests for a specific user
@@ -70,6 +72,13 @@ public interface UserService {
     Call<Profile> getProfileByUserId(@Path("user_id") int userId);
 
 
-
-
+    @FormUrlEncoded
+    @POST("requests")
+    Call<Void> submitRequest(
+            @Field("user_id") int userId,
+            @Field("item_id") int itemId,
+            @Field("address") String address,
+            @Field("total_price") double totalPrice,
+            @Field("notes") String notes
+    );
 }

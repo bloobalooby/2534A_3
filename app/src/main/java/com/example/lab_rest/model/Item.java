@@ -24,6 +24,10 @@ public class Item {
         this.quantity = 0;
     }
 
+    public void setImageResId(int imageResId) {
+        this.imageResId = imageResId;
+    }
+
     public int getItemId() {
         return itemId;
     }

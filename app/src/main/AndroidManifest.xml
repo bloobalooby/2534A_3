@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
 
-        <activity android:name=".SubmitRequestActivity" />
+        <activity android:name=".DeliveryOptionActivity"/>
         <activity android:name=".ConfirmRequestActivity" />
         <activity android:name=".MyRequestActivity" />
         <activity android:name=".ItemListActivity" android:exported="false" />

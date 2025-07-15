@@ -10,6 +10,7 @@ import android.widget.*;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
@@ -19,6 +20,7 @@ import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,9 +34,18 @@ public class UserHomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Load saved theme before UI draws
+        SharedPreferences prefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        String theme = prefs.getString("app_theme", "light");
+
+        if (theme.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-
         MaterialToolbar toolbar = findViewById(R.id.userToolbar);
         setSupportActionBar(toolbar);
 
@@ -48,6 +59,15 @@ public class UserHomeActivity extends AppCompatActivity {
         btnViewRequests = findViewById(R.id.btnViewRequests);
         tvBadgeName = findViewById(R.id.tvBadgeName);
         View mapClickableArea = findViewById(R.id.mapClickableArea);
+
+
+        btnSubmitRequest.setOnClickListener(v ->
+                startActivity(new Intent(UserHomeActivity.this, ItemListActivity.class))
+        );
+
+        btnViewRequests.setOnClickListener(v ->
+                startActivity(new Intent(UserHomeActivity.this, MyRequestActivity.class))
+        );
 
         mapClickableArea.setOnClickListener(v -> {
             String hqLocation = "https://www.google.com/maps/search/?api=1&query=3.1390,101.6869";
@@ -72,37 +92,59 @@ public class UserHomeActivity extends AppCompatActivity {
         loadUserAnnouncements(user.getId());
 
         // Dummy data
-        double totalWeight = 12.5;
-        double earned = totalWeight * 0.30;
-        int completed = 5;
-
         TextView tvTotalRecycledBig = findViewById(R.id.tvTotalRecycledBig);
         TextView tvTotalEarnedBig = findViewById(R.id.tvTotalEarnedBig);
         TextView tvTotalRequests = findViewById(R.id.tvTotalRequests);
 
-        tvTotalRecycledBig.setText(totalWeight + " kg");
-        tvTotalEarnedBig.setText("RM " + String.format("%.2f", earned));
-        tvTotalRequests.setText(String.valueOf(completed));
+        UserService api = ApiUtils.getUserService();
+        api.getRequestsByUser(user.getId()).enqueue(new Callback<List<Request>>() {
+            @Override
+            public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    double totalWeight = 0;
+                    double totalEarnings = 0;
+                    int completedRequests = 0;
 
-        // Badge logic
-        if (totalWeight >= 20) {
-            tvBadgeName.setText("Gold Badge");
-            badgeGold.setVisibility(View.VISIBLE);
-        } else if (totalWeight >= 10) {
-            tvBadgeName.setText("Silver Badge");
-            badgeSilver.setVisibility(View.VISIBLE);
-        } else if (totalWeight >= 5) {
-            tvBadgeName.setText("Bronze Badge");
-            badgeBronze.setVisibility(View.VISIBLE);
-        } else {
-            tvBadgeName.setText("No badge yet");
-        }
+                    for (Request r : response.body()) {
+                        if ("Accepted".equalsIgnoreCase(r.getStatus())) {
+                            totalWeight += r.getWeight();
+                            totalEarnings += r.getTotal_price();
+                            completedRequests++;
+                        }
+                    }
 
-        btnSubmitRequest.setOnClickListener(v ->
-                startActivity(new Intent(this, ItemListActivity.class)));
+                    tvTotalRecycledBig.setText(String.format(Locale.getDefault(), "%.2f kg", totalWeight));
+                    tvTotalEarnedBig.setText(String.format(Locale.getDefault(), "RM %.2f", totalEarnings));
+                    tvTotalRequests.setText(String.valueOf(completedRequests));
 
-        btnViewRequests.setOnClickListener(v ->
-                startActivity(new Intent(this, MyRequestActivity.class)));
+                    // Badge logic
+                    if (totalWeight >= 20) {
+                        tvBadgeName.setText("Gold Badge");
+                        badgeGold.setVisibility(View.VISIBLE);
+                    } else if (totalWeight >= 10) {
+                        tvBadgeName.setText("Silver Badge");
+                        badgeSilver.setVisibility(View.VISIBLE);
+                    } else if (totalWeight >= 5) {
+                        tvBadgeName.setText("Bronze Badge");
+                        badgeBronze.setVisibility(View.VISIBLE);
+                    } else {
+                        tvBadgeName.setText("No badge yet");
+                    }
+
+                } else {
+                    Toast.makeText(UserHomeActivity.this, "Failed to load stats", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Request>> call, Throwable t) {
+                Toast.makeText(UserHomeActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
     }
 
     @Override

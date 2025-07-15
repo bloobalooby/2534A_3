@@ -32,6 +32,13 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_request);
 
+        MaterialToolbar toolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar); // Optional but good if using menu items
+
+        toolbar.setNavigationOnClickListener(v -> {
+            finish(); // 👈 This will go back to the previous screen
+        });
+
         rvSelectedItems = findViewById(R.id.rvSelectedItems);
         edtNotes = findViewById(R.id.edtNotes);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);

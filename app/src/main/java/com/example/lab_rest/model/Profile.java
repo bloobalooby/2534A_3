@@ -58,12 +58,12 @@ public class Profile {
         this.image = image;
     }
 
-    public String getTheme_bg() {
-        return theme_bg;
-    }
-
     public void setTheme_bg(String theme_bg) {
         this.theme_bg = theme_bg;
+    }
+
+    public String getTheme_bg() {
+        return theme_bg;
     }
 
     public String getTheme_col() {

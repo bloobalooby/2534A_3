@@ -37,6 +37,47 @@
                 android:text="Deliver to HQ (Open in Maps)"
                 android:padding="8dp" />
         </RadioGroup>
+        <!-- HQ Map Preview -->
+        <FrameLayout
+            android:id="@+id/mapClickableArea"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+        <ImageView
+            android:id="@+id/imgHQMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/hq_map"
+            android:contentDescription="HQ Map" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="#80000000"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvOverlayMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📍 View HQ on Map"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:elevation="4dp" />
+    </LinearLayout>
+</FrameLayout>
+
+
+
 
         <!-- Home Pickup Form -->
         <LinearLayout
@@ -77,7 +118,7 @@
             android:id="@+id/btnConfirmDelivery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Confirm Delivery Option"
+            android:text="Confirm"
             android:backgroundTint="#2E7D32"
             android:textColor="@android:color/white"
             android:layout_marginTop="24dp" />
