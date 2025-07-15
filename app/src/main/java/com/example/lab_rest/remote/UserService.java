@@ -1,15 +1,21 @@
 package com.example.lab_rest.remote;
 
+import com.example.lab_rest.model.Profile;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface UserService {
@@ -47,4 +53,29 @@ public interface UserService {
     // 📄 Admin or general usage: get all requests
     @GET("requests")
     Call<List<Request>> getAllRequests();
+
+    @GET("profile/{userId}")
+    Call<Profile> getProfile(@Path("userId") int userId);
+
+    @Multipart
+    @POST("profile/update")
+    Call<Void> updateProfile(
+            @Part("user_id") RequestBody userId,
+            @Part("first_name") RequestBody firstName,
+            @Part("last_name") RequestBody lastName,
+            @Part("secret") RequestBody secret,
+            @Part("theme_bg") RequestBody themeBg,
+            @Part("theme_col") RequestBody themeCol,
+            @Part MultipartBody.Part image
+    );
+
+    @POST("/profile/save")
+    Call<Void> saveProfile(@Body Profile profile);
+
+    @GET("/profile/{user_id}")
+    Call<Profile> getProfileByUserId(@Path("user_id") int userId);
+
+    @POST("/api/profile/theme")
+    Call<Void> updateThemeColors(@Body Profile profile); // Keep this one if your backend matches
+
 }

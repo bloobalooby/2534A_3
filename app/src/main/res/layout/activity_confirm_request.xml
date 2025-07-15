@@ -5,24 +5,23 @@
     android:background="#F5F5F5"
     tools:context=".ConfirmRequestActivity">
 
+    <!-- Top Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/myToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="Confirm Request"
         android:titleTextColor="@android:color/white" />
-
 
     <!-- Scrollable content -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/myToolbar"
         android:layout_above="@+id/stickySection"
         android:padding="16dp">
 
-        <!-- ✅ Only one direct child -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -100,6 +99,7 @@
                     android:textSize="18sp"
                     android:background="@android:color/transparent"
                     android:layout_gravity="center"
+                    android:layout_margin="8dp"
                     android:padding="8dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -108,7 +108,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- ✅ Sticky Summary Section -->
+    <!-- Sticky Footer Section -->
     <LinearLayout
         android:id="@+id/stickySection"
         android:layout_width="match_parent"
@@ -136,7 +136,8 @@
             android:text="Note: (none)"
             android:textSize="14sp"
             android:textColor="#616161"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnStickySubmit"

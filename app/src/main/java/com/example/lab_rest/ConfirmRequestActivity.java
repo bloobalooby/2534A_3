@@ -70,8 +70,12 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         Type listType = new TypeToken<List<Item>>() {}.getType();
         selectedItems = new Gson().fromJson(json, listType);
 
-        SelectedItemAdapter adapter = new SelectedItemAdapter(selectedItems);
+        SelectedItemAdapter adapter = new SelectedItemAdapter(selectedItems, updatedList -> {
+            selectedItems = updatedList; // update local list
+            updateTotalPrice(updatedList);
+        });
         rvSelectedItems.setAdapter(adapter);
+
 
         // 💰 Calculate total price
         double total = 0;
@@ -156,4 +160,12 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    private void updateTotalPrice(List<Item> items) {
+        double total = 0;
+        for (Item item : items) {
+            total += item.getPrice() * item.getQuantity();
+        }
+        tvTotalPrice.setText("Total: RM" + String.format("%.2f", total));
+    }
+
 }

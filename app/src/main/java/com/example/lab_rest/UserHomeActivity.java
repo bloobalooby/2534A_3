@@ -1,15 +1,14 @@
 package com.example.lab_rest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lab_rest.model.Request;
@@ -27,33 +26,33 @@ import retrofit2.Response;
 
 public class UserHomeActivity extends AppCompatActivity {
 
-    // ───── UI elements ─────
     private TextView tvWelcome, tvTotalRecycled, tvTotalEarned, tvCompletedRequests, tvAnnouncements, tvBadgeName;
     private ImageView badgeBronze, badgeSilver, badgeGold;
     private Button btnSubmitRequest, btnViewRequests;
 
-    // ───── Lifecycle ─────
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
 
-        // Bind UI
-        tvWelcome        = findViewById(R.id.tvWelcome);
-        tvAnnouncements  = findViewById(R.id.tvAnnouncements);
-        badgeBronze      = findViewById(R.id.badgeBronze);
-        badgeSilver      = findViewById(R.id.badgeSilver);
-        badgeGold        = findViewById(R.id.badgeGold);
+        MaterialToolbar toolbar = findViewById(R.id.userToolbar);
+        setSupportActionBar(toolbar);
+
+        // Bind views
+        tvWelcome = findViewById(R.id.tvWelcome);
+        tvAnnouncements = findViewById(R.id.tvAnnouncements);
+        badgeBronze = findViewById(R.id.badgeBronze);
+        badgeSilver = findViewById(R.id.badgeSilver);
+        badgeGold = findViewById(R.id.badgeGold);
         btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
-        btnViewRequests  = findViewById(R.id.btnViewRequests);
-        tvBadgeName      = findViewById(R.id.tvBadgeName);
+        btnViewRequests = findViewById(R.id.btnViewRequests);
+        tvBadgeName = findViewById(R.id.tvBadgeName);
         View mapClickableArea = findViewById(R.id.mapClickableArea);
 
         mapClickableArea.setOnClickListener(v -> {
             String hqLocation = "https://www.google.com/maps/search/?api=1&query=3.1390,101.6869";
             Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(hqLocation));
             intent.setPackage("com.google.android.apps.maps");
-
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {
@@ -61,13 +60,6 @@ public class UserHomeActivity extends AppCompatActivity {
             }
         });
 
-
-
-        // Setup toolbar
-        MaterialToolbar toolbar = findViewById(R.id.userToolbar);
-        setSupportActionBar(toolbar);
-
-        // Check login
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         if (!spm.isLoggedIn()) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -75,19 +67,18 @@ public class UserHomeActivity extends AppCompatActivity {
             return;
         }
 
-        // Populate welcome message and stats
         User user = spm.getUser();
         tvWelcome.setText("Welcome, " + user.getUsername() + "!");
         loadUserAnnouncements(user.getId());
 
-        // Dummy data for now
+        // Dummy data
         double totalWeight = 12.5;
-        double earned      = totalWeight * 0.30;
-        int completed      = 5;
+        double earned = totalWeight * 0.30;
+        int completed = 5;
 
         TextView tvTotalRecycledBig = findViewById(R.id.tvTotalRecycledBig);
-        TextView tvTotalEarnedBig   = findViewById(R.id.tvTotalEarnedBig);
-        TextView tvTotalRequests    = findViewById(R.id.tvTotalRequests);
+        TextView tvTotalEarnedBig = findViewById(R.id.tvTotalEarnedBig);
+        TextView tvTotalRequests = findViewById(R.id.tvTotalRequests);
 
         tvTotalRecycledBig.setText(totalWeight + " kg");
         tvTotalEarnedBig.setText("RM " + String.format("%.2f", earned));
@@ -107,7 +98,6 @@ public class UserHomeActivity extends AppCompatActivity {
             tvBadgeName.setText("No badge yet");
         }
 
-        // Buttons
         btnSubmitRequest.setOnClickListener(v ->
                 startActivity(new Intent(this, SubmitRequestActivity.class)));
 
@@ -115,8 +105,6 @@ public class UserHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MyRequestActivity.class)));
     }
 
-
-    // ───── Options Menu (logout) ─────
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_user_home, menu);
@@ -125,18 +113,24 @@ public class UserHomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
-            spm.logout();
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+        int id = item.getItemId();
+
+        if (id == R.id.action_profile) {
+            startActivity(new Intent(this, ProfileInfoActivity.class));
+            return true;
+        } else if (id == R.id.action_logout) {
+            SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+            editor.clear();
+            editor.apply();
+
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
-    // ───── Load announcements ─────
     private void loadUserAnnouncements(int userId) {
         UserService api = ApiUtils.getUserService();
         api.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
@@ -174,3 +168,4 @@ public class UserHomeActivity extends AppCompatActivity {
         });
     }
 }
+

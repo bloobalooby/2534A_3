@@ -19,27 +19,20 @@
         <activity android:name=".SubmitRequestActivity" />
         <activity android:name=".ConfirmRequestActivity" />
         <activity android:name=".MyRequestActivity" />
-        <activity
-            android:name=".ItemListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminHomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
+        <activity android:name=".ItemListActivity" android:exported="false" />
+        <activity android:name=".AdminHomeActivity" android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".UserHomeActivity" />
-        <activity android:name=".UpdateItemActivity"/>
+        <activity android:name=".UpdateItemActivity" />
 
+        <activity android:name=".ProfileInfoActivity" />
+        <activity android:name=".ThemeSettingsActivity" />
 
     </application>
 

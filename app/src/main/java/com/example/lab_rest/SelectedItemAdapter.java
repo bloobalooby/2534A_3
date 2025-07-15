@@ -3,6 +3,7 @@ package com.example.lab_rest;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +17,12 @@ import java.util.List;
 public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapter.ViewHolder> {
 
     private List<Item> selectedItems;
+    private OnItemChangeListener itemChangeListener;
 
-    public SelectedItemAdapter(List<Item> selectedItems) {
+    // ✅ Constructor with listener
+    public SelectedItemAdapter(List<Item> selectedItems, OnItemChangeListener listener) {
         this.selectedItems = selectedItems;
+        this.itemChangeListener = listener;
     }
 
     @NonNull
@@ -30,23 +34,42 @@ public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SelectedItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Item item = selectedItems.get(position);
+
         holder.tvItemName.setText(item.getItemName());
         holder.tvItemQuantity.setText("Qty: " + item.getQuantity());
         double total = item.getQuantity() * item.getPrice();
         holder.tvItemTotal.setText(String.format("RM %.2f", total));
-        holder.imgItem.setImageResource(item.getImageResId()); // Optional if you show image
+        holder.imgItem.setImageResource(item.getImageResId());
 
-    // Remove logic
+        // ➕ Increase quantity
+        holder.btnPlus.setOnClickListener(v -> {
+            item.setQuantity(item.getQuantity() + 1);
+            notifyItemChanged(holder.getAdapterPosition());
+            itemChangeListener.onItemListChanged(selectedItems);
+        });
+
+        // ➖ Decrease quantity
+        holder.btnMinus.setOnClickListener(v -> {
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
+                notifyItemChanged(holder.getAdapterPosition());
+                itemChangeListener.onItemListChanged(selectedItems);
+            }
+        });
+
+        // 🗑 Remove item
         holder.tvRemove.setOnClickListener(v -> {
-        int pos = holder.getAdapterPosition();
-        if (pos != RecyclerView.NO_POSITION) {
-            selectedItems.remove(pos);
-            notifyItemRemoved(pos);
-        }
-    });
-}
+            int positionToRemove = holder.getAdapterPosition();
+            if (positionToRemove != RecyclerView.NO_POSITION) {
+                selectedItems.remove(positionToRemove);
+                notifyItemRemoved(positionToRemove);
+                notifyItemRangeChanged(positionToRemove, selectedItems.size());
+                itemChangeListener.onItemListChanged(selectedItems);
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
@@ -54,19 +77,24 @@ public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvItemName, tvItemQuantity, tvItemTotal;
+        TextView tvItemName, tvItemQuantity, tvItemTotal, tvRemove;
         ImageView imgItem;
-        TextView tvRemove = itemView.findViewById(R.id.tvRemove);
-
+        ImageButton btnPlus, btnMinus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvItemQuantity = itemView.findViewById(R.id.tvItemQuantity);
             tvItemTotal = itemView.findViewById(R.id.tvItemTotal);
-            imgItem = itemView.findViewById(R.id.imgItem);
             tvRemove = itemView.findViewById(R.id.tvRemove);
-
+            imgItem = itemView.findViewById(R.id.imgItem);
+            btnPlus = itemView.findViewById(R.id.btnPlus);
+            btnMinus = itemView.findViewById(R.id.btnMinus);
         }
+    }
+
+    // ✅ Callback interface to notify activity
+    public interface OnItemChangeListener {
+        void onItemListChanged(List<Item> updatedList);
     }
 }

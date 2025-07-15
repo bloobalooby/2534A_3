@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F1F8E9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_user"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_circle"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnChooseImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Image"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Name & Secret -->
+        <EditText
+            android:id="@+id/edtFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/edtLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/edtSecret"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Secret"
+            android:inputType="textPassword"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnSaveProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Profile Info"
+            android:backgroundTint="#2E7D32"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="32dp" />
+
+        <!-- 🎨 Theme Selection Section -->
+        <TextView
+            android:id="@+id/tvThemeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Theme"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:id="@+id/themePalette"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btnLight"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Light"
+                android:backgroundTint="#F5F5F5"
+                android:textColor="#000000"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/btnDark"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Dark"
+                android:backgroundTint="#333333"
+                android:textColor="#FFFFFF"
+                android:layout_margin="8dp" />
+
+            <Button
+                android:id="@+id/btnBlue"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Blue"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:layout_margin="8dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSaveTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Theme"
+            android:backgroundTint="#388E3C"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
