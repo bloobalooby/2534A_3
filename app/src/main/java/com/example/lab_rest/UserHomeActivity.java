@@ -99,7 +99,7 @@ public class UserHomeActivity extends AppCompatActivity {
         }
 
         btnSubmitRequest.setOnClickListener(v ->
-                startActivity(new Intent(this, SubmitRequestActivity.class)));
+                startActivity(new Intent(this, ItemListActivity.class)));
 
         btnViewRequests.setOnClickListener(v ->
                 startActivity(new Intent(this, MyRequestActivity.class)));
@@ -119,17 +119,25 @@ public class UserHomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, ProfileInfoActivity.class));
             return true;
         } else if (id == R.id.action_logout) {
-            SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
-            editor.clear();
-            editor.apply();
-
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+                        editor.clear();
+                        editor.apply();
+                        startActivity(new Intent(this, LoginActivity.class));
+                        finish();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     private void loadUserAnnouncements(int userId) {
         UserService api = ApiUtils.getUserService();

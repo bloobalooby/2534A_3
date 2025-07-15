@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Delivery Option"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <RadioGroup
+            android:id="@+id/rgDeliveryOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbHomePickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home Pickup"
+                android:padding="8dp" />
+
+            <RadioButton
+                android:id="@+id/rbDeliverToHQ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deliver to HQ (Open in Maps)"
+                android:padding="8dp" />
+        </RadioGroup>
+
+        <!-- Home Pickup Form -->
+        <LinearLayout
+            android:id="@+id/layoutHomePickup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Street Address"
+                android:inputType="textPostalAddress"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="City"
+                android:inputType="textCapWords"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtPostcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Postcode"
+                android:inputType="number"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnConfirmDelivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm Delivery Option"
+            android:backgroundTint="#2E7D32"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>

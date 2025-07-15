@@ -8,7 +8,6 @@ public class Profile {
     private String image;
     private String theme_bg;
     private String theme_col;
-    private String secret;
 
     // Constructors
     public Profile() {
@@ -75,11 +74,5 @@ public class Profile {
         this.theme_col = theme_col;
     }
 
-    public String getSecret() {
-        return secret;
-    }
 
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
 }

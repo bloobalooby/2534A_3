@@ -4,15 +4,15 @@
     <item
         android:id="@+id/action_profile"
         android:title="Profile"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_logout"
         android:title="Logout"
-        android:icon="@android:drawable/ic_lock_power_off"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>
+
+
 
 
 

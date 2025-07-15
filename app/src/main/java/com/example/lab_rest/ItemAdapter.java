@@ -80,6 +80,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     // ✅ This should be outside of onBindViewHolder
     @Override
     public int getItemCount() {
+
         return itemList.size();
     }
 
@@ -98,6 +99,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnMinus = itemView.findViewById(R.id.btnMinus);
 
+        }
+    }
+    // 🧠 Map item_id → drawable icon
+    private int getImageForItem(int itemId) {
+        switch (itemId) {
+            case 1: return R.drawable.ic_plastic;
+            case 2: return R.drawable.ic_paper;
+            case 3: return R.drawable.ic_cardboard;
+            case 4: return R.drawable.ic_aluminum;
+            case 5: return R.drawable.ic_glass;
+            case 6: return R.drawable.ic_oil;
+            default: return R.drawable.ic_launcher_foreground;
         }
     }
 }

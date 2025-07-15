@@ -17,4 +17,9 @@ public class ApiUtils {
         return RetrofitClient.getClient(BASE_URL).create(ItemService.class);
     }
 
+    public static ProfileService getProfileService() {
+        return RetrofitClient.getClient(BASE_URL).create(ProfileService.class);
+    }
+
+
 }

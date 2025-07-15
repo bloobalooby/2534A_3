@@ -64,47 +64,7 @@
                 android:minLines="3"
                 android:layout_marginBottom="24dp" />
 
-            <!-- Notice -->
-            <TextView
-                android:id="@+id/tvNotice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📍 Please deliver your recyclables to our HQ. Pickup is not available."
-                android:textColor="#D84315"
-                android:background="#FFF3E0"
-                android:padding="12dp"
-                android:textSize="16sp"
-                android:layout_marginBottom="24dp" />
 
-            <!-- HQ Map Preview -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="24dp">
-
-                <ImageView
-                    android:id="@+id/imgHQMap"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/hq_map" />
-
-                <TextView
-                    android:id="@+id/tvOverlayMap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📍 View HQ on Map"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:background="@android:color/transparent"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:elevation="4dp" />
-            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -140,10 +100,10 @@
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/btnStickySubmit"
+            android:id="@+id/btnProceed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit Request"
+            android:text="Proceed"
             android:backgroundTint="#2E7D32"
             android:textColor="@android:color/white" />
     </LinearLayout>

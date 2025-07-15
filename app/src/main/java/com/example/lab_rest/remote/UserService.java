@@ -46,6 +46,18 @@ public interface UserService {
             @Field("notes") String notes
     );
 
+    @FormUrlEncoded
+    @POST("requests")
+    Call<Void> submitRequest(
+            @Field("user_id") int userId,
+            @Field("item_id") int itemId,
+            @Field("address") String address,
+            @Field("request_date") String requestDate,
+            @Field("total_price") double totalPrice,
+            @Field("notes") String notes
+    );
+
+
     // 📄 Get all requests for a specific user
     @GET("requests/user/{user_id}")
     Call<List<Request>> getRequestsByUser(@Path("user_id") int userId);
@@ -54,28 +66,10 @@ public interface UserService {
     @GET("requests")
     Call<List<Request>> getAllRequests();
 
-    @GET("profile/{userId}")
-    Call<Profile> getProfile(@Path("userId") int userId);
-
-    @Multipart
-    @POST("profile/update")
-    Call<Void> updateProfile(
-            @Part("user_id") RequestBody userId,
-            @Part("first_name") RequestBody firstName,
-            @Part("last_name") RequestBody lastName,
-            @Part("secret") RequestBody secret,
-            @Part("theme_bg") RequestBody themeBg,
-            @Part("theme_col") RequestBody themeCol,
-            @Part MultipartBody.Part image
-    );
-
-    @POST("/profile/save")
-    Call<Void> saveProfile(@Body Profile profile);
-
     @GET("/profile/{user_id}")
     Call<Profile> getProfileByUserId(@Path("user_id") int userId);
 
-    @POST("/api/profile/theme")
-    Call<Void> updateThemeColors(@Body Profile profile); // Keep this one if your backend matches
+
+
 
 }

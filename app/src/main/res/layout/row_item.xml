@@ -1,28 +1,72 @@
-<LinearLayout android:layout_width="wrap_content"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_gravity="center"
-    android:layout_marginTop="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_margin="8dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:elevation="4dp"
+    android:padding="12dp">
 
-    <Button
-        android:id="@+id/btnMinus"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="-" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvQuantity"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="0"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:layout_marginHorizontal="8dp" />
+        <!-- Item name -->
+        <TextView
+            android:id="@+id/tvItemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Item Name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="4dp" />
 
-    <Button
-        android:id="@+id/btnPlus"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="+" />
-</LinearLayout>
+        <!-- Price per kg -->
+        <TextView
+            android:id="@+id/tvPricePerKg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price: RM 0.00 / kg"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Quantity controls -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/btnDecrease"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="−"
+                android:backgroundTint="#D32F2F"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnIncrease"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:backgroundTint="#388E3C"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

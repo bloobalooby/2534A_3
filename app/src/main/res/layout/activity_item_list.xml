@@ -1,15 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemListActivity">
+    android:orientation="vertical"
+    android:background="#F1F8E9">
 
+    <!-- 🔙 Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/myToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Select Recyclable Items"
+        android:titleTextColor="@android:color/white"
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        app:navigationIcon="@android:drawable/ic_menu_revert" />
+
+    <!-- RecyclerView for item list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItemList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false" />
 
-</RelativeLayout>
+    <!-- Total price -->
+    <TextView
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Estimated Price: RM 0.00"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:textColor="#2E7D32" />
+
+    <!-- Action buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:backgroundTint="#BDBDBD"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnDone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:backgroundTint="#2E7D32"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+</LinearLayout>
