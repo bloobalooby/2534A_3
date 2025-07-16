@@ -61,8 +61,8 @@ public class AdminHomeActivity extends AppCompatActivity {
     }
 
     public void itemListClicked(View view) {
-        // forward user to ItemListActivity
-        Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
+        // forward user to AdminItemListActivity
+        Intent intent = new Intent(getApplicationContext(), AdminItemListActivity.class); // change to adminitemlistactivity
         startActivity(intent);
     }
 

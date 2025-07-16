@@ -1,9 +1,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adminHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F1F8E9"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".AdminHomeActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -74,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout"
+            android:onClick="logoutClicked"
             android:layout_marginTop="16dp"
             android:backgroundTint="#D32F2F"
             android:textColor="#FFFFFF"

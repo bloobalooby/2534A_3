@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab_rest.R;
 import com.example.lab_rest.model.Item;
+import com.example.lab_rest.UpdateItemActivity;
 
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class AdminItemAdapter extends RecyclerView.Adapter<AdminItemAdapter.ViewHolder> {
 
     // create ViewHolder class to bind list item view
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+
         public TextView tvItemId;
         public TextView tvItemName;
         public TextView tvPrice;
@@ -27,14 +29,23 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             tvItemId = itemView.findViewById(R.id.tvItemId);
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+
+            itemView.setOnLongClickListener(this); // register long click action
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            currentPos = getAdapterPosition();
+            return false;
         }
     } // close ViewHolder class
 
     // adapter class definition
     private List<Item> itemListData; // list of item objects
     private Context mContext; // activity context
+    private int currentPos; // currently selected item (long press)
 
-    public ItemAdapter(Context context, List<Item> listData) {
+    public AdminItemAdapter(Context context, List<Item> listData) {
         itemListData = listData;
         mContext = context;
     }
@@ -65,5 +76,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return itemListData.size();
+    }
+
+    public Item getSelectedItem() {
+        if(currentPos>=0 && itemListData != null && currentPos<itemListData.size()) {
+            return itemListData.get(currentPos);
+        }
+        return null;
     }
 }
