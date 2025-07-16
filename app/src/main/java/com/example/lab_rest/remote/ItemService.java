@@ -1,9 +1,11 @@
 package com.example.lab_rest.remote;
 
 import com.example.lab_rest.model.Item;
+import com.example.lab_rest.model.DeleteResponse;
 
 import java.util.List;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -22,4 +24,7 @@ public interface ItemService {
     @POST("recyclable_items/{id}")
     Call<Item> updateItem(@Header("api-key") String apiKey, @Path("id") int id,
                           @Field("item_name") String name, @Field("price_per_kg") String price);
+
+    @DELETE("recyclable_items/{id}")
+    Call<DeleteResponse> deleteItem(@Header ("api-key") String apiKey, @Path("id") int id);
 }

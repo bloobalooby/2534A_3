@@ -1,5 +1,6 @@
 package com.example.lab_rest;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab_rest.R;
 import com.example.lab_rest.adapter.AdminItemAdapter;
+import com.example.lab_rest.model.DeleteResponse;
 import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
@@ -119,6 +122,67 @@ public class AdminItemListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Delete item record. Called by contextual menu "Delete"
+     * @param selectedItem - item selected by user
+     */
+    private void doDeleteItem(Item selectedItem) {
+        // get user info from SharedPreferences
+        SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
+        User user = spm.getUser();
+
+        // prepare REST API call
+        ItemService itemService = ApiUtils.getItemService();
+        Call<DeleteResponse> call = itemService.deleteItem(user.getToken(), selectedItem.getItemId());
+
+        // execute the call
+        call.enqueue(new Callback<DeleteResponse>() {
+            @Override
+            public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
+                if (response.code() == 200) {
+                    // 200 means OK
+                    displayAlert("Book successfully deleted");
+                    // update data in list view
+                    updateRecyclerView();
+                }
+                else if (response.code() == 401) {
+                    // invalid token, ask user to relogin
+                    Toast.makeText(getApplicationContext(), "Invalid session. Please login again", Toast.LENGTH_LONG).show();
+                    clearSessionAndRedirect();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_LONG).show();
+                    // server return other error
+                    Log.e("MyApp: ", response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteResponse> call, Throwable throwable) {
+                displayAlert("Error [" + throwable.getMessage() + "]");
+                Log.e("MyApp:", throwable.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Displaying an alert dialog with a single button
+     * @param message - message to be displayed
+     */
+    public void displayAlert(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     public void clearSessionAndRedirect() {
         // clear the shared preferences
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
@@ -145,6 +209,10 @@ public class AdminItemListActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_update_item) {    // user clicked details contextual menu
             // user clicked details contextual menu
             doViewUpdate(selectedItem);
+        }
+        else if (item.getItemId() == R.id.menu_delete) {
+            // user clicked delete contextual menu
+            doDeleteItem(selectedItem);
         }
 
         return super.onContextItemSelected(item);

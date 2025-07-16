@@ -4,7 +4,12 @@
 
     <item android:id="@+id/menu_update_item"
         android:showAsAction="always"
-        android:title="Update Item"
+        android:title="Update"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/menu_delete"
+        android:showAsAction="always"
+        android:title="Delete"
         tools:ignore="AppCompatResource" />
 
 </menu>
