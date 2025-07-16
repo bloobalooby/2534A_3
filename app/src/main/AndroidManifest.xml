@@ -43,6 +43,7 @@
         <activity android:name=".UpdateItemActivity" />
         <activity android:name=".ProfileInfoActivity" />
         <activity android:name=".ThemeSettingsActivity" />
+        <activity android:name=".AddItemActivity" />
     </application>
 
 </manifest>

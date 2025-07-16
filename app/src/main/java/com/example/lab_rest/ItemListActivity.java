@@ -21,6 +21,7 @@ import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -59,6 +60,13 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // ✅ Find FAB and set click to open AddItemActivity
+        FloatingActionButton fabAddItem = findViewById(R.id.fabAddItem);
+        fabAddItem.setOnClickListener(v -> {
+            Intent intent = new Intent(ItemListActivity.this, com.example.lab_rest.AddItemActivity.class);
+            startActivity(intent);
         });
 
         // Get references
@@ -164,6 +172,7 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
             case "glass containers": return R.drawable.ic_glass;
             case "used cooking oil": return R.drawable.ic_oil;
             case "old clothes": return R.drawable.ic_cardboard;
+            case "metal scraps": return R.drawable.ic_metalscraps;
             default: return R.drawable.ic_launcher_foreground;
         }
     }

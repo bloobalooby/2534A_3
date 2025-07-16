@@ -30,6 +30,7 @@ import com.example.lab_rest.remote.ItemService;
 import com.example.lab_rest.LoginActivity;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.example.lab_rest.UpdateItemActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -58,6 +59,12 @@ public class AdminItemListActivity extends AppCompatActivity {
 
         // register for update item menu
         registerForContextMenu(rvAdminItemList);
+
+        FloatingActionButton fabAddItem = findViewById(R.id.fabAddItem);
+        fabAddItem.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminItemListActivity.this, AddItemActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
