@@ -48,6 +48,7 @@ public class UserHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_home);
         MaterialToolbar toolbar = findViewById(R.id.userToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Bind views
         tvWelcome = findViewById(R.id.tvWelcome);

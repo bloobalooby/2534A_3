@@ -46,9 +46,12 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
 
         MaterialToolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar); // Optional but good if using menu items
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         toolbar.setNavigationOnClickListener(v -> {
-            finish(); // 👈 This will go back to the previous screen
+            finish(); //  This will go back to the previous screen
         });
 
         // Apply safe area insets
