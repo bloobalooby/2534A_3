@@ -20,7 +20,7 @@ import retrofit2.http.Path;
 
 public interface UserService {
 
-    // 🔐 Login using username
+    //  Login using username
     @FormUrlEncoded
     @POST("users/login")
     Call<User> login(
@@ -28,7 +28,7 @@ public interface UserService {
             @Field("password") String password
     );
 
-    // 🔐 Login using email
+    //  Login using email
     @FormUrlEncoded
     @POST("users/login")
     Call<User> loginEmail(
@@ -36,15 +36,7 @@ public interface UserService {
             @Field("password") String password
     );
 
-    // 📥 Submit a single item request
-    @FormUrlEncoded
-    @POST("requests")
-    Call<Void> submitRequest(
-            @Field("user_id") int userId,
-            @Field("item_id") int itemId,
-            @Field("address") String address,
-            @Field("notes") String notes
-    );
+    //  Submit a single item request
 
     @FormUrlEncoded
     @POST("submit_request")
@@ -60,11 +52,11 @@ public interface UserService {
 
 
 
-    // 📄 Get all requests for a specific user
+    //  Get all requests for a specific user
     @GET("requests/user/{user_id}")
     Call<List<Request>> getRequestsByUser(@Path("user_id") int userId);
 
-    // 📄 Admin or general usage: get all requests
+    //  Admin or general usage: get all requests
     @GET("requests")
     Call<List<Request>> getAllRequests();
 
@@ -72,13 +64,5 @@ public interface UserService {
     Call<Profile> getProfileByUserId(@Path("user_id") int userId);
 
 
-    @FormUrlEncoded
-    @POST("requests")
-    Call<Void> submitRequest(
-            @Field("user_id") int userId,
-            @Field("item_id") int itemId,
-            @Field("address") String address,
-            @Field("total_price") double totalPrice,
-            @Field("notes") String notes
-    );
+
 }

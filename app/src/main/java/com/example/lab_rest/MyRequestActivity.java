@@ -1,6 +1,7 @@
 package com.example.lab_rest;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class MyRequestActivity extends AppCompatActivity {
 
         SharedPrefManager spm = new SharedPrefManager(this);
         User user = spm.getUser();
-
+        Log.d("DEBUG_USER", "User ID: " + user.getId());
         loadUserRequests(user.getId());
     }
 
@@ -45,15 +46,24 @@ public class MyRequestActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    adapter = new RequestAdapter(response.body());
+                    List<Request> requestList = response.body();
+                    Log.d("DEBUG_REQUESTS", "Total request: " + requestList.size());
+
+                    for (Request r : requestList) {
+                        Log.d("DEBUG_REQUESTS", "Item ID: " + r.getItem_id() + " | Status: " + r.getStatus());
+                    }
+
+                    adapter = new RequestAdapter(requestList);
                     rvRequests.setAdapter(adapter);
                 } else {
+                    Log.e("DEBUG_REQUESTS", "Request null or fail. Code: " + response.code());
+                }
                     Toast.makeText(MyRequestActivity.this, "No requests found.", Toast.LENGTH_SHORT).show();
                 }
-            }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
+                Log.e("DEBUG_REQUESTS", "Error: " + t.getMessage());
                 Toast.makeText(MyRequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
             }
         });

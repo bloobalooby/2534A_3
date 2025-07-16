@@ -15,6 +15,19 @@ import java.util.List;
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
 
     private List<Request> requestList;
+    private String getItemNameById(int id) {
+        switch (id) {
+            case 1: return "Plastic Bottle";
+            case 2: return "Glass Container";
+            case 3: return "Paper";
+            case 4: return "Cardboard";
+            case 5: return "Aluminium Cans";
+            case 6: return "Used Cooking Oils";
+            case 7: return "Old Clothes";
+            default: return "Unknown Item";
+        }
+    }
+
 
     public RequestAdapter(List<Request> requestList) {
         this.requestList = requestList;
@@ -31,10 +44,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     public void onBindViewHolder(@NonNull RequestAdapter.ViewHolder holder, int position) {
         Request request = requestList.get(position);
 
-        holder.tvItemName.setText("Item: " + request.getItem_id());
+        holder.tvItemName.setText("Item: " + getItemNameById(request.getItem_id()));
         holder.tvStatus.setText("Status: " + request.getStatus());
         holder.tvDate.setText("Date: " + request.getRequest_date());
         holder.tvNotes.setText("Notes: " + request.getNotes());
+        holder.tvQty.setText("Quantity: " + request.getWeight() + "kg");
+
     }
 
     @Override

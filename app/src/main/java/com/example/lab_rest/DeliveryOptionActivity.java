@@ -10,7 +10,6 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lab_rest.model.Item;
-import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
@@ -18,7 +17,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,14 +53,14 @@ public class DeliveryOptionActivity extends AppCompatActivity {
 
         userService = ApiUtils.getUserService();
 
-        // ✅ Get selected items + note from intent
+        //  Get selected items + note from intent
         String json = getIntent().getStringExtra("selectedItems");
         String notes = getIntent().getStringExtra("note");
         Type listType = new TypeToken<List<Item>>() {
         }.getType();
         selectedItems = new Gson().fromJson(json, listType);
 
-        // 📍 Toggle address form visibility
+        //  Toggle address form visibility
         rgDeliveryOption.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbHomePickup) {
                 layoutHomePickup.setVisibility(LinearLayout.VISIBLE);
@@ -84,7 +86,7 @@ public class DeliveryOptionActivity extends AppCompatActivity {
         });
 
 
-        // ✅ Submit Request
+        //  Submit Request
         btnConfirmDelivery.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                     .setTitle("Confirmation")
@@ -115,12 +117,15 @@ public class DeliveryOptionActivity extends AppCompatActivity {
                         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
                         int userId = spm.getUser().getId();
 
+                        String requestDate = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                                .format(new java.util.Date());
+
                         for (Item item : selectedItems) {
                             if (item.getQuantity() > 0) {
                                 double totalPrice = item.getQuantity() * item.getPrice();
                                 int itemId = item.getItemId();
 
-                                Call<Void> call = userService.submitRequest(userId, itemId, address, totalPrice, getIntent().getStringExtra("note"));
+                                Call<Void> call = userService.submitRequest(userId, itemId, address, requestDate, totalPrice, notes);
                                 call.enqueue(new Callback<Void>() {
                                     @Override
                                     public void onResponse(Call<Void> call, Response<Void> response) {
