@@ -19,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -51,12 +52,14 @@ public interface UserService {
     );
 
     @FormUrlEncoded
-    @POST("requests/updateStatus")
+    @PUT("requests/{id}/status")
     Call<Void> updateRequestStatus(
-            @Field("request_id") int requestId,
-            @Field("status") String token,
-            @Header("Authorization") String status
+            @Path("id") int requestId,
+            @Header("Authorization") String token,
+            @Field("status") String status
     );
+
+
 
 
     @Multipart
