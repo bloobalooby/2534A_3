@@ -20,13 +20,7 @@ public interface RequestService {
     @GET("requests/{id}")
     Call<Request> getRequests(@Header("api-key") String api_key, @Path("id") int id);
 
-    @FormUrlEncoded
-    @PUT("requests/{id}/status")
-    Call<Void> updateRequestStatus(
-            @Path("id") int requestId,
-            @Header("Authorization") String token,
-            @Field("status") String status
-    );
+
 
 
 
