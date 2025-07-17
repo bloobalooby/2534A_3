@@ -50,6 +50,14 @@ public interface UserService {
             @Field("notes") String notes
     );
 
+    @FormUrlEncoded
+    @POST("requests/updateStatus")
+    Call<Void> updateRequestStatus(
+            @Field("request_id") int requestId,
+            @Field("status") String token,
+            @Header("Authorization") String status
+    );
+
 
     @Multipart
     @POST("files")
