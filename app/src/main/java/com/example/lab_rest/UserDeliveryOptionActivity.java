@@ -17,16 +17,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DeliveryOptionActivity extends AppCompatActivity {
+public class UserDeliveryOptionActivity extends AppCompatActivity {
 
     private RadioGroup rgDeliveryOption;
     private LinearLayout layoutHomePickup;
@@ -155,8 +152,8 @@ public class DeliveryOptionActivity extends AppCompatActivity {
                                 .show();
                     })
                     .setNegativeButton("No", (dialog, which) -> {
-                        // Go back to ConfirmRequestActivity
-                        Intent backIntent = new Intent(this, ConfirmRequestActivity.class);
+                        // Go back to UserConfirmRequestActivity
+                        Intent backIntent = new Intent(this, UserConfirmRequestActivity.class);
                         backIntent.putExtra("selectedItems", new Gson().toJson(selectedItems));
                         backIntent.putExtra("note", getIntent().getStringExtra("note"));
                         finish();

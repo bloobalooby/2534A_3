@@ -14,20 +14,20 @@ import com.example.lab_rest.model.Item;
 
 import java.util.List;
 
-public class SelectedItemAdapter extends RecyclerView.Adapter<SelectedItemAdapter.ViewHolder> {
+public class UserSelectedItemAdapter extends RecyclerView.Adapter<UserSelectedItemAdapter.ViewHolder> {
 
     private List<Item> selectedItems;
     private OnItemChangeListener itemChangeListener;
 
     // ✅ Constructor with listener
-    public SelectedItemAdapter(List<Item> selectedItems, OnItemChangeListener listener) {
+    public UserSelectedItemAdapter(List<Item> selectedItems, OnItemChangeListener listener) {
         this.selectedItems = selectedItems;
         this.itemChangeListener = listener;
     }
 
     @NonNull
     @Override
-    public SelectedItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserSelectedItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_summary_row, parent, false);
         return new ViewHolder(view);

@@ -63,7 +63,7 @@ public class UserHomeActivity extends AppCompatActivity {
 
 
         btnSubmitRequest.setOnClickListener(v ->
-                startActivity(new Intent(UserHomeActivity.this, ItemListActivity.class))
+                startActivity(new Intent(UserHomeActivity.this, UserItemListActivity.class))
         );
 
         btnViewRequests.setOnClickListener(v ->
@@ -159,7 +159,7 @@ public class UserHomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_profile) {
-            startActivity(new Intent(this, ProfileInfoActivity.class));
+            startActivity(new Intent(this, UserProfileInfoActivity.class));
             return true;
         } else if (id == R.id.action_logout) {
             new AlertDialog.Builder(this)

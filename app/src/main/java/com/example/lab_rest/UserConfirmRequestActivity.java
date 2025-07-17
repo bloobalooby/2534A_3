@@ -20,7 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ConfirmRequestActivity extends AppCompatActivity {
+public class UserConfirmRequestActivity extends AppCompatActivity {
 
     private RecyclerView rvSelectedItems;
     private EditText edtNotes;
@@ -49,7 +49,7 @@ public class ConfirmRequestActivity extends AppCompatActivity {
 
         btnProceed.setOnClickListener(v -> {
             String json = new Gson().toJson(selectedItems);
-            Intent intent = new Intent(this, DeliveryOptionActivity.class);
+            Intent intent = new Intent(this, UserDeliveryOptionActivity.class);
             intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
             intent.putExtra("note", edtNotes.getText().toString().trim());
             startActivity(intent);
@@ -71,7 +71,7 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         Type listType = new TypeToken<List<Item>>() {}.getType();
         selectedItems = new Gson().fromJson(json, listType);
 
-        SelectedItemAdapter adapter = new SelectedItemAdapter(selectedItems, updatedList -> {
+        UserSelectedItemAdapter adapter = new UserSelectedItemAdapter(selectedItems, updatedList -> {
             selectedItems = updatedList;
             updateTotalPrice(updatedList);
         });

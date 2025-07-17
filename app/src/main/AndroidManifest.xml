@@ -18,11 +18,11 @@
         <activity
             android:name=".AdminItemListActivity"
             android:exported="false" />
-        <activity android:name=".DeliveryOptionActivity" />
-        <activity android:name=".ConfirmRequestActivity" />
+        <activity android:name=".UserDeliveryOptionActivity" />
+        <activity android:name=".UserConfirmRequestActivity" />
         <activity android:name=".MyRequestActivity" />
         <activity
-            android:name=".ItemListActivity"
+            android:name=".UserItemListActivity"
             android:exported="false" />
         <activity
             android:name=".AdminHomeActivity"
@@ -41,8 +41,8 @@
         </activity>
         <activity android:name=".UserHomeActivity" />
         <activity android:name=".UpdateItemActivity" />
-        <activity android:name=".ProfileInfoActivity" />
-        <activity android:name=".ThemeSettingsActivity" />
+        <activity android:name=".UserProfileInfoActivity" />
+        <activity android:name=".UserThemeSettingsActivity" />
         <activity android:name=".AddItemActivity" />
     </application>
 

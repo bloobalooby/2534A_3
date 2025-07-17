@@ -1,7 +1,6 @@
 package com.example.lab_rest;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.LinearLayout;
@@ -10,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 
-public class ThemeSettingsActivity extends AppCompatActivity {
+public class UserThemeSettingsActivity extends AppCompatActivity {
 
-    private String selectedTheme = ThemeManager.THEME_LIGHT; // Default
+    private String selectedTheme = UserThemeManager.THEME_LIGHT; // Default
     private LinearLayout themeLayout;
 
     @Override
@@ -28,21 +27,21 @@ public class ThemeSettingsActivity extends AppCompatActivity {
 
         // Load saved theme
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        selectedTheme = prefs.getString("theme", ThemeManager.THEME_LIGHT);
+        selectedTheme = prefs.getString("theme", UserThemeManager.THEME_LIGHT);
         applyTheme(selectedTheme);
 
         btnLight.setOnClickListener(v -> {
-            selectedTheme = ThemeManager.THEME_LIGHT;
+            selectedTheme = UserThemeManager.THEME_LIGHT;
             applyTheme(selectedTheme);
         });
 
         btnDark.setOnClickListener(v -> {
-            selectedTheme = ThemeManager.THEME_DARK;
+            selectedTheme = UserThemeManager.THEME_DARK;
             applyTheme(selectedTheme);
         });
 
         btnBlue.setOnClickListener(v -> {
-            selectedTheme = ThemeManager.THEME_BLUE;
+            selectedTheme = UserThemeManager.THEME_BLUE;
             applyTheme(selectedTheme);
         });
 
@@ -55,7 +54,7 @@ public class ThemeSettingsActivity extends AppCompatActivity {
     }
 
     private void applyTheme(String theme) {
-        themeLayout.setBackgroundColor(ThemeManager.getBackgroundColor(theme));
+        themeLayout.setBackgroundColor(UserThemeManager.getBackgroundColor(theme));
         // Optional: change text/button color here too
     }
 }

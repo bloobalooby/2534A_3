@@ -47,7 +47,7 @@ public class UpdateItemActivity extends AppCompatActivity {
         });
 
         // retrieve item id from intent
-        // get item id sent by ItemListActivity
+        // get item id sent by UserItemListActivity
         Intent intent = getIntent();
         int itemId = intent.getIntExtra("item_id", -1);
 
@@ -189,7 +189,7 @@ public class UpdateItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        // end this activity and go back to previous activity, ItemListActivity
+                        // end this activity and go back to previous activity, UserItemListActivity
                         finish();
 
                         dialog.cancel();

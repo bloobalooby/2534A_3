@@ -2,10 +2,8 @@ package com.example.lab_rest;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileInfoActivity extends AppCompatActivity {
+public class UserProfileInfoActivity extends AppCompatActivity {
 
     private EditText edtFirstName, edtLastName;
     private ProfileService profileService;
@@ -120,7 +118,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
             editor.putString("app_theme", selectedTheme);
             editor.apply();
 
-            Toast.makeText(ProfileInfoActivity.this, "Theme saved locally!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserProfileInfoActivity.this, "Theme saved locally!", Toast.LENGTH_SHORT).show();
         });
 
     }

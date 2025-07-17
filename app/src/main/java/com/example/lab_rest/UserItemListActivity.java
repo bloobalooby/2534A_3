@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ItemListActivity extends AppCompatActivity implements ItemAdapter.OnItemQuantityChangeListener {
+public class UserItemListActivity extends AppCompatActivity implements ItemAdapter.OnItemQuantityChangeListener {
 
     private ItemService itemService;
     private RecyclerView rvItemList;
@@ -65,7 +65,7 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
        // ✅ Find FAB and set click to open AddItemActivity
         FloatingActionButton fab = findViewById(R.id.fab); // Make sure R.id.fab exists in your layout!
         fab.setOnClickListener(v -> {
-                    Intent intent = new Intent(ItemListActivity.this, com.example.lab_rest.AddItemActivity.class);
+                    Intent intent = new Intent(UserItemListActivity.this, com.example.lab_rest.AddItemActivity.class);
                     startActivity(intent);
                 });
 
@@ -93,7 +93,7 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
                         item.setImageResId(resId);
                     }
 
-                    adapter = new ItemAdapter(getApplicationContext(), itemList, ItemListActivity.this);
+                    adapter = new ItemAdapter(getApplicationContext(), itemList, UserItemListActivity.this);
                     rvItemList.setAdapter(adapter);
                     rvItemList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     rvItemList.addItemDecoration(new DividerItemDecoration(rvItemList.getContext(), DividerItemDecoration.VERTICAL));
@@ -127,7 +127,7 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
                 return;
             }
 
-            Intent intent = new Intent(this, ConfirmRequestActivity.class);
+            Intent intent = new Intent(this, UserConfirmRequestActivity.class);
             intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
             startActivity(intent);
         });
