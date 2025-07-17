@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 public interface ProfileService {
 
     @FormUrlEncoded
-    @POST("profiles") // or "profiles.php" depending on your backend
+    @POST("profiles") //
     Call<Void> saveProfile(
             @Field("user_id") int userId,
             @Field("first_name") String firstName,

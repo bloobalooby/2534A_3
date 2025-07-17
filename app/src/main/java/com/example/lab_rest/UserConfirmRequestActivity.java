@@ -1,112 +1,124 @@
 package com.example.lab_rest;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_rest.adapter.ConfirmCartAdapter;
 import com.example.lab_rest.model.Item;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.example.lab_rest.remote.ApiUtils;
+import com.example.lab_rest.remote.UserService;
+import com.example.lab_rest.sharedpref.SharedPrefManager;
 
-import java.lang.reflect.Type;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserConfirmRequestActivity extends AppCompatActivity {
 
-    private RecyclerView rvSelectedItems;
-    private EditText edtNotes;
-    private TextView tvTotalPrice, tvNotePreview;
-    private List<Item> selectedItems;
+    private RecyclerView recyclerView;
+    private EditText editTextAddress, editTextNotes;
+    private Button btnSubmit;
+    private List<Item> cartItems;
+    private UserService userService;
+    private SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_request);
 
-        MaterialToolbar toolbar = findViewById(R.id.myToolbar);
-        setSupportActionBar(toolbar); // Optional but good if using menu items
+        // Bind UI components
+        recyclerView = findViewById(R.id.recyclerViewCart);
+        editTextAddress = findViewById(R.id.editTextAddress);
+        editTextNotes = findViewById(R.id.editTextNotes);
+        btnSubmit = findViewById(R.id.btnSubmitRequest);
 
-        toolbar.setNavigationOnClickListener(v -> {
-            finish(); // 👈 This will go back to the previous screen
+        // Retrieve cart items from temporary cart
+        cartItems = UserTempCart.getCartItems();
+
+        // Set up RecyclerView with the cart items
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new ConfirmCartAdapter(this, cartItems));
+
+        // Initialize shared preferences and API service
+        sharedPrefManager = new SharedPrefManager(this);
+        userService = ApiUtils.getUserService();
+
+        // Handle submit button click
+        btnSubmit.setOnClickListener(view -> {
+            String address = editTextAddress.getText().toString().trim();
+            String notes = editTextNotes.getText().toString().trim();
+
+            // Validate required input
+            if (address.isEmpty()) {
+                editTextAddress.setError("Address is required");
+                return;
+            }
+
+            // Show confirmation dialog before submitting
+            new android.app.AlertDialog.Builder(UserConfirmRequestActivity.this)
+                    .setTitle("Confirm Submission")
+                    .setMessage("Are you sure you want to submit this request?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Get logged-in user's ID
+                        int userId = sharedPrefManager.getUser().getId();
+
+                        // Submit each cart item as a separate request
+                        for (Item item : cartItems) {
+                            sendRequest(userId, item.getItemId(), address, notes);
+                        }
+
+                        // Clear cart after submission
+                        UserTempCart.clearCart();
+                        Toast.makeText(UserConfirmRequestActivity.this,
+                                "All requests submitted.", Toast.LENGTH_LONG).show();
+
+                        // Optional: close this screen
+                        finish();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
+    }
 
-        rvSelectedItems = findViewById(R.id.rvSelectedItems);
-        edtNotes = findViewById(R.id.edtNotes);
-        tvTotalPrice = findViewById(R.id.tvTotalPrice);
-        tvNotePreview = findViewById(R.id.tvNotePreview);
+    /**
+     * Sends a single request to the server for the given item and user details.
+     */
+    private void sendRequest(int userId, int itemId, String address, String notes) {
+        Call<ResponseBody> call = userService.createRequest(userId, itemId, address, notes);
 
-        rvSelectedItems.setLayoutManager(new LinearLayoutManager(this));
-        Button btnProceed = findViewById(R.id.btnProceed);
-
-        btnProceed.setOnClickListener(v -> {
-            String json = new Gson().toJson(selectedItems);
-            Intent intent = new Intent(this, UserDeliveryOptionActivity.class);
-            intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
-            intent.putExtra("note", edtNotes.getText().toString().trim());
-            startActivity(intent);
-        });
-
-
-        // Toolbar setup
-        MaterialToolbar myToolbar = findViewById(R.id.myToolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        }
-
-        // 🧠 Get selected items
-        String json = getIntent().getStringExtra("selectedItems");
-        Type listType = new TypeToken<List<Item>>() {}.getType();
-        selectedItems = new Gson().fromJson(json, listType);
-
-        UserSelectedItemAdapter adapter = new UserSelectedItemAdapter(selectedItems, updatedList -> {
-            selectedItems = updatedList;
-            updateTotalPrice(updatedList);
-        });
-        rvSelectedItems.setAdapter(adapter);
-
-        updateTotalPrice(selectedItems);
-
-        // Live note preview
-        edtNotes.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String note = s.toString().trim();
-                if (!note.isEmpty()) {
-                    tvNotePreview.setText("Note: " + note);
-                    tvNotePreview.setVisibility(TextView.VISIBLE);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    // Request succeeded
+                    Toast.makeText(UserConfirmRequestActivity.this,
+                            "Request submitted for item ID: " + itemId,
+                            Toast.LENGTH_SHORT).show();
                 } else {
-                    tvNotePreview.setVisibility(TextView.GONE);
+                    // Server returned an error
+                    Toast.makeText(UserConfirmRequestActivity.this,
+                            "Failed for item ID: " + itemId,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // Network error or server not reachable
+                Toast.makeText(UserConfirmRequestActivity.this,
+                        "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
-    }
-
-    private void updateTotalPrice(List<Item> items) {
-        double total = 0;
-        for (Item item : items) {
-            total += item.getPrice() * item.getQuantity();
-        }
-        tvTotalPrice.setText("Total: RM" + String.format("%.2f", total));
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
     }
 }
 

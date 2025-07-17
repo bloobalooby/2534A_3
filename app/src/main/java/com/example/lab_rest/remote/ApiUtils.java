@@ -2,8 +2,6 @@ package com.example.lab_rest.remote;
 
 import java.net.URL;
 
-import retrofit2.http.GET;
-
 public class ApiUtils {
 
     //REST API server URL
@@ -23,7 +21,8 @@ public class ApiUtils {
         return RetrofitClient.getClient(BASE_URL).create(ProfileService.class);
     }
 
-
-
+    public static RequestService getRequestService() {
+        return RetrofitClient.getClient(BASE_URL).create(RequestService.class);
+    }
 
 }

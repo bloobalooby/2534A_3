@@ -8,6 +8,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -38,16 +39,17 @@ public interface UserService {
 
     //  Submit a single item request
 
+
+
     @FormUrlEncoded
-    @POST("submit_request")
-    Call<Void> submitRequest(
+    @POST("requests")
+    Call<ResponseBody> createRequest(
             @Field("user_id") int userId,
             @Field("item_id") int itemId,
             @Field("address") String address,
-            @Field("request_date") String requestDate,
-            @Field("total_price") double totalPrice,
             @Field("notes") String notes
     );
+
 
 
 

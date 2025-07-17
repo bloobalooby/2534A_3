@@ -18,7 +18,6 @@
         <activity
             android:name=".AdminItemListActivity"
             android:exported="false" />
-        <activity android:name=".UserDeliveryOptionActivity" />
         <activity android:name=".UserConfirmRequestActivity" />
         <activity android:name=".MyRequestActivity" />
         <activity
