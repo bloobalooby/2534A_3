@@ -67,7 +67,8 @@ public interface UserService {
 
     //  Admin or general usage: get all requests
     @GET("requests")
-    Call<List<Request>> getAllRequests();
+    Call<List<Request>> getAllRequests(@Header("Authorization") String token);
+
 
     @GET("/profile/{user_id}")
     Call<Profile> getProfileByUserId(@Path("user_id") int userId);

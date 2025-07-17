@@ -1,15 +1,41 @@
 package com.example.lab_rest.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Request {
+    @SerializedName("request_id")
     private int request_id;
+    @SerializedName("user_id")
     private int user_id;
+    @SerializedName("item_id")
     private int item_id;
+    @SerializedName("address")
     private String address;
+    @SerializedName("request_date")
     private String request_date;
+    @SerializedName("status")
     private String status;
+    @SerializedName("weight")
     private double weight;
+    @SerializedName("total_price")
     private double total_price;
+    @SerializedName("notes")
     private String notes;
+
+    // constructor
+    public Request(int request_id, int user_id, int item_id, String address, String request_date,
+                   String status, double weight, double total_price, String notes) {
+
+        this.request_id = request_id;
+        this.user_id = user_id;
+        this.item_id = item_id;
+        this.address = address;
+        this.request_date = request_date;
+        this.status = status;
+        this.weight = weight;
+        this.total_price = total_price;
+        this.notes = notes;
+    }
 
     // setter and getter
     public int getRequest_id() {
@@ -100,5 +126,18 @@ public class Request {
     public void setNotes(String notes) {
 
         this.notes = notes;
+    }
+
+    public String toString() {
+        return "Request{" +
+                "request_id=" + request_id +
+                ", user_id=" + user_id + '\'' +
+                ", item_id=" + item_id + '\'' +
+                ", address=" + address + '\'' +
+                ", request_date=" + request_date + '\'' +
+                ", status=" + status + '\'' +
+                ", weight=" + total_price + '\'' +
+                ", notes=" + notes + '\'' +
+                '}';
     }
 }
