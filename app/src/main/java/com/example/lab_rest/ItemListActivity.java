@@ -62,12 +62,12 @@ public class ItemListActivity extends AppCompatActivity implements ItemAdapter.O
             return insets;
         });
 
-        // ✅ Find FAB and set click to open AddItemActivity
-        FloatingActionButton fabAddItem = findViewById(R.id.fabAddItem);
-        fabAddItem.setOnClickListener(v -> {
-            Intent intent = new Intent(ItemListActivity.this, com.example.lab_rest.AddItemActivity.class);
-            startActivity(intent);
-        });
+       // ✅ Find FAB and set click to open AddItemActivity
+        FloatingActionButton fab = findViewById(R.id.fab); // Make sure R.id.fab exists in your layout!
+        fab.setOnClickListener(v -> {
+                    Intent intent = new Intent(ItemListActivity.this, com.example.lab_rest.AddItemActivity.class);
+                    startActivity(intent);
+                });
 
         // Get references
         rvItemList = findViewById(R.id.rvItemList);
