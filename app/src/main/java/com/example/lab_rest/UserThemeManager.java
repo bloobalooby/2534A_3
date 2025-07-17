@@ -2,7 +2,7 @@ package com.example.lab_rest;
 
 import android.graphics.Color;
 
-public class ThemeManager {
+public class UserThemeManager {
     public static final String THEME_LIGHT = "light";
     public static final String THEME_DARK = "dark";
     public static final String THEME_BLUE = "blue";
