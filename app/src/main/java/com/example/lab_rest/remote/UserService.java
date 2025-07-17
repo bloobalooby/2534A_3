@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -60,7 +61,8 @@ public interface UserService {
 
     //  Admin or general usage: get all requests
     @GET("requests")
-    Call<List<Request>> getAllRequests();
+    Call<List<Request>> getAllRequests(@Header("Authorization") String token);
+
 
     @GET("/profile/{user_id}")
     Call<Profile> getProfileByUserId(@Path("user_id") int userId);
