@@ -53,6 +53,7 @@ public class Item {
     }
 
     public void setItemId(int itemId) {
+
         this.itemId = itemId;
     }
 
@@ -63,6 +64,19 @@ public class Item {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+
+
 
     @Override
     public String toString() {

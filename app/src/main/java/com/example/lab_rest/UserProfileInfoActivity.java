@@ -3,12 +3,14 @@ package com.example.lab_rest;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.bumptech.glide.Glide;
 import com.example.lab_rest.model.Profile;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
@@ -31,6 +33,7 @@ public class UserProfileInfoActivity extends AppCompatActivity {
 
     private Profile loadedProfile = null; // store the profile globally
     private String token; // move token to class scope
+    private ImageView imgProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class UserProfileInfoActivity extends AppCompatActivity {
         btnLight = findViewById(R.id.btnLight);
         btnDark = findViewById(R.id.btnDark);
         btnSaveTheme = findViewById(R.id.btnSaveTheme);
+        imgProfile = findViewById(R.id.imgProfile);
+
 
         // ✅ Get user and token
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
@@ -68,6 +73,16 @@ public class UserProfileInfoActivity extends AppCompatActivity {
                     edtLastName.setText(loadedProfile.getLast_name());
                     edtFirstName.setEnabled(false);
                     edtLastName.setEnabled(false);
+
+                    // 🖼️ Load image using Glide
+                    if (loadedProfile.getImage() != null && !loadedProfile.getImage().isEmpty()) {
+                        String imageUrl = "https://178.128.220.20/2534A_3/api/" + loadedProfile.getImage();
+                        Glide.with(UserProfileInfoActivity.this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_user)
+                                .error(R.drawable.ic_user)
+                                .into(imgProfile);
+                    }
 
                     // Load theme
                     selectedTheme = loadedProfile.getTheme_bg();

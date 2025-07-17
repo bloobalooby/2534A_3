@@ -21,8 +21,6 @@ public class ApiUtils {
         return RetrofitClient.getClient(BASE_URL).create(ProfileService.class);
     }
 
-    public static RequestService getRequestService() {
-        return RetrofitClient.getClient(BASE_URL).create(RequestService.class);
-    }
+
 
 }

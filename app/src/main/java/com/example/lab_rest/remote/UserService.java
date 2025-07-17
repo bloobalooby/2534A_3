@@ -1,5 +1,7 @@
 package com.example.lab_rest.remote;
 
+import android.telephony.mbms.FileInfo;
+
 import com.example.lab_rest.model.Profile;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
@@ -14,6 +16,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -49,6 +52,10 @@ public interface UserService {
             @Field("address") String address,
             @Field("notes") String notes
     );
+
+    @Multipart
+    @POST("files")
+    Call<FileInfo> uploadFile(@Header("api-key") String apiKey, @Part MultipartBody.Part file);
 
 
 

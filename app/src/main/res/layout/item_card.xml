@@ -6,6 +6,15 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <RadioButton
+        android:id="@+id/radioButtonSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+
+
     <ImageView
         android:id="@+id/itemImage"
         android:layout_width="80dp"
@@ -28,44 +37,9 @@
         android:text="RM 0.00"
         android:textColor="#009688" />
 
-    <!-- Quantity Controls -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/btnMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_button"
-            android:contentDescription="Decrease"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_remove" />
-
-        <TextView
-            android:id="@+id/tvQuantity"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="8dp"
-            android:background="#EEEEEE"
-            android:fontFamily="serif-monospace"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <ImageButton
-            android:id="@+id/btnPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_button"
-            android:contentDescription="Increase"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_add" />
-    </LinearLayout>
 
 
 </LinearLayout>
+
+

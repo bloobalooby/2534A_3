@@ -10,7 +10,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_recycle" />
+        android:src="@drawable/ic_glass" />
 
     <LinearLayout
         android:layout_width="wrap_content"

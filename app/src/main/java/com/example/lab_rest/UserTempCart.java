@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserTempCart {
-    private static List<Item> cartItems = new ArrayList<>();
+    private static final List<Item> cartItems = new ArrayList<>();
 
-    public static void setCartItems(List<Item> items) {
-        cartItems = items;
+    public static void addItem(Item item) {
+        cartItems.add(item);
     }
 
     public static List<Item> getCartItems() {
-        return cartItems;
+        return cartItems; // ✅ return original, not a copy
     }
+
 
     public static void clearCart() {
         cartItems.clear();
     }
 }
-

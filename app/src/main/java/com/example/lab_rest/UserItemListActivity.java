@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserItemListActivity extends AppCompatActivity implements ItemAdapter.OnItemQuantityChangeListener {
+public class UserItemListActivity extends AppCompatActivity {
 
     private ItemService itemService;
     private RecyclerView rvItemList;
@@ -93,7 +93,7 @@ public class UserItemListActivity extends AppCompatActivity implements ItemAdapt
                         item.setImageResId(resId);
                     }
 
-                    adapter = new ItemAdapter(getApplicationContext(), itemList, UserItemListActivity.this);
+                    adapter = new ItemAdapter(getApplicationContext(), itemList);
                     rvItemList.setAdapter(adapter);
                     rvItemList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     rvItemList.addItemDecoration(new DividerItemDecoration(rvItemList.getContext(), DividerItemDecoration.VERTICAL));
@@ -115,45 +115,32 @@ public class UserItemListActivity extends AppCompatActivity implements ItemAdapt
 
         // ✅ Done: send selected items
         btnDone.setOnClickListener(v -> {
-            ArrayList<Item> selectedItems = new ArrayList<>();
-            for (Item item : itemList) {
-                if (item.getQuantity() > 0) {
-                    selectedItems.add(item);
-                }
-            }
-
-            if (selectedItems.isEmpty()) {
+            Item selectedItem = adapter.getSelectedItem();
+            if (selectedItem == null) {
                 Toast.makeText(this, "Please select at least one item.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            ArrayList<Item> selectedItems = new ArrayList<>();
+            selectedItems.add(selectedItem);
+
             Intent intent = new Intent(this, UserConfirmRequestActivity.class);
             intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
             startActivity(intent);
+
         });
+
 
         // ❌ Clear all quantities
         btnClear.setOnClickListener(v -> {
             for (Item item : itemList) {
-                item.setQuantity(0);
+                item.setSelected(false); // ❌ uncheck all
             }
-            adapter.notifyDataSetChanged();
-            updateTotalPrice();
         });
+
     }
 
-    @Override
-    public void onQuantityChanged() {
-        updateTotalPrice();
-    }
-
-    private void updateTotalPrice() {
-        totalPrice = 0.0;
-        for (Item item : itemList) {
-            totalPrice += item.getQuantity() * item.getPrice();
-        }
-        tvTotalPrice.setText(String.format("Total Estimated Price: RM %.2f", totalPrice));
-    }
+    
 
     private void clearSessionAndRedirect() {
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());

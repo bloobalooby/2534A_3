@@ -58,14 +58,6 @@
                 android:inputType="textPersonName"
                 android:layout_marginBottom="12dp" />
 
-            <Button
-                android:id="@+id/btnSaveProfileInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Save Profile Info"
-                android:backgroundTint="#2E7D32"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="32dp" />
 
             <!-- 🎨 Theme Section -->
             <TextView

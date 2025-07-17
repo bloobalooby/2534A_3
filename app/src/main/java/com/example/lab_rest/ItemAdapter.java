@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,18 +18,15 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-    public interface OnItemQuantityChangeListener {
-        void onQuantityChanged();
-    }
-
     private Context context;
     private List<Item> itemList;
-    private OnItemQuantityChangeListener listener;
 
-    public ItemAdapter(Context context, List<Item> itemList, OnItemQuantityChangeListener listener) {
+    private int selectedPosition = -1; // no selection by default
+
+
+    public ItemAdapter(Context context, List<Item> itemList) {
         this.context = context;
         this.itemList = itemList;
-        this.listener = listener;
     }
 
     @NonNull
@@ -40,68 +37,56 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Item item = itemList.get(position);
-
-        double unitPrice = item.getPrice();
-        int quantity = item.getQuantity();
-        double total = unitPrice * quantity;
 
         holder.itemImage.setImageResource(item.getImageResId());
         holder.itemName.setText(item.getItemName());
-        holder.itemPrice.setText(String.format("RM %.2f", total));
-        holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+        holder.itemPrice.setText(String.format("RM %.2f", item.getPrice()));
+        holder.radioButton.setChecked(position == selectedPosition);
 
-        holder.btnPlus.setOnClickListener(v -> {
-            int qty = item.getQuantity();
-            item.setQuantity(qty + 1);
-            holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
-
-            double updatedTotal = item.getPrice() * item.getQuantity();
-            holder.itemPrice.setText(String.format("RM %.2f", updatedTotal));
-
-            if (listener != null) listener.onQuantityChanged();
+        holder.radioButton.setOnClickListener(v -> {
+            selectedPosition = holder.getAdapterPosition();
+            notifyDataSetChanged(); // refresh all to uncheck others
         });
 
-        holder.btnMinus.setOnClickListener(v -> {
-            int qty = item.getQuantity();
-            if (qty > 0) {
-                item.setQuantity(qty - 1);
-                holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
-
-                double updatedTotal = item.getPrice() * item.getQuantity();
-                holder.itemPrice.setText(String.format("RM %.2f", updatedTotal));
-
-                if (listener != null) listener.onQuantityChanged();
-            }
+        holder.itemView.setOnClickListener(v -> {
+            selectedPosition = holder.getAdapterPosition();
+            notifyDataSetChanged();
         });
     }
 
-    // ✅ This should be outside of onBindViewHolder
+
     @Override
     public int getItemCount() {
-
         return itemList.size();
+    }
+
+    public Item getSelectedItem() {
+        if (selectedPosition >= 0 && selectedPosition < itemList.size()) {
+            return itemList.get(selectedPosition);
+        }
+        return null;
     }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView itemImage;
-        TextView itemName, itemPrice, tvQuantity;
-        ImageButton btnPlus, btnMinus;
+        TextView itemName, itemPrice;
+        CheckBox checkBox;
+
+        RadioButton radioButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.itemImage);
             itemName = itemView.findViewById(R.id.itemName);
             itemPrice = itemView.findViewById(R.id.itemPrice);
-            tvQuantity = itemView.findViewById(R.id.tvQuantity);
-            btnPlus = itemView.findViewById(R.id.btnPlus);
-            btnMinus = itemView.findViewById(R.id.btnMinus);
-
+            radioButton = itemView.findViewById(R.id.radioButtonSelect);
         }
+
     }
-    // 🧠 Map item_id → drawable icon
+
     private int getImageForItem(int itemId) {
         switch (itemId) {
             case 1: return R.drawable.ic_plastic;
@@ -114,4 +99,3 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
     }
 }
-
