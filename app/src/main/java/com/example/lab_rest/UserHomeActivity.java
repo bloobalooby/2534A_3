@@ -20,7 +20,6 @@ import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,13 +27,14 @@ import retrofit2.Response;
 
 public class UserHomeActivity extends AppCompatActivity {
 
+    // UI components
     private TextView tvWelcome, tvAnnouncements, tvBadgeName;
     private ImageView badgeBronze, badgeSilver, badgeGold;
     private Button btnSubmitRequest, btnViewRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Load saved theme before UI draws
+        // Load theme from preferences before layout is rendered
         SharedPreferences prefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         String theme = prefs.getString("app_theme", "light");
 
@@ -46,6 +46,8 @@ public class UserHomeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+
+        // Set up toolbar
         MaterialToolbar toolbar = findViewById(R.id.userToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -61,19 +63,22 @@ public class UserHomeActivity extends AppCompatActivity {
         tvBadgeName = findViewById(R.id.tvBadgeName);
         View mapClickableArea = findViewById(R.id.mapClickableArea);
 
-
+        // Navigate to SubmitRequest screen
         btnSubmitRequest.setOnClickListener(v ->
                 startActivity(new Intent(UserHomeActivity.this, UserItemListActivity.class))
         );
 
+        // Navigate to ViewRequests screen
         btnViewRequests.setOnClickListener(v ->
                 startActivity(new Intent(UserHomeActivity.this, UserRequestActivity.class))
         );
 
+        // Open Google Maps on HQ coordinates
         mapClickableArea.setOnClickListener(v -> {
             String hqLocation = "https://www.google.com/maps/search/?api=1&query=3.1390,101.6869";
             Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(hqLocation));
             intent.setPackage("com.google.android.apps.maps");
+
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {
@@ -81,6 +86,7 @@ public class UserHomeActivity extends AppCompatActivity {
             }
         });
 
+        // Get logged-in user
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         if (!spm.isLoggedIn()) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -88,12 +94,21 @@ public class UserHomeActivity extends AppCompatActivity {
             return;
         }
 
+        // Display welcome message
         User user = spm.getUser();
         tvWelcome.setText("Welcome, " + user.getUsername() + "!");
-        loadUserAnnouncements(user.getId());
 
+        // Load announcements and user badge progress
+        loadUserAnnouncements(user.getId());
+        loadUserStats(user.getId());
+    }
+
+    /**
+     * Load user stats such as total recycled weight and determine badge level.
+     */
+    private void loadUserStats(int userId) {
         UserService api = ApiUtils.getUserService();
-        api.getRequestsByUser(user.getId()).enqueue(new Callback<List<Request>>() {
+        api.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -109,7 +124,7 @@ public class UserHomeActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Badge logic
+                    // Set badge visibility and name
                     if (totalWeight >= 20) {
                         tvBadgeName.setText("Gold Badge");
                         badgeGold.setVisibility(View.VISIBLE);
@@ -133,46 +148,11 @@ public class UserHomeActivity extends AppCompatActivity {
                 Toast.makeText(UserHomeActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_user_home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_profile) {
-            startActivity(new Intent(this, UserProfileInfoActivity.class));
-            return true;
-        } else if (id == R.id.action_logout) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Logout")
-                    .setMessage("Are you sure you want to log out?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
-                        editor.clear();
-                        editor.apply();
-                        startActivity(new Intent(this, LoginActivity.class));
-                        finish();
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
+    /**
+     * Load recent user-related announcements based on request statuses.
+     */
     private void loadUserAnnouncements(int userId) {
         UserService api = ApiUtils.getUserService();
         api.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
@@ -183,16 +163,21 @@ public class UserHomeActivity extends AppCompatActivity {
                     for (Request r : response.body()) {
                         switch (r.getStatus()) {
                             case "Pending":
-                                updates.append("🟡 Your recycle request has been successfully sent!\n\n"); break;
+                                updates.append("🟡 Your recycle request has been successfully sent!\n\n");
+                                break;
                             case "Accepted":
-                                updates.append("✅ Your request has been accepted. Thank you for recycling!\n\n"); break;
+                                updates.append("✅ Your request has been accepted. Thank you for recycling!\n\n");
+                                break;
                             case "Weighing Scheduled":
                                 String note = (r.getNotes() != null) ? r.getNotes() : "between 8 AM–5 PM";
-                                updates.append("📅 Appointment scheduled: ").append(note).append("\n\n"); break;
+                                updates.append("📅 Appointment scheduled: ").append(note).append("\n\n");
+                                break;
                             case "Declined":
-                                updates.append("❌ Your recycle request was declined.\n\n"); break;
+                                updates.append("❌ Your recycle request was declined.\n\n");
+                                break;
                             case "Completed":
-                                updates.append("🎉 Your request has been completed. Thanks for your contribution!\n\n"); break;
+                                updates.append("🎉 Your request has been completed. Thanks for your contribution!\n\n");
+                                break;
                             default:
                                 updates.append("🔔 Status: ").append(r.getStatus()).append("\n\n");
                         }
@@ -209,5 +194,49 @@ public class UserHomeActivity extends AppCompatActivity {
             }
         });
     }
-}
 
+    /**
+     * Inflate options menu.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_user_home, menu);
+        return true;
+    }
+
+    /**
+     * Handle toolbar item selection.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_profile) {
+            startActivity(new Intent(this, UserProfileInfoActivity.class));
+            return true;
+        } else if (id == R.id.action_logout) {
+            showLogoutDialog();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Show logout confirmation dialog.
+     */
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    SharedPreferences.Editor editor = getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.apply();
+                    startActivity(new Intent(this, LoginActivity.class));
+                    finish();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+}

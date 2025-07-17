@@ -35,39 +35,44 @@ import retrofit2.Response;
 
 public class UserItemListActivity extends AppCompatActivity {
 
-    private ItemService itemService;
-    private UserService userService;
+    // UI components
     private RecyclerView rvItemList;
     private Button btnDone, btnClear;
     private TextView tvTotalPrice;
     private EditText etAddress, etNotes;
+    private FloatingActionButton fab;
+
+    // Data & services
     private List<Item> itemList = new ArrayList<>();
     private ItemAdapter adapter;
+    private ItemService itemService;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        // Toolbar setup
+        // Setup top toolbar
         MaterialToolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
+        if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
+
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Handle insets for full screen
+        // Handle full screen insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        // Floating action button to add items
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> startActivity(new Intent(this, AddItemActivity.class)));
 
-        // View bindings
+        // Bind views
         rvItemList = findViewById(R.id.rvItemList);
         btnDone = findViewById(R.id.btnDone);
         btnClear = findViewById(R.id.btnClear);
@@ -75,25 +80,30 @@ public class UserItemListActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         etNotes = findViewById(R.id.etNotes);
 
+        // Initialize services
         itemService = ApiUtils.getItemService();
         userService = ApiUtils.getUserService();
 
+        // Get logged in user details
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         User user = spm.getUser();
         String token = user.getToken();
         int userId = user.getId();
 
-        // Fetch all items
+        // Fetch all available items from server
         itemService.getAllItems(token).enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     itemList = response.body();
+
+                    // Set image resources for each item
                     for (Item item : itemList) {
                         int resId = getImageResIdFromName(item.getItemName());
                         item.setImageResId(resId);
                     }
 
+                    // Setup RecyclerView
                     adapter = new ItemAdapter(getApplicationContext(), itemList);
                     rvItemList.setAdapter(adapter);
                     rvItemList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -113,9 +123,10 @@ public class UserItemListActivity extends AppCompatActivity {
             }
         });
 
-        // DONE: Submit request
+        // Handle submit request action
         btnDone.setOnClickListener(v -> {
             Item selectedItem = adapter.getSelectedItem();
+
             if (selectedItem == null) {
                 Toast.makeText(this, "Please select an item first.", Toast.LENGTH_SHORT).show();
                 return;
@@ -130,6 +141,7 @@ public class UserItemListActivity extends AppCompatActivity {
                 return;
             }
 
+            // Submit request to server
             Call<com.example.lab_rest.model.Request> call = userService.createRequest(
                     token,
                     userId,
@@ -143,7 +155,7 @@ public class UserItemListActivity extends AppCompatActivity {
                 public void onResponse(Call<com.example.lab_rest.model.Request> call, Response<com.example.lab_rest.model.Request> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(UserItemListActivity.this, "Request submitted!", Toast.LENGTH_SHORT).show();
-                        finish();
+                        finish(); // Close activity after submission
                     } else {
                         Toast.makeText(UserItemListActivity.this, "Submit failed: " + response.message(), Toast.LENGTH_SHORT).show();
                     }
@@ -156,7 +168,7 @@ public class UserItemListActivity extends AppCompatActivity {
             });
         });
 
-        // CLEAR: Reset selections
+        // Handle clear/reset button
         btnClear.setOnClickListener(v -> {
             for (Item item : itemList) {
                 item.setSelected(false);
@@ -167,6 +179,7 @@ public class UserItemListActivity extends AppCompatActivity {
         });
     }
 
+    // Clear session data and redirect to login screen
     private void clearSessionAndRedirect() {
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         spm.logout();
@@ -174,6 +187,7 @@ public class UserItemListActivity extends AppCompatActivity {
         finish();
     }
 
+    // Map item names to drawable resources
     private int getImageResIdFromName(String itemName) {
         switch (itemName.toLowerCase()) {
             case "plastic bottles": return R.drawable.ic_plastic;
@@ -188,4 +202,3 @@ public class UserItemListActivity extends AppCompatActivity {
         }
     }
 }
-

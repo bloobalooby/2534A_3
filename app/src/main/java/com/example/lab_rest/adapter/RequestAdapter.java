@@ -26,9 +26,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Adapter for displaying and updating recycling requests in a RecyclerView.
+ */
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
+
     private List<Request> requestList;
 
+    public RequestAdapter(List<Request> requestList) {
+        this.requestList = requestList;
+    }
+
+    /**
+     * Converts item ID to item name.
+     */
     private String getItemNameById(int id) {
         switch (id) {
             case 10: return "Plastic Bottle";
@@ -43,29 +54,27 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         }
     }
 
-    public RequestAdapter(List<Request> requestList) {
-        this.requestList = requestList;
-    }
-
     @NonNull
     @Override
-    public RequestAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate layout for each item in RecyclerView
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_request, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RequestAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Request request = requestList.get(position);
+        Context context = holder.itemView.getContext();
 
+        // Set text values for the request
         holder.tvItemName.setText("Item: " + getItemNameById(request.getItem_id()));
         holder.tvStatus.setText("Status: " + request.getStatus());
         holder.tvDate.setText("Date: " + request.getRequest_date());
         holder.tvNotes.setText("Notes: " + request.getNotes());
         holder.tvQty.setText("Quantity: " + request.getWeight() + "kg");
 
-        // Setup Spinner
-        Context context = holder.itemView.getContext();
+        // Populate the spinner with status options
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 context,
                 R.array.status_options,
@@ -74,31 +83,32 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinnerStatus.setAdapter(adapter);
 
-        // Set current status as selected
+        // Set spinner to current request status
         int statusPosition = adapter.getPosition(request.getStatus());
         if (statusPosition != -1) {
             holder.spinnerStatus.setSelection(statusPosition);
         }
 
-        // Handle spinner change
+        // Listen for spinner item changes
         holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            boolean firstCall = true;
+            boolean firstCall = true; // Ignore first auto-trigger
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (firstCall) {
                     firstCall = false;
-                    return; // Skip first automatic call
+                    return;
                 }
 
                 String newStatus = parent.getItemAtPosition(pos).toString();
 
-                // Only update if changed
+                // Update only if status has changed
                 if (!newStatus.equals(request.getStatus())) {
                     SharedPrefManager spm = new SharedPrefManager(context);
                     User user = spm.getUser();
                     String token = "Bearer " + user.getToken();
 
+                    // Make API call to update status
                     UserService userService = ApiUtils.getUserService();
                     userService.updateRequestStatus(request.getRequest_id(), token, newStatus).enqueue(new Callback<Void>() {
                         @Override
@@ -121,7 +131,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No action needed
+            }
         });
     }
 
@@ -130,6 +142,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         return requestList.size();
     }
 
+    /**
+     * ViewHolder class for holding request item views.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvItemName, tvStatus, tvDate, tvNotes, tvQty;
         Spinner spinnerStatus;
@@ -144,5 +159,4 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             spinnerStatus = itemView.findViewById(R.id.spinnerStatus);
         }
     }
-
 }

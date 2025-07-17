@@ -17,6 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity to allow staff to add new recyclable items.
+ */
 public class AddItemActivity extends AppCompatActivity {
 
     private EditText etItemName, etPrice;
@@ -28,16 +31,20 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+        // Initialize views
         etItemName = findViewById(R.id.etItemName);
         etPrice = findViewById(R.id.etPrice);
         btnAdd = findViewById(R.id.btnAddItem);
 
+        // Get ItemService instance
         itemService = ApiUtils.getItemService();
 
+        // Set button click listener
         btnAdd.setOnClickListener(v -> {
             String itemName = etItemName.getText().toString().trim();
             String priceText = etPrice.getText().toString().trim();
 
+            // Validate input
             if (itemName.isEmpty() || priceText.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
@@ -51,17 +58,19 @@ public class AddItemActivity extends AppCompatActivity {
                 return;
             }
 
+            // Get user token for authorization
             SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
             User user = spm.getUser();
             String token = user.getToken();
 
+            // Make API call to add item
             Call<RecyclableItem> call = itemService.addItem(token, itemName, price);
             call.enqueue(new Callback<RecyclableItem>() {
                 @Override
                 public void onResponse(Call<RecyclableItem> call, Response<RecyclableItem> response) {
                     if (response.isSuccessful() || response.code() == 201) {
                         Toast.makeText(AddItemActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        finish(); // Close activity
                     } else if (response.code() == 401) {
                         Toast.makeText(AddItemActivity.this, "Unauthorized (401): Invalid API Key", Toast.LENGTH_LONG).show();
                     } else {

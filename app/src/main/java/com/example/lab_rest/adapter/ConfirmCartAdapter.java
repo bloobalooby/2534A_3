@@ -13,22 +13,32 @@ import com.example.lab_rest.model.Item;
 
 import java.util.List;
 
+/**
+ * Adapter to display a list of cart items in the confirmation screen.
+ */
 public class ConfirmCartAdapter extends RecyclerView.Adapter<ConfirmCartAdapter.ViewHolder> {
 
     private Context context;
     private List<Item> cartItems;
 
+    // Constructor
     public ConfirmCartAdapter(Context context, List<Item> cartItems) {
         this.context = context;
         this.cartItems = cartItems;
     }
 
+    /**
+     * Inflates the row layout for each item in the RecyclerView.
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.row_item, parent, false);
         return new ViewHolder(view);
     }
 
+    /**
+     * Binds data to each item in the RecyclerView.
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Item item = cartItems.get(position);
@@ -36,11 +46,17 @@ public class ConfirmCartAdapter extends RecyclerView.Adapter<ConfirmCartAdapter.
         holder.textViewPrice.setText("RM " + item.getPrice());
     }
 
+    /**
+     * Returns the number of items in the cart.
+     */
     @Override
     public int getItemCount() {
         return cartItems.size();
     }
 
+    /**
+     * ViewHolder class to hold references to item views for each row.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewItemName, textViewPrice;
 

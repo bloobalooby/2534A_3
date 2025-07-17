@@ -24,29 +24,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * UserProfileInfoActivity:
+ * Displays user profile (first name, last name, image) and lets user choose app theme.
+ */
 public class UserProfileInfoActivity extends AppCompatActivity {
 
+    // UI Components
     private EditText edtFirstName, edtLastName;
-    private ProfileService profileService;
-    private Button btnLight, btnDark, btnSaveTheme;
-    private String selectedTheme = "light"; // default
-
-    private Profile loadedProfile = null; // store the profile globally
-    private String token; // move token to class scope
     private ImageView imgProfile;
+    private Button btnLight, btnDark, btnSaveTheme;
+
+    // Theme & API
+    private String selectedTheme = "light"; // Default theme
+    private String token;                   // Auth token
+    private ProfileService profileService;
+    private Profile loadedProfile = null;   // Current user's profile data
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_info);
 
+        // Setup toolbar with back navigation
         MaterialToolbar toolbar = findViewById(R.id.myToolbar);
-        setSupportActionBar(toolbar); // Optional but good if using menu items
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-        toolbar.setNavigationOnClickListener(v -> {
-            finish(); // 👈 This will go back to the previous screen
-        });
-
+        // Initialize UI elements
         edtFirstName = findViewById(R.id.edtFirstName);
         edtLastName = findViewById(R.id.edtLastName);
         btnLight = findViewById(R.id.btnLight);
@@ -54,27 +59,29 @@ public class UserProfileInfoActivity extends AppCompatActivity {
         btnSaveTheme = findViewById(R.id.btnSaveTheme);
         imgProfile = findViewById(R.id.imgProfile);
 
-
-        // ✅ Get user and token
+        // Retrieve logged-in user and token
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         User user = spm.getUser();
         int userId = user.getId();
         token = user.getToken();
 
+        // Initialize API service
         profileService = ApiUtils.getProfileService();
 
-        // 🔄 Load profile
+        // Fetch profile by user ID
         profileService.getProfileByUserId(userId, token).enqueue(new Callback<List<Profile>>() {
             @Override
             public void onResponse(Call<List<Profile>> call, Response<List<Profile>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     loadedProfile = response.body().get(0);
+
+                    // Set name values and disable editing
                     edtFirstName.setText(loadedProfile.getFirst_name());
                     edtLastName.setText(loadedProfile.getLast_name());
                     edtFirstName.setEnabled(false);
                     edtLastName.setEnabled(false);
 
-                    // 🖼️ Load image using Glide
+                    // Load profile image (if available) using Glide
                     if (loadedProfile.getImage() != null && !loadedProfile.getImage().isEmpty()) {
                         String imageUrl = "https://178.128.220.20/2534A_3/api/" + loadedProfile.getImage();
                         Glide.with(UserProfileInfoActivity.this)
@@ -84,7 +91,7 @@ public class UserProfileInfoActivity extends AppCompatActivity {
                                 .into(imgProfile);
                     }
 
-                    // Load theme
+                    // Set current theme selection
                     selectedTheme = loadedProfile.getTheme_bg();
                     if ("dark".equalsIgnoreCase(selectedTheme)) {
                         btnDark.setAlpha(1f);
@@ -93,6 +100,7 @@ public class UserProfileInfoActivity extends AppCompatActivity {
                         btnLight.setAlpha(1f);
                         btnDark.setAlpha(0.5f);
                     }
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Failed to load profile", Toast.LENGTH_LONG).show();
                 }
@@ -104,43 +112,41 @@ public class UserProfileInfoActivity extends AppCompatActivity {
             }
         });
 
-        // 🌓 Theme selection
+        // Theme switching: Light Mode
         btnLight.setOnClickListener(v -> {
             selectedTheme = "light";
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // 🟢 Instant light mode
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // Light mode
             saveThemePreference("light");
             btnLight.setAlpha(1f);
             btnDark.setAlpha(0.5f);
-            recreate(); // 🔄 Refresh activity to apply changes
-
+            recreate(); // Refresh UI
         });
 
+        // Theme switching: Dark Mode
         btnDark.setOnClickListener(v -> {
             selectedTheme = "dark";
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); // 🌙 Instant dark mode
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); // Dark mode
             saveThemePreference("dark");
             btnDark.setAlpha(1f);
             btnLight.setAlpha(0.5f);
-            recreate(); // 🔄 Refresh activity to apply changes
-
+            recreate(); // Refresh UI
         });
 
-
-        // ✅ Save Theme
+        // Save theme button
         btnSaveTheme.setOnClickListener(v -> {
-            // Store selected theme locally
             SharedPreferences.Editor editor = getSharedPreferences("ThemePrefs", MODE_PRIVATE).edit();
             editor.putString("app_theme", selectedTheme);
             editor.apply();
-
             Toast.makeText(UserProfileInfoActivity.this, "Theme saved locally!", Toast.LENGTH_SHORT).show();
         });
-
     }
+
+    /**
+     * Stores theme preference locally in SharedPreferences.
+     */
     private void saveThemePreference(String theme) {
         SharedPreferences.Editor editor = getSharedPreferences("ThemePrefs", MODE_PRIVATE).edit();
         editor.putString("app_theme", theme);
         editor.apply();
     }
-
 }

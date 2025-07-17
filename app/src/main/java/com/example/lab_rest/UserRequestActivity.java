@@ -32,42 +32,53 @@ public class UserRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_request);
 
+        // 🔄 Initialize RecyclerView and service
         rvRequests = findViewById(R.id.rvRequests);
         rvRequests.setLayoutManager(new LinearLayoutManager(this));
         userService = ApiUtils.getUserService();
 
+        // 👤 Get current user info from shared preferences
         SharedPrefManager spm = new SharedPrefManager(this);
         User user = spm.getUser();
         Log.d("DEBUG_USER", "User ID: " + user.getId());
+
+        // 🚀 Load user's requests from API
         loadUserRequests(user.getId());
     }
 
+    /**
+     * Fetches request data made by a specific user from the server and displays it in a RecyclerView
+     */
     private void loadUserRequests(int userId) {
         userService.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Request> requestList = response.body();
-                    Log.d("DEBUG_REQUESTS", "Total request: " + requestList.size());
 
+                    Log.d("DEBUG_REQUESTS", "Total request: " + requestList.size());
                     for (Request r : requestList) {
                         Log.d("DEBUG_REQUESTS", "Item ID: " + r.getItem_id() + " | Status: " + r.getStatus());
                     }
 
+                    // ✅ Set adapter with retrieved request data
                     adapter = new RequestAdapter(requestList);
                     rvRequests.setAdapter(adapter);
                 } else {
+                    // ❌ API call succeeded but no data or bad response
                     Log.e("DEBUG_REQUESTS", "Request null or fail. Code: " + response.code());
-                }
                     Toast.makeText(UserRequestActivity.this, "No requests found.", Toast.LENGTH_SHORT).show();
                 }
+            }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
+                // ❌ Network error or unexpected failure
                 Log.e("DEBUG_REQUESTS", "Error: " + t.getMessage());
                 Toast.makeText(UserRequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
+
 

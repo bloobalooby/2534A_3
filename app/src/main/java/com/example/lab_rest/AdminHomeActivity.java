@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
-
 public class AdminHomeActivity extends AppCompatActivity {
 
+    // Declare UI components
     TextView tvWelcome;
     Button btnRequests, btnItem, btnLogout;
 
@@ -23,54 +23,56 @@ public class AdminHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
 
-        // UI references
+        // Initialize UI components
         tvWelcome = findViewById(R.id.tvWelcome);
         btnRequests = findViewById(R.id.btnRequests);
         btnItem = findViewById(R.id.btnItem);
         btnLogout = findViewById(R.id.btnLogout);
 
-        // Load user info
+        // Load user from shared preferences
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
+
+        // If not logged in, redirect to login
         if (!spm.isLoggedIn()) {
-            finish();
-            // forward to login page
+            finish(); // End current activity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {
+            // Show welcome message with username
             User user = spm.getUser();
             tvWelcome.setText("Hello " + user.getUsername());
         }
     }
 
+    // Called when Logout button is clicked
     public void logoutClicked(View view) {
-        // clear the shared preferences
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
+
+        // Clear session
         spm.logout();
 
-        // display message
+        // Show logout message
         Toast.makeText(getApplicationContext(),
                 "You have successfully logged out.",
                 Toast.LENGTH_LONG).show();
 
-        // terminate this MainActivity
+        // End this activity and go back to LoginActivity
         finish();
-
-        // forward to Login Page
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-
     }
 
+    // Called when Item List button is clicked
     public void itemListClicked(View view) {
-        // forward user to AdminItemListActivity
-        Intent intent = new Intent(getApplicationContext(), AdminItemListActivity.class); // change to adminitemlistactivity
+        // Go to AdminItemListActivity
+        Intent intent = new Intent(getApplicationContext(), AdminItemListActivity.class);
         startActivity(intent);
     }
 
+    // Called when View All Requests button is clicked
     public void allRequestsClicked(View view) {
+        // Go to AdminRequestActivity
         Intent intent = new Intent(getApplicationContext(), AdminRequestActivity.class);
         startActivity(intent);
     }
-
-    }
-
+}
