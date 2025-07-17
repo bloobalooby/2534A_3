@@ -44,6 +44,8 @@
         <activity android:name=".UserProfileInfoActivity" />
         <activity android:name=".UserThemeSettingsActivity" />
         <activity android:name=".AddItemActivity" />
+        <activity android:name=".RequestActivity" />
+
     </application>
 
 </manifest>
