@@ -67,7 +67,7 @@ public class UserHomeActivity extends AppCompatActivity {
         );
 
         btnViewRequests.setOnClickListener(v ->
-                startActivity(new Intent(UserHomeActivity.this, MyRequestActivity.class))
+                startActivity(new Intent(UserHomeActivity.this, UserRequestActivity.class))
         );
 
         mapClickableArea.setOnClickListener(v -> {

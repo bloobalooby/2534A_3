@@ -20,16 +20,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lab_rest.R;
 import com.example.lab_rest.adapter.AdminItemAdapter;
 import com.example.lab_rest.model.DeleteResponse;
 import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
-import com.example.lab_rest.LoginActivity;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
-import com.example.lab_rest.UpdateItemActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -227,8 +224,8 @@ public class AdminItemListActivity extends AppCompatActivity {
 
     private void doViewUpdate(Item selectedItem) {
         Log.d("MyApp:", "updating item: " + selectedItem.toString());
-        // forward user to UpdateItemActivity, passing the selected item id
-        Intent intent = new Intent(getApplicationContext(), UpdateItemActivity.class);
+        // forward user to AdminUpdateItemActivity, passing the selected item id
+        Intent intent = new Intent(getApplicationContext(), AdminUpdateItemActivity.class);
         intent.putExtra("item_id", selectedItem.getItemId());
         startActivity(intent);
     }

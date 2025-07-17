@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_rest.adapter.RequestAdapter;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
-import com.example.lab_rest.RequestAdapter;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequestActivity extends AppCompatActivity {
+public class AdminRequestActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RequestAdapter adapter;
@@ -67,17 +67,17 @@ public class RequestActivity extends AppCompatActivity {
                     List<Request> requestList = response.body();
                     adapter = new RequestAdapter(requestList);
                     recyclerView.setAdapter(adapter);
-                    Toast.makeText(RequestActivity.this, "Loaded " + requestList.size() + " requests.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminRequestActivity.this, "Loaded " + requestList.size() + " requests.", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 401) {
-                    Toast.makeText(RequestActivity.this, "Unauthorized: Token expired or invalid. Please log in again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminRequestActivity.this, "Unauthorized: Token expired or invalid. Please log in again.", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(RequestActivity.this, "No requests found or server error. Code: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminRequestActivity.this, "No requests found or server error. Code: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
-                Toast.makeText(RequestActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AdminRequestActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

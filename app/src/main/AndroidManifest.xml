@@ -18,7 +18,7 @@
         <activity
             android:name=".AdminItemListActivity"
             android:exported="false" />
-        <activity android:name=".MyRequestActivity" />
+        <activity android:name=".UserRequestActivity" />
         <activity
             android:name=".UserItemListActivity"
             android:exported="false" />
@@ -38,11 +38,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".UserHomeActivity" />
-        <activity android:name=".UpdateItemActivity" />
+        <activity android:name=".AdminUpdateItemActivity" />
         <activity android:name=".UserProfileInfoActivity" />
         <activity android:name=".UserThemeSettingsActivity" />
         <activity android:name=".AddItemActivity" />
-        <activity android:name=".RequestActivity" />
+        <activity android:name=".AdminRequestActivity" />
 
     </application>
 

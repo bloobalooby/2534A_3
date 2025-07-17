@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
-import com.example.lab_rest.RequestActivity; // ✅ correct
 
 
 public class AdminHomeActivity extends AppCompatActivity {
@@ -69,7 +68,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     }
 
     public void allRequestsClicked(View view) {
-        Intent intent = new Intent(getApplicationContext(), RequestActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AdminRequestActivity.class);
         startActivity(intent);
     }
 

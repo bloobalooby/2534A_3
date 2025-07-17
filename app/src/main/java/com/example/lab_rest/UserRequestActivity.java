@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_rest.adapter.RequestAdapter;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
@@ -20,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyRequestActivity extends AppCompatActivity {
+public class UserRequestActivity extends AppCompatActivity {
 
     private RecyclerView rvRequests;
     private RequestAdapter adapter;
@@ -58,13 +59,13 @@ public class MyRequestActivity extends AppCompatActivity {
                 } else {
                     Log.e("DEBUG_REQUESTS", "Request null or fail. Code: " + response.code());
                 }
-                    Toast.makeText(MyRequestActivity.this, "No requests found.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserRequestActivity.this, "No requests found.", Toast.LENGTH_SHORT).show();
                 }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
                 Log.e("DEBUG_REQUESTS", "Error: " + t.getMessage());
-                Toast.makeText(MyRequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserRequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
             }
         });
     }

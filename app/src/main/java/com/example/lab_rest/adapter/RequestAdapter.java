@@ -1,4 +1,4 @@
-package com.example.lab_rest;
+package com.example.lab_rest.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_rest.R;
 import com.example.lab_rest.model.Request;
 
 import java.util.List;
