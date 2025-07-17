@@ -18,13 +18,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     private List<Request> requestList;
     private String getItemNameById(int id) {
         switch (id) {
-            case 1: return "Plastic Bottle";
+            case 10: return "Plastic Bottle";
             case 2: return "Glass Container";
-            case 3: return "Paper";
-            case 4: return "Cardboard";
-            case 5: return "Aluminium Cans";
-            case 6: return "Used Cooking Oils";
+            case 11: return "Paper";
+            case 12: return "Cardboard";
+            case 13: return "Aluminium Cans";
+            case 14: return "Used Cooking Oils";
             case 7: return "Old Clothes";
+            case 8: return "Metal Scraps";
             default: return "Unknown Item";
         }
     }
