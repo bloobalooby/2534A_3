@@ -41,17 +41,15 @@ public interface UserService {
     );
 
     //  Submit a single item request
-
-
-
     @FormUrlEncoded
     @POST("requests")
-    Call<ResponseBody> createRequest(
+    Call<Request> createRequest(@Header("api-key") String apiKey,
             @Field("user_id") int userId,
             @Field("item_id") int itemId,
             @Field("address") String address,
             @Field("notes") String notes
     );
+
 
     @Multipart
     @POST("files")

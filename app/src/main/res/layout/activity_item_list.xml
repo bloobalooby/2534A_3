@@ -19,6 +19,8 @@
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
         app:navigationIcon="@android:drawable/ic_menu_revert" />
 
+
+
     <!-- RecyclerView for item list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItemList"
@@ -27,6 +29,18 @@
         android:layout_weight="1"
         android:padding="8dp"
         android:clipToPadding="false" />
+
+    <EditText
+        android:id="@+id/etAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your address" />
+
+    <EditText
+        android:id="@+id/etNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add any notes (optional)" />
 
     <!-- Total price -->
     <TextView

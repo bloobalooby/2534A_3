@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,17 +16,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_rest.adapter.ItemAdapter;
 import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
+import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,61 +36,59 @@ import retrofit2.Response;
 public class UserItemListActivity extends AppCompatActivity {
 
     private ItemService itemService;
+    private UserService userService;
     private RecyclerView rvItemList;
     private Button btnDone, btnClear;
     private TextView tvTotalPrice;
+    private EditText etAddress, etNotes;
     private List<Item> itemList = new ArrayList<>();
     private ItemAdapter adapter;
-    private double totalPrice = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
+        // Toolbar setup
         MaterialToolbar toolbar = findViewById(R.id.myToolbar);
-        setSupportActionBar(toolbar); // Optional but good if using menu items
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-        toolbar.setNavigationOnClickListener(v -> {
-            finish(); //  This will go back to the previous screen
-        });
-
-        // Apply safe area insets
+        // Handle insets for full screen
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-       // ✅ Find FAB and set click to open AddItemActivity
-        FloatingActionButton fab = findViewById(R.id.fab); // Make sure R.id.fab exists in your layout!
-        fab.setOnClickListener(v -> {
-                    Intent intent = new Intent(UserItemListActivity.this, com.example.lab_rest.AddItemActivity.class);
-                    startActivity(intent);
-                });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> startActivity(new Intent(this, AddItemActivity.class)));
 
-        // Get references
+        // View bindings
         rvItemList = findViewById(R.id.rvItemList);
         btnDone = findViewById(R.id.btnDone);
         btnClear = findViewById(R.id.btnClear);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
+        etAddress = findViewById(R.id.etAddress);
+        etNotes = findViewById(R.id.etNotes);
+
+        itemService = ApiUtils.getItemService();
+        userService = ApiUtils.getUserService();
 
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         User user = spm.getUser();
         String token = user.getToken();
+        int userId = user.getId();
 
-        // Load items from API
-        itemService = ApiUtils.getItemService();
+        // Fetch all items
         itemService.getAllItems(token).enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     itemList = response.body();
-
-                    // 🔄 Assign image resource to each item
                     for (Item item : itemList) {
                         int resId = getImageResIdFromName(item.getItemName());
                         item.setImageResId(resId);
@@ -98,58 +99,81 @@ public class UserItemListActivity extends AppCompatActivity {
                     rvItemList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     rvItemList.addItemDecoration(new DividerItemDecoration(rvItemList.getContext(), DividerItemDecoration.VERTICAL));
                 } else if (response.code() == 401) {
-                    Toast.makeText(getApplicationContext(), "Invalid session. Please login again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Session expired. Please log in again.", Toast.LENGTH_LONG).show();
                     clearSessionAndRedirect();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_LONG).show();
-                    Log.e("MyApp: ", response.toString());
+                    Toast.makeText(getApplicationContext(), "Failed: " + response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error connecting to the server", Toast.LENGTH_LONG).show();
-                Log.e("MyApp:", t.toString());
+                Toast.makeText(getApplicationContext(), "Server error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("UserItemList", "Error: ", t);
             }
         });
 
-        // ✅ Done: send selected items
+        // DONE: Submit request
         btnDone.setOnClickListener(v -> {
             Item selectedItem = adapter.getSelectedItem();
             if (selectedItem == null) {
-                Toast.makeText(this, "Please select at least one item.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please select an item first.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            ArrayList<Item> selectedItems = new ArrayList<>();
-            selectedItems.add(selectedItem);
+            String address = etAddress.getText().toString().trim();
+            String notes = etNotes.getText().toString().trim();
 
-            Intent intent = new Intent(this, UserConfirmRequestActivity.class);
-            intent.putExtra("selectedItems", new Gson().toJson(selectedItems));
-            startActivity(intent);
+            if (address.isEmpty()) {
+                etAddress.setError("Address is required");
+                etAddress.requestFocus();
+                return;
+            }
 
+            Call<com.example.lab_rest.model.Request> call = userService.createRequest(
+                    token,
+                    userId,
+                    selectedItem.getItemId(),
+                    address,
+                    notes
+            );
+
+            call.enqueue(new Callback<com.example.lab_rest.model.Request>() {
+                @Override
+                public void onResponse(Call<com.example.lab_rest.model.Request> call, Response<com.example.lab_rest.model.Request> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(UserItemListActivity.this, "Request submitted!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(UserItemListActivity.this, "Submit failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<com.example.lab_rest.model.Request> call, Throwable t) {
+                    Toast.makeText(UserItemListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-
-        // ❌ Clear all quantities
+        // CLEAR: Reset selections
         btnClear.setOnClickListener(v -> {
             for (Item item : itemList) {
-                item.setSelected(false); // ❌ uncheck all
+                item.setSelected(false);
             }
+            adapter.notifyDataSetChanged();
+            etAddress.setText("");
+            etNotes.setText("");
         });
-
     }
-
-    
 
     private void clearSessionAndRedirect() {
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         spm.logout();
-        finish();
         startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
-    // 🖼️ Get image resource ID based on item name
     private int getImageResIdFromName(String itemName) {
         switch (itemName.toLowerCase()) {
             case "plastic bottles": return R.drawable.ic_plastic;
@@ -164,3 +188,4 @@ public class UserItemListActivity extends AppCompatActivity {
         }
     }
 }
+
