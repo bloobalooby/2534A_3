@@ -12,7 +12,7 @@ public class UserTempCart {
     }
 
     public static List<Item> getCartItems() {
-        return cartItems; // ✅ return original, not a copy
+        return cartItems; //  return original, not a copy
     }
 
 
