@@ -1,7 +1,7 @@
 package com.example.lab_rest;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,6 @@ import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.RequestAdapter;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -38,37 +37,47 @@ public class RequestActivity extends AppCompatActivity {
 
         userService = ApiUtils.getUserService();
 
-        loadRequests();
+        loadRequests(); // Call to fetch request data from API
     }
 
     private void loadRequests() {
+        // Get the user and token from shared preferences
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         User user = spm.getUser();
-        String token = "Bearer " + user.getToken(); // Adjust this based on your token format
 
+        if (user == null || user.getToken() == null || user.getToken().isEmpty()) {
+            Toast.makeText(this, "Error: No valid token found. Please log in again.", Toast.LENGTH_LONG).show();
+            // Optionally redirect to login page
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        String token = "Bearer " + user.getToken(); // Token format
+
+        // Debug: Show the token for verification
+        Toast.makeText(this, "Token: " + token, Toast.LENGTH_LONG).show();
+
+        // Make API call
         userService.getAllRequests(token).enqueue(new Callback<List<Request>>() {
-
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-
-                    // 🔍 Debug logs to see what's returned from the API
-                    Log.d("RequestActivity", "Response Code: " + response.code());
-                    Log.d("RequestActivity", "Response Body: " + new Gson().toJson(response.body()));
-
-                    adapter = new RequestAdapter(response.body());
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    List<Request> requestList = response.body();
+                    adapter = new RequestAdapter(requestList);
                     recyclerView.setAdapter(adapter);
-
+                    Toast.makeText(RequestActivity.this, "Loaded " + requestList.size() + " requests.", Toast.LENGTH_SHORT).show();
+                } else if (response.code() == 401) {
+                    Toast.makeText(RequestActivity.this, "Unauthorized: Token expired or invalid. Please log in again.", Toast.LENGTH_LONG).show();
                 } else {
-                    Log.e("RequestActivity", "Response Error Code: " + response.code());
-                    Toast.makeText(RequestActivity.this, "Failed to load requests", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RequestActivity.this, "No requests found or server error. Code: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
-                Log.e("RequestActivity", "API Call Failed: " + t.getMessage());
-                Toast.makeText(RequestActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestActivity.this, "API call failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
