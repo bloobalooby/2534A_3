@@ -18,79 +18,93 @@
         android:layout_marginTop="48dp"
         android:contentDescription="Recycle Logo" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/imgLogo"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:padding="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Recycle Buddy"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#2E7D32" />
+
+    <TextView
+        android:id="@+id/tvSlogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAppName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:text="Your Eco-Friendly Partner"
+        android:textSize="14sp"
+        android:textColor="#388E3C" />
+
+    <LinearLayout
+        android:id="@+id/loginCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSlogan"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_white_bg"
         android:elevation="6dp"
-        android:layout_margin="24dp">
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <EditText
             android:id="@+id/edtUsername"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="12dp"
-            android:hint="Username"
-            android:inputType="text"
             android:background="@drawable/rounded_edittext_green"
             android:drawableStart="@drawable/ic_user_leaf"
+            android:hint="Username"
+            android:inputType="text"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="#388E3C"
-            android:textColorHint="#A5D6A7"/>
+            android:textColorHint="#A5D6A7" />
 
         <EditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="8dp"
-            android:hint="Password"
-            android:inputType="textPassword"
             android:background="@drawable/rounded_edittext_green"
             android:drawableStart="@drawable/ic_lock_leaf"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="#388E3C"
-            android:textColorHint="#A5D6A7"/>
+            android:textColorHint="#A5D6A7" />
 
         <CheckBox
             android:id="@+id/checkboxShowPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Show Password"
-            android:textColor="#388E3C"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#388E3C" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_button_green"
+            android:onClick="loginClicked"
             android:text="Login"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_button_green"
-            android:textSize="18sp"
-            android:onClick="loginClicked" />
-
-        <TextView
-            android:id="@+id/textViewRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Don’t have an account?\nRegister Here"
-            android:textAlignment="center"
-            android:textColor="#388E3C"
-            android:textSize="15sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
 
-    <!-- ProgressBar Spinner -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
@@ -99,6 +113,5 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:indeterminate="true" />
-
 
 </RelativeLayout>
