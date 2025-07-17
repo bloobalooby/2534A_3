@@ -28,7 +28,7 @@ import retrofit2.Response;
 
 public class UserHomeActivity extends AppCompatActivity {
 
-    private TextView tvWelcome, tvTotalRecycled, tvTotalEarned, tvCompletedRequests, tvAnnouncements, tvBadgeName;
+    private TextView tvWelcome, tvAnnouncements, tvBadgeName;
     private ImageView badgeBronze, badgeSilver, badgeGold;
     private Button btnSubmitRequest, btnViewRequests;
 
@@ -92,11 +92,6 @@ public class UserHomeActivity extends AppCompatActivity {
         tvWelcome.setText("Welcome, " + user.getUsername() + "!");
         loadUserAnnouncements(user.getId());
 
-        // Dummy data
-        TextView tvTotalRecycledBig = findViewById(R.id.tvTotalRecycledBig);
-        TextView tvTotalEarnedBig = findViewById(R.id.tvTotalEarnedBig);
-        TextView tvTotalRequests = findViewById(R.id.tvTotalRequests);
-
         UserService api = ApiUtils.getUserService();
         api.getRequestsByUser(user.getId()).enqueue(new Callback<List<Request>>() {
             @Override
@@ -113,10 +108,6 @@ public class UserHomeActivity extends AppCompatActivity {
                             completedRequests++;
                         }
                     }
-
-                    tvTotalRecycledBig.setText(String.format(Locale.getDefault(), "%.2f kg", totalWeight));
-                    tvTotalEarnedBig.setText(String.format(Locale.getDefault(), "RM %.2f", totalEarnings));
-                    tvTotalRequests.setText(String.valueOf(completedRequests));
 
                     // Badge logic
                     if (totalWeight >= 20) {

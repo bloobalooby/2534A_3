@@ -5,59 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.lab_rest.LoginActivity"
-    android:id="@+id/login">
+    android:id="@+id/login"
+    android:background="@drawable/bg_recycle_gradient">
+
+    <!-- Cute Recycle Icon -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_recycle_cute"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:contentDescription="Recycle Logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imgLogo"
         android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="24dp"
+        android:background="@drawable/rounded_white_bg"
+        android:elevation="6dp"
+        android:layout_margin="24dp">
 
         <EditText
             android:id="@+id/edtUsername"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="12dp"
             android:hint="Username"
-            android:inputType="text" />
+            android:inputType="text"
+            android:background="@drawable/rounded_edittext_green"
+            android:drawableStart="@drawable/ic_user_leaf"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#388E3C"
+            android:textColorHint="#A5D6A7"/>
 
         <EditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_edittext_green"
+            android:drawableStart="@drawable/ic_lock_leaf"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#388E3C"
+            android:textColorHint="#A5D6A7"/>
 
         <CheckBox
             android:id="@+id/checkboxShowPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show Password" />
-
+            android:text="Show Password"
+            android:textColor="#388E3C"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="loginClicked"
-            android:text="Login" />
+            android:layout_height="48dp"
+            android:layout_marginBottom="12dp"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_button_green"
+            android:textSize="18sp"
+            android:onClick="loginClicked" />
 
         <TextView
             android:id="@+id/textViewRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Dont' have an account?\nRegister Here"
+            android:text="Don’t have an account?\nRegister Here"
             android:textAlignment="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textColor="#388E3C"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
 
     </LinearLayout>
 
@@ -70,7 +99,6 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:indeterminate="true" />
-
 
 
 </RelativeLayout>
