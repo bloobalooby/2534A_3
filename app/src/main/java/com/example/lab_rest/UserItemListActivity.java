@@ -67,9 +67,6 @@ public class UserItemListActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Floating action button to add items
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> startActivity(new Intent(this, AddItemActivity.class)));
 
         // Bind views
         rvItemList = findViewById(R.id.rvItemList);
