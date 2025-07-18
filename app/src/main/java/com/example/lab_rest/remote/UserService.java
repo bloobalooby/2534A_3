@@ -42,12 +42,5 @@ public interface UserService {
     );
 
 
-    // Upload a file
-    @Multipart
-    @POST("files")
-    Call<okhttp3.ResponseBody> uploadFile(
-            @Header("api-key") String apiKey,
-            @Part MultipartBody.Part file
-    );
 
 }
