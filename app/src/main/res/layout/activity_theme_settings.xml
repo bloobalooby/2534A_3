@@ -40,14 +40,6 @@
             android:textColor="#FFFFFF"
             android:layout_margin="8dp"/>
 
-        <Button
-            android:id="@+id/btnBlue"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Blue"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:layout_margin="8dp"/>
     </LinearLayout>
 
     <Button

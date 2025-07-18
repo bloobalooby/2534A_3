@@ -38,7 +38,6 @@ public class UserItemListActivity extends AppCompatActivity {
     // UI components
     private RecyclerView rvItemList;
     private Button btnDone, btnClear;
-    private TextView tvTotalPrice;
     private EditText etAddress, etNotes;
     private FloatingActionButton fab;
 
@@ -76,7 +75,6 @@ public class UserItemListActivity extends AppCompatActivity {
         rvItemList = findViewById(R.id.rvItemList);
         btnDone = findViewById(R.id.btnDone);
         btnClear = findViewById(R.id.btnClear);
-        tvTotalPrice = findViewById(R.id.tvTotalPrice);
         etAddress = findViewById(R.id.etAddress);
         etNotes = findViewById(R.id.etNotes);
 

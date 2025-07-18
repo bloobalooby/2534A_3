@@ -68,8 +68,6 @@ public interface UserService {
 
 
 
-
-
     //  Get all requests for a specific user
     @GET("requests/user/{user_id}")
     Call<List<Request>> getRequestsByUser(@Path("user_id") int userId);
