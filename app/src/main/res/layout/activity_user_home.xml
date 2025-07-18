@@ -20,7 +20,6 @@
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.Material3.Light" />
 
-
     <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
@@ -45,7 +44,6 @@
                 android:textColor="#2E7D32"
                 android:layout_marginBottom="16dp" />
 
-
             <!-- Buttons -->
             <Button
                 android:id="@+id/btnSubmitRequest"
@@ -64,80 +62,6 @@
                 android:backgroundTint="#2E7D32"
                 android:text="View My Requests"
                 android:textColor="#FFFFFF" />
-
-            <!-- Achievements Section -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginHorizontal="4dp"
-                android:elevation="4dp"
-                app:cardCornerRadius="16dp"
-                app:cardBackgroundColor="@android:color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Achievements"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="You've unlocked:"
-                            android:textSize="16sp"
-                            android:layout_marginTop="4dp" />
-
-                        <TextView
-                            android:id="@+id/tvBadgeName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="No badge yet"
-                            android:textAllCaps="true"
-                            android:textColor="#0B100B"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/badgeBronze"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_bronze_badge"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:id="@+id/badgeSilver"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_silver_badge"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:id="@+id/badgeGold"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/ic_gold_badge"
-                        android:visibility="gone" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
             <!-- Announcements -->
             <TextView
@@ -186,6 +110,3 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
-
-
-

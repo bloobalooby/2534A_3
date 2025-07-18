@@ -34,9 +34,12 @@ public class Request {
     @SerializedName("notes")
     private String notes;
 
+    @SerializedName("item")  // 🔥 This assumes your backend returns the full item object as "item"
+    private Item item;
+
     // Constructor
     public Request(int request_id, int user_id, int item_id, String address, String request_date,
-                   String status, double weight, double total_price, String notes) {
+                   String status, double weight, double total_price, String notes, Item item) {
         this.request_id = request_id;
         this.user_id = user_id;
         this.item_id = item_id;
@@ -46,6 +49,7 @@ public class Request {
         this.weight = weight;
         this.total_price = total_price;
         this.notes = notes;
+        this.item = item;
     }
 
     // Getters and Setters
@@ -121,6 +125,14 @@ public class Request {
         this.notes = notes;
     }
 
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
     // String representation for debugging/logging
     @Override
     public String toString() {
@@ -134,6 +146,7 @@ public class Request {
                 ", weight=" + weight +
                 ", total_price=" + total_price +
                 ", notes='" + notes + '\'' +
+                ", item=" + item +
                 '}';
     }
 }

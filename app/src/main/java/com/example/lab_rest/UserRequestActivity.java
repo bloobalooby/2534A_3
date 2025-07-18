@@ -76,7 +76,7 @@ public class UserRequestActivity extends AppCompatActivity {
                     });
 
                     // 📦 Set adapter and bind delete handler
-                    adapter = new RequestAdapter(requestList);
+                    adapter = new RequestAdapter(requestList, "user");
                     rvRequests.setAdapter(adapter);
 
                     adapter.setOnDeleteClickListener((requestId, position) -> {

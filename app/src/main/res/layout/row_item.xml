@@ -33,8 +33,11 @@
             android:text="Price" />
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/cbSelect"
+    <RadioButton
+        android:id="@+id/radioButtonSelect"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 </LinearLayout>

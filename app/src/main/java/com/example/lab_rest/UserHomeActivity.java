@@ -3,6 +3,7 @@ package com.example.lab_rest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,7 @@ public class UserHomeActivity extends AppCompatActivity {
 
     // UI components
     private TextView tvWelcome, tvAnnouncements, tvBadgeName;
-    private ImageView badgeBronze, badgeSilver, badgeGold;
+
     private Button btnSubmitRequest, btnViewRequests;
 
     @Override
@@ -56,12 +57,8 @@ public class UserHomeActivity extends AppCompatActivity {
         // Bind views
         tvWelcome = findViewById(R.id.tvWelcome);
         tvAnnouncements = findViewById(R.id.tvAnnouncements);
-        badgeBronze = findViewById(R.id.badgeBronze);
-        badgeSilver = findViewById(R.id.badgeSilver);
-        badgeGold = findViewById(R.id.badgeGold);
         btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
         btnViewRequests = findViewById(R.id.btnViewRequests);
-        tvBadgeName = findViewById(R.id.tvBadgeName);
         View mapClickableArea = findViewById(R.id.mapClickableArea);
 
         // Navigate to SubmitRequest screen
@@ -101,55 +98,9 @@ public class UserHomeActivity extends AppCompatActivity {
 
         // Load announcements and user badge progress
         loadUserAnnouncements(user.getToken(), user.getId());
-        loadUserStats(user.getToken(), user.getId());
     }
 
-    /**
-     * Load user stats such as total recycled weight and determine badge level.
-     */
-    private void loadUserStats(String token, int userId) {
-        RequestService api = ApiUtils.getRequestService();
-        api.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
-            @Override
-            public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    double totalWeight = 0;
-                    double totalEarnings = 0;
-                    int completedRequests = 0;
 
-                    for (Request r : response.body()) {
-                        if ("Accepted".equalsIgnoreCase(r.getStatus())) {
-                            totalWeight += r.getWeight();
-                            totalEarnings += r.getTotal_price();
-                            completedRequests++;
-                        }
-                    }
-
-                    // Set badge visibility and name
-                    if (totalWeight >= 20) {
-                        tvBadgeName.setText("Gold Badge");
-                        badgeGold.setVisibility(View.VISIBLE);
-                    } else if (totalWeight >= 10) {
-                        tvBadgeName.setText("Silver Badge");
-                        badgeSilver.setVisibility(View.VISIBLE);
-                    } else if (totalWeight >= 5) {
-                        tvBadgeName.setText("Bronze Badge");
-                        badgeBronze.setVisibility(View.VISIBLE);
-                    } else {
-                        tvBadgeName.setText("No badge yet");
-                    }
-
-                } else {
-                    Toast.makeText(UserHomeActivity.this, "Failed to load stats", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Request>> call, Throwable t) {
-                Toast.makeText(UserHomeActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     /**
      * Load recent user-related announcements based on request statuses.
@@ -195,6 +146,7 @@ public class UserHomeActivity extends AppCompatActivity {
             }
         });
     }
+
 
     /**
      * Inflate options menu.

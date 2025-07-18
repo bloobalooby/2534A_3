@@ -7,7 +7,7 @@
     android:padding="8dp">
 
     <RadioButton
-        android:id="@+id/radioButtonSelect"
+        android:id="@+id/rButtonSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

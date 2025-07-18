@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,14 +38,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgItem;
         TextView txtItemName, txtPrice;
-        CheckBox cbSelect;
+        RadioButton radioButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgItem = itemView.findViewById(R.id.imgItem);
             txtItemName = itemView.findViewById(R.id.txtItemName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
-            cbSelect = itemView.findViewById(R.id.cbSelect);
+            radioButton = itemView.findViewById(R.id.radioButtonSelect);
         }
     }
 
@@ -65,11 +66,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.txtPrice.setText("RM " + item.getPrice());
         holder.imgItem.setImageResource(item.getImageResId());
 
-        // Set checkbox state
-        holder.cbSelect.setChecked(holder.getAdapterPosition() == selectedPosition);
+        // Set radio button state
+        holder.radioButton.setChecked(holder.getAdapterPosition() == selectedPosition);
 
         // Handle checkbox click
-        holder.cbSelect.setOnClickListener(v -> {
+        holder.radioButton.setOnClickListener(v -> {
             int adapterPosition = holder.getAdapterPosition();
             if (adapterPosition == RecyclerView.NO_POSITION) return;
 
@@ -82,7 +83,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         });
 
         // Make the whole row clickable
-        holder.itemView.setOnClickListener(v -> holder.cbSelect.performClick());
+        holder.itemView.setOnClickListener(v -> holder.radioButton.performClick());
     }
 
     @Override

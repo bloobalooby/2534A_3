@@ -15,10 +15,30 @@
         android:text="Item Name"
         android:textStyle="bold"/>
 
-    <TextView android:id="@+id/tvQty"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Quantity: 2"/>
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- For user: read-only -->
+        <TextView
+            android:id="@+id/textViewWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight: 0.0 kg"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- For admin: editable -->
+        <EditText
+            android:id="@+id/edittextWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter weight"
+            android:inputType="numberDecimal"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <TextView android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
@@ -34,6 +54,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Notes: Pickup after 3PM"/>
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: RM 0.00"/>
 
     <Spinner android:id="@+id/spinnerStatus"
         android:layout_width="wrap_content"
