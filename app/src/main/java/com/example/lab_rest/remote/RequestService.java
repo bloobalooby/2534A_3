@@ -1,6 +1,7 @@
 package com.example.lab_rest.remote;
 
 import com.example.lab_rest.adapter.RequestAdapter;
+import com.example.lab_rest.model.DeleteResponse;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.RequestStatusBody;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -61,6 +63,13 @@ public interface RequestService {
             @Field("item_id") int itemId,
             @Field("address") String address,
             @Field("notes") String notes
+    );
+
+    //Delete pending request
+    @DELETE("requests/{id}")
+    Call<DeleteResponse> deleteRequest(
+            @Header("api-key") String apiKey,
+            @Path("id") int requestId
     );
 
 }

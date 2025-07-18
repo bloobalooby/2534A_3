@@ -15,10 +15,12 @@ public class DeleteResponse {
     }
 
     public int getStatus() {
+
         return status;
     }
 
     public void setStatus(int status) {
+
         this.status = status;
     }
 
@@ -37,42 +39,41 @@ public class DeleteResponse {
                 ", success=" + success +
                 '}';
     }
-}
 
-class Success {
-    public int code;
-    public String status;
+    public static class Success {
+        private int code;
+        private String status;
 
-    public Success() {
-    }
+        public Success() {
+        }
 
-    public Success(int code, String status) {
-        this.code = code;
-        this.status = status;
-    }
+        public Success(int code, String status) {
+            this.code = code;
+            this.status = status;
+        }
 
-    public int getCode() {
-        return code;
-    }
+        public int getCode() {
+            return code;
+        }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+        public void setCode(int code) {
+            this.code = code;
+        }
 
-    public String getStatus() {
-        return status;
-    }
+        public String getStatus() {
+            return status;
+        }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+        public void setStatus(String status) {
+            this.status = status;
+        }
 
-
-    @Override
-    public String toString() {
-        return "Success{" +
-                "code=" + code +
-                ", status='" + status + '\'' +
-                '}';
+        @Override
+        public String toString() {
+            return "Success{" +
+                    "code=" + code +
+                    ", status='" + status + '\'' +
+                    '}';
+        }
     }
 }
