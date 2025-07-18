@@ -12,6 +12,7 @@ import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.RequestService;
+import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
@@ -26,9 +27,9 @@ import retrofit2.Response;
  */
 public class AdminRequestActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;            // RecyclerView to display requests
-    private RequestAdapter adapter;               // Adapter for binding data to RecyclerView
-    private RequestService requestService;        // Retrofit service for handling request-related API calls
+    private RecyclerView recyclerView;
+    private RequestAdapter adapter;
+    private RequestService requestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

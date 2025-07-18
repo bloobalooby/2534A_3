@@ -12,6 +12,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Retrofit interface for handling request-related API operations.
@@ -29,6 +30,33 @@ public interface RequestService {
     Call<Request> getRequests(
             @Header("api-key") String apiKey,
             @Path("id") int id
+    );
+
+    // Update status of an existing request
+    @FormUrlEncoded
+    @PUT("requests/{id}/status")
+    Call<Void> updateRequestStatus(
+            @Path("id") int id,
+            @Header("api-key") String apiKey,
+            @Field("status") String status
+    );
+
+    // Get all requests submitted by a specific user
+    @GET("requests")
+    Call<List<Request>> getRequestsByUser(
+            @Header("api-key") String apiKey,
+            @Query("user_id") int userId
+    );
+
+    // Submit a new item request
+    @FormUrlEncoded
+    @POST("requests")
+    Call<Request> createRequest(
+            @Header("api-key") String apiKey,
+            @Field("user_id") int userId,
+            @Field("item_id") int itemId,
+            @Field("address") String address,
+            @Field("notes") String notes
     );
 
 }

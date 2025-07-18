@@ -21,6 +21,7 @@ import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
+import com.example.lab_rest.remote.RequestService;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -45,7 +46,7 @@ public class UserItemListActivity extends AppCompatActivity {
     private List<Item> itemList = new ArrayList<>();
     private ItemAdapter adapter;
     private ItemService itemService;
-    private UserService userService;
+    private RequestService requestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class UserItemListActivity extends AppCompatActivity {
 
         // Initialize services
         itemService = ApiUtils.getItemService();
-        userService = ApiUtils.getUserService();
+        requestService = ApiUtils.getRequestService();
 
         // Get logged in user details
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
@@ -137,7 +138,7 @@ public class UserItemListActivity extends AppCompatActivity {
             }
 
             // Submit request to server
-            Call<com.example.lab_rest.model.Request> call = userService.createRequest(
+            Call<com.example.lab_rest.model.Request> call = requestService.createRequest(
                     token,
                     userId,
                     selectedItem.getItemId(),

@@ -19,6 +19,7 @@ import com.example.lab_rest.model.Item;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
+import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import retrofit2.Call;
@@ -30,7 +31,7 @@ public class AdminUpdateItemActivity extends AppCompatActivity {
     private EditText txtItemName;
     private EditText txtPrice;
     private ItemService itemService;
-    private Item item; // current item to be updated
+    private Item item;
 
 
     @Override

@@ -15,6 +15,7 @@ import com.example.lab_rest.model.Profile;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ProfileService;
+import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
 

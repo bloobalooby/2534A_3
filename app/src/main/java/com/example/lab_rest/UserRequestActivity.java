@@ -12,6 +12,7 @@ import com.example.lab_rest.adapter.RequestAdapter;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
+import com.example.lab_rest.remote.RequestService;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
@@ -26,6 +27,7 @@ public class UserRequestActivity extends AppCompatActivity {
     private RecyclerView rvRequests;
     private RequestAdapter adapter;
     private UserService userService;
+    private RequestService requestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class UserRequestActivity extends AppCompatActivity {
         rvRequests = findViewById(R.id.rvRequests);
         rvRequests.setLayoutManager(new LinearLayoutManager(this));
         userService = ApiUtils.getUserService();
+        requestService = ApiUtils.getRequestService();
 
         // 👤 Get current user info from shared preferences
         SharedPrefManager spm = new SharedPrefManager(this);
@@ -50,7 +53,7 @@ public class UserRequestActivity extends AppCompatActivity {
      * Fetches request data made by a specific user from the server and displays it in a RecyclerView
      */
     private void loadUserRequests(String token, int userId) {
-        userService.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
+        requestService.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
+import com.example.lab_rest.remote.RequestService;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -107,7 +108,7 @@ public class UserHomeActivity extends AppCompatActivity {
      * Load user stats such as total recycled weight and determine badge level.
      */
     private void loadUserStats(String token, int userId) {
-        UserService api = ApiUtils.getUserService();
+        RequestService api = ApiUtils.getRequestService();
         api.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
@@ -154,7 +155,7 @@ public class UserHomeActivity extends AppCompatActivity {
      * Load recent user-related announcements based on request statuses.
      */
     private void loadUserAnnouncements(String token, int userId) {
-        UserService api = ApiUtils.getUserService();
+        RequestService api = ApiUtils.getRequestService();
         api.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {

@@ -17,6 +17,7 @@ import com.example.lab_rest.R;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
+import com.example.lab_rest.remote.RequestService;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
@@ -109,8 +110,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                     String token = "Bearer " + user.getToken();
 
                     // Make API call to update status
-                    UserService userService = ApiUtils.getUserService();
-                    userService.updateRequestStatus(request.getRequest_id(), token, newStatus).enqueue(new Callback<Void>() {
+                    RequestService requestService = ApiUtils.getRequestService();
+                    requestService.updateRequestStatus(request.getRequest_id(), token, newStatus).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.isSuccessful()) {

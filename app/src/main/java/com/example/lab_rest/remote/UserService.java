@@ -41,25 +41,6 @@ public interface UserService {
             @Field("password") String password
     );
 
-    // Submit a new item request
-    @FormUrlEncoded
-    @POST("requests")
-    Call<Request> createRequest(
-            @Header("api-key") String apiKey,
-            @Field("user_id") int userId,
-            @Field("item_id") int itemId,
-            @Field("address") String address,
-            @Field("notes") String notes
-    );
-
-    // Update status of an existing request
-    @FormUrlEncoded
-    @PUT("requests/{id}/status")
-    Call<Void> updateRequestStatus(
-            @Path("id") int requestId,
-            @Header("Authorization") String token,
-            @Field("status") String status
-    );
 
     // Upload a file
     @Multipart
@@ -69,22 +50,4 @@ public interface UserService {
             @Part MultipartBody.Part file
     );
 
-    // Get all requests submitted by a specific user
-    @GET("requests")
-    Call<List<Request>> getRequestsByUser(
-            @Header("api-key") String apiKey,
-            @Query("user_id") int userId
-    );
-
-    // Get all requests (admin/general)
-    @GET("requests")
-    Call<List<Request>> getAllRequests(
-            @Header("Authorization") String token
-    );
-
-    //  Fetch profile by user ID
-    @GET("/profile/{user_id}")
-    Call<Profile> getProfileByUserId(
-            @Path("user_id") int userId
-    );
 }
