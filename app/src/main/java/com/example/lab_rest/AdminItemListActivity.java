@@ -145,7 +145,7 @@ public class AdminItemListActivity extends AppCompatActivity {
             public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
                 if (response.code() == 200) {
                     // 200 means OK
-                    displayAlert("Book successfully deleted");
+                    displayAlert("Item successfully deleted");
                     // update data in list view
                     updateRecyclerView();
                 }

@@ -43,14 +43,14 @@ public class UserRequestActivity extends AppCompatActivity {
         Log.d("DEBUG_USER", "User ID: " + user.getId());
 
         // 🚀 Load user's requests from API
-        loadUserRequests(user.getId());
+        loadUserRequests(user.getToken(), user.getId());
     }
 
     /**
      * Fetches request data made by a specific user from the server and displays it in a RecyclerView
      */
-    private void loadUserRequests(int userId) {
-        userService.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
+    private void loadUserRequests(String token, int userId) {
+        userService.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {

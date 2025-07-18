@@ -99,16 +99,16 @@ public class UserHomeActivity extends AppCompatActivity {
         tvWelcome.setText("Welcome, " + user.getUsername() + "!");
 
         // Load announcements and user badge progress
-        loadUserAnnouncements(user.getId());
-        loadUserStats(user.getId());
+        loadUserAnnouncements(user.getToken(), user.getId());
+        loadUserStats(user.getToken(), user.getId());
     }
 
     /**
      * Load user stats such as total recycled weight and determine badge level.
      */
-    private void loadUserStats(int userId) {
+    private void loadUserStats(String token, int userId) {
         UserService api = ApiUtils.getUserService();
-        api.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
+        api.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -153,9 +153,9 @@ public class UserHomeActivity extends AppCompatActivity {
     /**
      * Load recent user-related announcements based on request statuses.
      */
-    private void loadUserAnnouncements(int userId) {
+    private void loadUserAnnouncements(String token, int userId) {
         UserService api = ApiUtils.getUserService();
-        api.getRequestsByUser(userId).enqueue(new Callback<List<Request>>() {
+        api.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null) {

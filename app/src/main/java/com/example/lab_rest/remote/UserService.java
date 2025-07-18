@@ -22,6 +22,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserService {
 
@@ -69,8 +70,8 @@ public interface UserService {
 
 
     //  Get all requests for a specific user
-    @GET("requests/user/{user_id}")
-    Call<List<Request>> getRequestsByUser(@Path("user_id") int userId);
+    @GET("requests")
+    Call<List<Request>> getRequestsByUser(@Header("api-key") String apiKey, @Query("user_id") int userId);
 
     //  Admin or general usage: get all requests
     @GET("requests")
