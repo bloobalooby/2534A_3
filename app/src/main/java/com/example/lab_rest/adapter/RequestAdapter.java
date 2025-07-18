@@ -18,7 +18,6 @@ import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.RequestService;
-import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
@@ -28,18 +27,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Adapter for displaying and updating recycling requests in a RecyclerView.
+ * Adapter class for displaying user recycling requests in a RecyclerView.
+ * Allows admin/staff to view request details and update request status via a spinner.
  */
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
 
     private List<Request> requestList;
+    private RequestService requestService;
 
+    /**
+     * Constructor initializes request list and API service.
+     */
     public RequestAdapter(List<Request> requestList) {
         this.requestList = requestList;
+        this.requestService = ApiUtils.getRequestService(); // Retrofit service instance
     }
 
     /**
-     * Converts item ID to item name.
+     * Converts item ID into human-readable item name.
      */
     private String getItemNameById(int id) {
         switch (id) {
@@ -58,7 +63,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate layout for each item in RecyclerView
+        // Inflate custom layout for each request item
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_request, parent, false);
         return new ViewHolder(view);
     }
@@ -68,14 +73,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         Request request = requestList.get(position);
         Context context = holder.itemView.getContext();
 
-        // Set text values for the request
+        // Set request details to TextViews
         holder.tvItemName.setText("Item: " + getItemNameById(request.getItem_id()));
         holder.tvStatus.setText("Status: " + request.getStatus());
         holder.tvDate.setText("Date: " + request.getRequest_date());
         holder.tvNotes.setText("Notes: " + request.getNotes());
         holder.tvQty.setText("Quantity: " + request.getWeight() + "kg");
 
-        // Populate the spinner with status options
+        // Initialize spinner with status options
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 context,
                 R.array.status_options,
@@ -84,15 +89,15 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinnerStatus.setAdapter(adapter);
 
-        // Set spinner to current request status
+        // Set current status as selected in spinner
         int statusPosition = adapter.getPosition(request.getStatus());
         if (statusPosition != -1) {
             holder.spinnerStatus.setSelection(statusPosition);
         }
 
-        // Listen for spinner item changes
+        // Listener to handle status change
         holder.spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            boolean firstCall = true; // Ignore first auto-trigger
+            boolean firstCall = true; // to prevent triggering on initial load
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -103,31 +108,32 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
                 String newStatus = parent.getItemAtPosition(pos).toString();
 
-                // Update only if status has changed
+                // Proceed only if the status has changed
                 if (!newStatus.equals(request.getStatus())) {
+                    // Retrieve token (API key) from shared preferences
                     SharedPrefManager spm = new SharedPrefManager(context);
                     User user = spm.getUser();
-                    String token = "Bearer " + user.getToken();
+                    String token = user.getToken(); // This will be passed as 'api-key' header
 
-                    // Make API call to update status
-                    RequestService requestService = ApiUtils.getRequestService();
-                    requestService.updateRequestStatus(request.getRequest_id(), token, newStatus).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(context, "Status updated to " + newStatus, Toast.LENGTH_SHORT).show();
-                                request.setStatus(newStatus); // Update local list
-                                notifyItemChanged(holder.getAdapterPosition());
-                            } else {
-                                Toast.makeText(context, "Failed to update status. Code: " + response.code(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                    // Make API call to update the status
+                    requestService.updateRequestStatus(token, request.getRequest_id(), newStatus)
+                            .enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(context, "Status updated to " + newStatus, Toast.LENGTH_SHORT).show();
+                                        request.setStatus(newStatus); // update local list
+                                        notifyItemChanged(holder.getAdapterPosition()); // refresh view
+                                    } else {
+                                        Toast.makeText(context, "Failed to update. Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
 
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(context, "Update failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
 
@@ -144,7 +150,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     }
 
     /**
-     * ViewHolder class for holding request item views.
+     * ViewHolder class that holds the UI elements for each request item.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvItemName, tvStatus, tvDate, tvNotes, tvQty;

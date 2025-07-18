@@ -1,10 +1,13 @@
 package com.example.lab_rest.remote;
 
+import com.example.lab_rest.adapter.RequestAdapter;
 import com.example.lab_rest.model.Request;
+import com.example.lab_rest.model.RequestStatusBody;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -34,12 +37,13 @@ public interface RequestService {
 
     // Update status of an existing request
     @FormUrlEncoded
-    @PUT("requests/{id}/status")
+    @POST("requests/{id}")
     Call<Void> updateRequestStatus(
-            @Path("id") int id,
             @Header("api-key") String apiKey,
+            @Path("id") int requestId,
             @Field("status") String status
     );
+
 
     // Get all requests submitted by a specific user
     @GET("requests")
