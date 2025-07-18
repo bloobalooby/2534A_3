@@ -1,7 +1,5 @@
 package com.example.lab_rest.remote;
 
-import android.telephony.mbms.FileInfo;
-
 import com.example.lab_rest.model.Profile;
 import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
@@ -9,8 +7,6 @@ import com.example.lab_rest.model.User;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -24,9 +20,12 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+/**
+ * Retrofit interface for user-related API endpoints.
+ */
 public interface UserService {
 
-    //  Login using username
+    // Login using username and password
     @FormUrlEncoded
     @POST("users/login")
     Call<User> login(
@@ -34,7 +33,7 @@ public interface UserService {
             @Field("password") String password
     );
 
-    //  Login using email
+    // Login using email and password
     @FormUrlEncoded
     @POST("users/login")
     Call<User> loginEmail(
@@ -42,16 +41,18 @@ public interface UserService {
             @Field("password") String password
     );
 
-    //  Submit a single item request
+    // Submit a new item request
     @FormUrlEncoded
     @POST("requests")
-    Call<Request> createRequest(@Header("api-key") String apiKey,
+    Call<Request> createRequest(
+            @Header("api-key") String apiKey,
             @Field("user_id") int userId,
             @Field("item_id") int itemId,
             @Field("address") String address,
             @Field("notes") String notes
     );
 
+    // Update status of an existing request
     @FormUrlEncoded
     @PUT("requests/{id}/status")
     Call<Void> updateRequestStatus(
@@ -60,29 +61,30 @@ public interface UserService {
             @Field("status") String status
     );
 
-
-
-
+    // Upload a file
     @Multipart
     @POST("files")
-    Call<FileInfo> uploadFile(@Header("api-key") String apiKey, @Part MultipartBody.Part file);
+    Call<okhttp3.ResponseBody> uploadFile(
+            @Header("api-key") String apiKey,
+            @Part MultipartBody.Part file
+    );
 
-
-
-    //  Get all requests for a specific user
+    // Get all requests submitted by a specific user
     @GET("requests")
-    Call<List<Request>> getRequestsByUser(@Header("api-key") String apiKey, @Query("user_id") int userId);
+    Call<List<Request>> getRequestsByUser(
+            @Header("api-key") String apiKey,
+            @Query("user_id") int userId
+    );
 
-    //  Admin or general usage: get all requests
+    // Get all requests (admin/general)
     @GET("requests")
-    Call<List<Request>> getAllRequests(@Header("Authorization") String token);
+    Call<List<Request>> getAllRequests(
+            @Header("Authorization") String token
+    );
 
-
+    //  Fetch profile by user ID
     @GET("/profile/{user_id}")
-    Call<Profile> getProfileByUserId(@Path("user_id") int userId);
-
-
-
-
-
+    Call<Profile> getProfileByUserId(
+            @Path("user_id") int userId
+    );
 }

@@ -17,17 +17,8 @@ import retrofit2.http.Query;
 
 public interface ProfileService {
 
-    @FormUrlEncoded
-    @POST("profiles") //
-    Call<Void> saveProfile(
-            @Field("user_id") int userId,
-            @Field("first_name") String firstName,
-            @Field("last_name") String lastName,
-            @Field("api_key") String apiKey
-    );
 
-
-    // 📥 Get profile by user ID with api_key
+    //  Get profile by user ID with api_key
     @GET("profiles")
     Call<List<Profile>> getProfileByUserId(
             @Query("user_id[in]") int userId,

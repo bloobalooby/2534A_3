@@ -12,10 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class UserThemeSettingsActivity extends AppCompatActivity {
 
-    private String selectedTheme = UserThemeManager.THEME_LIGHT; // Default
-    private LinearLayout themeLayout;
+    // Default selected theme
+    private String selectedTheme = UserThemeManager.THEME_LIGHT;
 
-    //  Declare buttons at class level so they can be used in applyTheme()
+    // Layout and buttons
+    private LinearLayout themeLayout;
     private Button btnLight, btnDark, btnSave;
 
     @Override
@@ -23,59 +24,66 @@ public class UserThemeSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme_settings);
 
-        // Initialize layout and buttons
+        // Bind UI elements
         themeLayout = findViewById(R.id.themeLayout);
         btnLight = findViewById(R.id.btnLight);
         btnDark = findViewById(R.id.btnDark);
         btnSave = findViewById(R.id.btnSaveTheme);
 
-        // Load saved theme
+        // Load saved theme from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         selectedTheme = prefs.getString("theme", UserThemeManager.THEME_LIGHT);
-        applyTheme(selectedTheme);
+        applyTheme(selectedTheme); // Apply the loaded theme
 
-        // Theme switch logic
+        // Handle Light theme selection
         btnLight.setOnClickListener(v -> {
             selectedTheme = UserThemeManager.THEME_LIGHT;
             applyTheme(selectedTheme);
         });
 
+        // Handle Dark theme selection
         btnDark.setOnClickListener(v -> {
             selectedTheme = UserThemeManager.THEME_DARK;
             applyTheme(selectedTheme);
         });
 
-        // Save button logic
+        // Handle Save button click
         btnSave.setOnClickListener(v -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("theme", selectedTheme);
-            editor.apply();
+            editor.apply(); // Save selected theme
             Toast.makeText(this, "Theme saved: " + selectedTheme, Toast.LENGTH_SHORT).show();
         });
     }
 
-    // Apply selected theme to layout and buttons
+    /**
+     * Apply the selected theme by updating background and text colors.
+     *
+     * @param theme The selected theme string (light/dark)
+     */
     private void applyTheme(String theme) {
         int bgColor = UserThemeManager.getBackgroundColor(theme);
         int textColor = UserThemeManager.getTextColor(theme);
 
+        // Set background color
         themeLayout.setBackgroundColor(bgColor);
 
-        // Set text color
+        // Update text color for all buttons
         btnLight.setTextColor(textColor);
         btnDark.setTextColor(textColor);
         btnSave.setTextColor(textColor);
 
-        // Set background tint dynamically to match theme
+        // Dynamically set background tint based on selected theme
         btnLight.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
                 theme.equals(UserThemeManager.THEME_LIGHT) ? Color.parseColor("#DDDDDD") : Color.parseColor("#555555")));
+
         btnDark.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
                 theme.equals(UserThemeManager.THEME_DARK) ? Color.parseColor("#555555") : Color.parseColor("#DDDDDD")));
+
         btnSave.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#888888")));
 
-        // Apply text color to title
+        // Update title text color
         TextView tvTitle = findViewById(R.id.tvTitle);
         tvTitle.setTextColor(textColor);
     }
-
 }

@@ -1,6 +1,5 @@
 package com.example.lab_rest;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -13,7 +12,6 @@ import com.example.lab_rest.model.Request;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.RequestService;
-import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
 
 import java.util.List;
@@ -22,49 +20,68 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * AdminRequestActivity
+ * Displays a list of all user requests for admin view.
+ */
 public class AdminRequestActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private RequestAdapter adapter;
-    private RequestService requestService; // 🟢 Using RequestService now
+    private RecyclerView recyclerView;            // RecyclerView to display requests
+    private RequestAdapter adapter;               // Adapter for binding data to RecyclerView
+    private RequestService requestService;        // Retrofit service for handling request-related API calls
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
 
+        // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerViewRequests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // 🟢 Get token from shared preferences
+        // Retrieve token from Shared Preferences
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
         User user = spm.getUser();
-        String apiKey = user.getToken();  // NO "Bearer" prefix
+        String apiKey = user.getToken(); // Use token from user, without "Bearer" prefix
 
-        // 🟢 Initialize the RequestService
+        // Initialize Retrofit service
         requestService = ApiUtils.getRequestService();
 
-        // 🟢 Load data from API
+        // Fetch and load all requests
         loadRequests(apiKey);
     }
 
+    /**
+     * Loads all user requests from the backend and binds them to the RecyclerView.
+     *
+     * @param apiKey The API key/token for authentication.
+     */
     private void loadRequests(String apiKey) {
         requestService.getAllRequests(apiKey).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    // Populate RecyclerView with fetched data
                     List<Request> requestList = response.body();
                     adapter = new RequestAdapter(requestList);
                     recyclerView.setAdapter(adapter);
-                    Toast.makeText(AdminRequestActivity.this, "Loaded " + requestList.size() + " requests", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(AdminRequestActivity.this,
+                            "Loaded " + requestList.size() + " requests",
+                            Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(AdminRequestActivity.this, "Failed: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(AdminRequestActivity.this,
+                            "Failed to load requests. Code: " + response.code(),
+                            Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
-                Toast.makeText(AdminRequestActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                // Display error on failure
+                Toast.makeText(AdminRequestActivity.this,
+                        "Network Error: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
