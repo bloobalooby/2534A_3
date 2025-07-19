@@ -40,7 +40,6 @@ public class UserItemListActivity extends AppCompatActivity {
     private RecyclerView rvItemList;
     private Button btnDone, btnClear;
     private EditText etAddress, etNotes;
-    private FloatingActionButton fab;
 
     // Data & services
     private List<Item> itemList = new ArrayList<>();

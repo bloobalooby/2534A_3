@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class UserHomeActivity extends AppCompatActivity {
 
     // UI components
-    private TextView tvWelcome, tvAnnouncements, tvBadgeName;
+    private TextView tvWelcome, tvAnnouncements;
 
     private Button btnSubmitRequest, btnViewRequests;
 

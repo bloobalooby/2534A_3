@@ -65,7 +65,7 @@ public interface RequestService {
             @Field("notes") String notes
     );
 
-    //Update weight
+    //Admin update weight and status
     @FormUrlEncoded
     @POST("requests/{id}")
     Call<Request> updateRequestStatusAndWeight(
@@ -76,9 +76,7 @@ public interface RequestService {
     );
 
 
-
-
-    //Delete pending request
+    //User delete pending request
     @DELETE("requests/{id}")
     Call<DeleteResponse> deleteRequest(
             @Header("api-key") String apiKey,
