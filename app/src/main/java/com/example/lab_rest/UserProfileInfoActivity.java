@@ -50,6 +50,11 @@ public class UserProfileInfoActivity extends AppCompatActivity {
         // Setup toolbar with back navigation
         MaterialToolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
         toolbar.setNavigationOnClickListener(v -> finish());
 
         // Initialize UI elements

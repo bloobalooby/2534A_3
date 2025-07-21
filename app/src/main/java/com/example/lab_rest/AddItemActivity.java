@@ -6,13 +6,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.lab_rest.model.RecyclableItem;
 import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
-import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,20 +38,40 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        // Initialize views
+        // ✅ Make content draw behind system bars
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        // ✅ Status bar icons (white)
+        WindowInsetsControllerCompat insetsController =
+                new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        insetsController.setAppearanceLightStatusBars(false);
+
+        // ✅ Handle inset padding manually
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // ✅ Setup Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.Toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);  // Hide default title
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
+
+        // Your existing logic...
         etItemName = findViewById(R.id.etItemName);
         etPrice = findViewById(R.id.etPrice);
         btnAdd = findViewById(R.id.btnAddItem);
 
-        // Get ItemService instance
         itemService = ApiUtils.getItemService();
 
-        // Set button click listener
         btnAdd.setOnClickListener(v -> {
             String itemName = etItemName.getText().toString().trim();
             String priceText = etPrice.getText().toString().trim();
 
-            // Validate input
             if (itemName.isEmpty() || priceText.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
@@ -59,19 +85,17 @@ public class AddItemActivity extends AppCompatActivity {
                 return;
             }
 
-            // Get user token for authorization
             SharedPrefManager spm = new SharedPrefManager(getApplicationContext());
             User user = spm.getUser();
             String token = user.getToken();
 
-            // Make API call to add item
             Call<RecyclableItem> call = itemService.addItem(token, itemName, price);
             call.enqueue(new Callback<RecyclableItem>() {
                 @Override
                 public void onResponse(Call<RecyclableItem> call, Response<RecyclableItem> response) {
                     if (response.isSuccessful() || response.code() == 201) {
                         Toast.makeText(AddItemActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                        finish(); // Close activity
+                        finish();
                     } else if (response.code() == 401) {
                         Toast.makeText(AddItemActivity.this, "Unauthorized (401): Invalid API Key", Toast.LENGTH_LONG).show();
                     } else {

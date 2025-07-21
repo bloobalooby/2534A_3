@@ -110,42 +110,59 @@ public class UserHomeActivity extends AppCompatActivity {
         api.getRequestsByUser(token, userId).enqueue(new Callback<List<Request>>() {
             @Override
             public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    StringBuilder updates = new StringBuilder();
-                    for (Request r : response.body()) {
-                        switch (r.getStatus()) {
-                            case "Pending":
-                                updates.append("🟡 Your recycle request has been successfully sent!\n\n");
-                                break;
-                            case "Accepted":
-                                updates.append("✅ Your request has been accepted. Thank you for recycling!\n\n");
-                                break;
-                            case "Weighing Scheduled":
-                                String note = (r.getNotes() != null) ? r.getNotes() : "between 8 AM–5 PM";
-                                updates.append("📅 Appointment scheduled: ").append(note).append("\n\n");
-                                break;
-                            case "Declined":
-                                updates.append("❌ Your recycle request was declined.\n\n");
-                                break;
-                            case "Completed":
-                                updates.append("🎉 Your request has been completed. Thanks for your contribution!\n\n");
-                                break;
-                            default:
-                                updates.append("🔔 Status: ").append(r.getStatus()).append("\n\n");
-                        }
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    // Get the most recent request
+                    Request latest = response.body().get(0); // assumes list is sorted (latest first)
+                    String status = latest.getStatus();
+                    String note = latest.getNotes();
+                    String message;
+                    int color;
+
+                    // Set message and background color based on status
+                    switch (status) {
+                        case "Pending":
+                            message = "🟡 Your recycle request is pending.";
+                            color = getResources().getColor(android.R.color.holo_orange_light);
+                            break;
+                        case "Accepted":
+                            message = "✅ Your request has been accepted. Thank you!";
+                            color = getResources().getColor(android.R.color.holo_green_light);
+                            break;
+                        case "Declined":
+                            message = "❌ Your recycle request was declined.";
+                            color = getResources().getColor(android.R.color.holo_red_light);
+                            break;
+                        case "Completed":
+                            message = "🎉 Your request has been completed. Well done!";
+                            color = getResources().getColor(android.R.color.holo_green_dark);
+                            break;
+                        case "Weighing Scheduled":
+                            message = "📅 Scheduled: " + (note != null ? note : "between 8 AM–5 PM.");
+                            color = getResources().getColor(android.R.color.holo_blue_light);
+                            break;
+                        default:
+                            message = "🔔 Status: " + status;
+                            color = getResources().getColor(android.R.color.darker_gray);
+                            break;
                     }
-                    tvAnnouncements.setText(updates.toString());
+
+                    // Update the view
+                    tvAnnouncements.setText(message);
+                    tvAnnouncements.setBackgroundColor(color);
                 } else {
-                    tvAnnouncements.setText("No recent updates.");
+                    tvAnnouncements.setText("📭 You haven't submitted any requests yet.");
+                    tvAnnouncements.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
-                tvAnnouncements.setText("Failed to load announcements.");
+                tvAnnouncements.setText("⚠️ Failed to load status. Please try again.");
+                tvAnnouncements.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
             }
         });
     }
+
 
 
     /**

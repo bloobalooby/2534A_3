@@ -2,9 +2,11 @@ package com.example.lab_rest;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +18,7 @@ import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.RequestService;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +41,18 @@ public class UserRequestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_request);
+
+        // ✅ Setup toolbar
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false); // ✅ Hides "Lab_rest" or default title
+        }
+
+
+        // 🔙 Back navigation
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         // 🔧 Initialize RecyclerView
         rvRequests = findViewById(R.id.rvRequests);
@@ -136,6 +151,4 @@ public class UserRequestActivity extends AppCompatActivity {
             }
         });
     }
-
 }
-

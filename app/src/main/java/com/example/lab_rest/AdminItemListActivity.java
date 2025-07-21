@@ -28,6 +28,7 @@ import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.ItemService;
 import com.example.lab_rest.remote.UserService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -48,12 +49,18 @@ public class AdminItemListActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin_item_list);
 
-        // Adjust layout for system UI (status bar, navigation bar)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        // ✅ Set up the Toolbar
+        MaterialToolbar toolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar);
+
+        // Optional: remove default title if not needed
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        // Optional: Handle back navigation
+        toolbar.setNavigationOnClickListener(v -> finish());
+
 
         // Initialize RecyclerView
         rvAdminItemList = findViewById(R.id.rvAdminItemList);

@@ -13,6 +13,7 @@ import com.example.lab_rest.model.User;
 import com.example.lab_rest.remote.ApiUtils;
 import com.example.lab_rest.remote.RequestService;
 import com.example.lab_rest.sharedpref.SharedPrefManager;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
 
@@ -34,6 +35,15 @@ public class AdminRequestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
+
+        MaterialToolbar toolbar = findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false); // optional
+        }
+
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         // Retrieve user from Shared Preferences
         SharedPrefManager spm = new SharedPrefManager(getApplicationContext());

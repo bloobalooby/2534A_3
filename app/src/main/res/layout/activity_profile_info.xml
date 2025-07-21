@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="Edit Profile"
+        android:title=""
         android:titleTextColor="@android:color/white"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
         app:navigationIcon="@android:drawable/ic_menu_revert" />
