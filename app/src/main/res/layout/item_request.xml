@@ -1,79 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp">
-
-    <TextView android:id="@+id/tvItemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Item Name"
-        android:textStyle="bold"/>
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="16dp"
+        android:background="@android:color/white">
 
-        <!-- For user: read-only -->
+        <!-- Item Name -->
         <TextView
-            android:id="@+id/textViewWeight"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvItemName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Weight: 0.0 kg"
+            android:text="Item Name"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:textSize="18sp"
+            android:textColor="#000000" />
 
-        <!-- For admin: editable -->
-        <EditText
-            android:id="@+id/edittextWeight"
+        <!-- Weight section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <!-- Read-only Weight -->
+            <TextView
+                android:id="@+id/textViewWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weight: 0.0 kg"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <!-- Editable Weight (for admin) -->
+            <EditText
+                android:id="@+id/edittextWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter weight"
+                android:inputType="numberDecimal"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Enter weight"
-            android:inputType="numberDecimal"
-            android:visibility="gone" />
+            android:text="Status: Pending"
+            android:textSize="14sp"
+            android:textColor="#555555"
+            android:layout_marginTop="8dp" />
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: 2025-07-01"
+            android:textSize="14sp"
+            android:textColor="#555555" />
+
+        <!-- Notes -->
+        <TextView
+            android:id="@+id/tvNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes: Pickup after 3PM"
+            android:textSize="14sp"
+            android:textColor="#555555" />
+
+        <!-- Price -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: RM 0.00"
+            android:textSize="14sp"
+            android:textColor="#555555" />
+
+        <!-- Status Spinner (for admin) -->
+        <Spinner
+            android:id="@+id/spinnerStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:entries="@array/status_options" />
+
+        <!-- Delete Button -->
+        <TextView
+            android:id="@+id/tvDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="4dp" />
+
     </LinearLayout>
-
-    <TextView android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status: Pending"/>
-
-    <TextView android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date: 2025-07-01"/>
-
-    <TextView android:id="@+id/tvNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notes: Pickup after 3PM"/>
-
-    <TextView
-        android:id="@+id/tvPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Price: RM 0.00"/>
-
-    <Spinner android:id="@+id/spinnerStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/status_options" />
-
-    <!-- Delete button (as TextView) -->
-    <TextView
-        android:id="@+id/tvDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:textColor="@android:color/holo_red_dark"
-        android:paddingTop="8dp"
-        android:textStyle="bold"/>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>
